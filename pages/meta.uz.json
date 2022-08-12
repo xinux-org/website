@@ -1,0 +1,29 @@
+{
+  "index": {
+    "title": "Kirish",
+    "type": "page",
+    "hidden": true
+  },
+  "docs": {
+    "title": "Dokumentatsiya",
+    "type": "page"
+  },
+  "useful": {
+    "title": "Foydali",
+    "type": "page"
+  },
+  "blog": {
+    "title": "Blog",
+    "type": "page",
+    "theme": {
+      "sidebar": false
+    }
+  },
+  "download": {
+    "title": "Yuklash",
+    "type": "page",
+    "theme": {
+      "sidebar": false
+    }
+  }
+}

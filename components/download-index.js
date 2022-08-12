@@ -99,7 +99,8 @@ const Card = ({ channel, more }) => {
         </Link>
       </h3>
       <p className="opacity-80">
-        {langPicker(channel)("description")}<br/>
+        {langPicker(channel)("description")}
+        <br />
         <Link href={linkToISO(channel)}>
           <A>{more + " →"}</A>
         </Link>

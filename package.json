@@ -7,7 +7,8 @@
     "dev": "next",
     "debug": "NODE_OPTIONS='--inspect' next",
     "start": "next start",
-    "build": "next build"
+    "build": "next build",
+    "format": "prettier --check --write ."
   },
   "author": "Shu Ding",
   "license": "Apache-2.0",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.5",
+    "prettier": "^2.7.1",
     "tailwindcss": "^3.0.16"
   },
   "prettier": {

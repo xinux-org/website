@@ -1,4 +1,4 @@
-import Uzinfocom from "components/uzinfocom"
+import Uzinfocom from "components/uzinfocom";
 import { useRouter } from "next/router";
 
 const Logo = ({ height }) => (

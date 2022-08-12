@@ -10,6 +10,7 @@ specifiers:
   nextra: ^2.0.0-beta.6
   nextra-theme-docs: ^2.0.0-beta.6
   postcss: ^8.4.5
+  prettier: ^2.7.1
   react: ^17.0.2
   react-dom: ^17.0.2
   react-intersection-observer: ^8.26.2
@@ -30,6 +31,7 @@ dependencies:
 devDependencies:
   autoprefixer: 10.4.2_postcss@8.4.5
   postcss: 8.4.5
+  prettier: 2.7.1
   tailwindcss: 3.0.16_55elhoedp6fcgz3377upttmgnu
 
 packages:
@@ -1965,6 +1967,12 @@ packages:
       nanoid: 3.1.30
       picocolors: 1.0.0
       source-map-js: 1.0.1
+
+  /prettier/2.7.1:
+    resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: true
 
   /prop-types/15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}

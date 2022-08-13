@@ -25,5 +25,10 @@
     "theme": {
       "sidebar": false
     }
+  },
+  "thanks": {
+    "title": "Rahmat",
+    "type": "page",
+    "hidden": true
   }
 }

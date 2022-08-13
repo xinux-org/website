@@ -25,5 +25,10 @@
     "theme": {
       "sidebar": false
     }
+  },
+  "thanks": {
+    "title": "Спасибо",
+    "type": "page",
+    "hidden": true
   }
 }

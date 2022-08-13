@@ -25,5 +25,10 @@
     "theme": {
       "sidebar": false
     }
+  },
+  "thanks": {
+    "title": "Thank You",
+    "type": "page",
+    "hidden": true
   }
 }

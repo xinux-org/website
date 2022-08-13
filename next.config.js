@@ -48,8 +48,8 @@ module.exports = withNextra({
         statusCode: 302,
       },
       {
-        source: "/examples",
-        destination: "/examples/basic",
+        source: "/useful",
+        destination: "/useful/aur",
         statusCode: 302,
       },
     ];

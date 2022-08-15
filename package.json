@@ -11,7 +11,7 @@
     "format": "prettier --check --write ."
   },
   "author": "UwUssimo Robinson <uwussimo@icloud.com>",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "dependencies": {
     "@reach/skip-nav": "^0.16.0",
     "focus-visible": "^5.1.0",

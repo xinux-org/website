@@ -26,6 +26,11 @@
       "sidebar": false
     }
   },
+  "policy": {
+    "title": "Политика",
+    "type": "page",
+    "hidden": true
+  },
   "thanks": {
     "title": "Спасибо",
     "type": "page",

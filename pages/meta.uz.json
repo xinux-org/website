@@ -26,6 +26,11 @@
       "sidebar": false
     }
   },
+  "policy": {
+    "title": "Politika",
+    "type": "page",
+    "hidden": true
+  },
   "thanks": {
     "title": "Rahmat",
     "type": "page",

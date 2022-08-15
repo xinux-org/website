@@ -26,6 +26,11 @@
       "sidebar": false
     }
   },
+  "policy": {
+    "title": "Policy",
+    "type": "page",
+    "hidden": true
+  },
   "thanks": {
     "title": "Thank You",
     "type": "page",

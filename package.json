@@ -10,7 +10,7 @@
     "build": "next build",
     "format": "prettier --check --write ."
   },
-  "author": "Shu Ding",
+  "author": "UwUssimo Robinson <uwussimo@icloud.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "@reach/skip-nav": "^0.16.0",

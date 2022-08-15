@@ -22,6 +22,12 @@ const FEEDBACK_LINK_WITH_TRANSLATIONS = {
   uz: "Savollar bormi? Shu yerda qoldiring →",
 };
 
+const DESCRIPTION_WITH_TRANSLATIONS = {
+  "en-US": "Xinux is an Uzbek Linux community created by Uzbek Developers that focuses on influencing and improving Linux.",
+  ru: "Xinux это узбекское Linux-сообщество, созданное узбекскими разработчиками, которое фокусируется на влиянии и улучшении Linux.",
+  uz: "Xinux bu O'zbek Linux Hamjamiyati hisoblanib O'zbek dasturchilari davrasida Linux va uning komponentlarini rivojlantirish va targ'ib qilish bilan shug'ullanadi.",
+}
+
 export default {
   projectLink: "https://github.com/uzinfocom-org/xinux",
   docsRepositoryBase: "https://github.com/uzinfocom-org/docs/blob/main/pages",
@@ -52,7 +58,7 @@ export default {
     );
   },
   head: ({ title, meta }) => {
-    const { route } = useRouter();
+    const { route, locale } = useRouter();
 
     const ogImage =
       meta.image ||
@@ -93,14 +99,14 @@ export default {
           name="description"
           content={
             meta.description ||
-            "Xinux bu O'zbek Linux Hamjamiyati hisoblanib O'zbek dasturchilari davrasida Linux va uning komponentlarini rivojlantirish va targ'ib qilish bilan shug'ullanadi."
+            DESCRIPTION_WITH_TRANSLATIONS[locale]
           }
         />
         <meta
           name="og:description"
           content={
             meta.description ||
-            "Xinux bu O'zbek Linux Hamjamiyati hisoblanib O'zbek dasturchilari davrasida Linux va uning komponentlarini rivojlantirish va targ'ib qilish bilan shug'ullanadi."
+            DESCRIPTION_WITH_TRANSLATIONS[locale]
           }
         />
         <meta name="twitter:card" content="summary_large_image" />
@@ -108,7 +114,7 @@ export default {
         <meta name="twitter:image" content={ogImage} />
         <meta
           name="og:title"
-          content={title ? title + " – Xinux" : "Xinux: Uzbek Linux Community"}
+          content={title ? title + " – Xinux" : TITLE_WITH_TRANSLATIONS[locale]}
         />
         <meta name="og:image" content={ogImage} />
         <meta name="apple-mobile-web-app-title" content="Xinux" />

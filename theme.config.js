@@ -23,10 +23,11 @@ const FEEDBACK_LINK_WITH_TRANSLATIONS = {
 };
 
 const DESCRIPTION_WITH_TRANSLATIONS = {
-  "en-US": "Xinux is an Uzbek Linux community created by Uzbek Developers that focuses on influencing and improving Linux.",
+  "en-US":
+    "Xinux is an Uzbek Linux community created by Uzbek Developers that focuses on influencing and improving Linux.",
   ru: "Xinux это узбекское Linux-сообщество, созданное узбекскими разработчиками, которое фокусируется на влиянии и улучшении Linux.",
   uz: "Xinux bu O'zbek Linux Hamjamiyati hisoblanib O'zbek dasturchilari davrasida Linux va uning komponentlarini rivojlantirish va targ'ib qilish bilan shug'ullanadi.",
-}
+};
 
 export default {
   projectLink: "https://github.com/uzinfocom-org/xinux",
@@ -97,17 +98,11 @@ export default {
         <meta httpEquiv="Content-Language" content="en" />
         <meta
           name="description"
-          content={
-            meta.description ||
-            DESCRIPTION_WITH_TRANSLATIONS[locale]
-          }
+          content={meta.description || DESCRIPTION_WITH_TRANSLATIONS[locale]}
         />
         <meta
           name="og:description"
-          content={
-            meta.description ||
-            DESCRIPTION_WITH_TRANSLATIONS[locale]
-          }
+          content={meta.description || DESCRIPTION_WITH_TRANSLATIONS[locale]}
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@uzinfocom" />

@@ -11,7 +11,7 @@ const Feature = ({ text, icon }) => (
 
 const TITLE_WITH_TRANSLATIONS = {
   "en-US": "Uzbek Linux Community + Distribution",
-  ru: "Узбекское сообщество Linux + Дистрибуция",
+  ru: "Узбекское сообщество Linux + Дистрибутив",
   uz: "O'zbek Linux Hamjamiyati + Distributivi",
 };
 
@@ -31,9 +31,9 @@ const FEATURES_WITH_TRANSLATIONS = {
   },
   ru: {
     lightweight: "Лёгкий",
-    realtime: "Быстро",
+    realtime: "Быстрый",
     typescript: "Продуктивный",
-    remoteLocal: "Open Source",
+    remoteLocal: "Открытый",
   },
 };
 

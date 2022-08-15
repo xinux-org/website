@@ -31,5 +31,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Finally, TESTING!
       - run: pnpm install
       - run: pnpm format:check

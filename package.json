@@ -8,7 +8,8 @@
     "debug": "NODE_OPTIONS='--inspect' next",
     "start": "next start",
     "build": "next build",
-    "format": "prettier --check --write ."
+    "format": "prettier --check --write .",
+    "format:check": "prettier --check ."
   },
   "author": "UwUssimo Robinson <uwussimo@icloud.com>",
   "license": "MIT",

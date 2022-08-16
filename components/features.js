@@ -10,9 +10,9 @@ const Feature = ({ text, icon }) => (
 );
 
 const TITLE_WITH_TRANSLATIONS = {
-  "en-US": "Uzbek Linux Community + Distribution",
-  ru: "Узбекское сообщество Linux + Дистрибутив",
-  uz: "O'zbek Linux Hamjamiyati + Distributivi",
+  "en-US": "Our Distribution is:",
+  ru: "Наш Дистрибутив:",
+  uz: "Bizning Distributiv:",
 };
 
 // Translations for Features

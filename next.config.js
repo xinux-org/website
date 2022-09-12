@@ -53,8 +53,8 @@ module.exports = withNextra({
         statusCode: 302,
       },
       {
-        source: "/download/latest",
-        destination: "/api/download/latest",
+        source: "/download/:path*",
+        destination: "/api/download/:path*",
         statusCode: 302,
       },
     ];

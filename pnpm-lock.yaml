@@ -5,6 +5,7 @@ specifiers:
   autoprefixer: ^10.4.2
   eslint: 8.23.0
   eslint-config-next: 12.3.0
+  eslint-config-prettier: ^8.5.0
   focus-visible: ^5.1.0
   intersection-observer: ^0.10.0
   markdown-to-jsx: ^6.11.4
@@ -34,6 +35,7 @@ devDependencies:
   autoprefixer: 10.4.2_postcss@8.4.5
   eslint: 8.23.0
   eslint-config-next: 12.3.0_eslint@8.23.0
+  eslint-config-prettier: 8.5.0_eslint@8.23.0
   postcss: 8.4.5
   prettier: 2.7.1
   tailwindcss: 3.0.16_55elhoedp6fcgz3377upttmgnu
@@ -1216,6 +1218,15 @@ packages:
     transitivePeerDependencies:
       - eslint-import-resolver-webpack
       - supports-color
+    dev: true
+
+  /eslint-config-prettier/8.5.0_eslint@8.23.0:
+    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.23.0
     dev: true
 
   /eslint-import-resolver-node/0.3.6:

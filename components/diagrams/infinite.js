@@ -1,4 +1,4 @@
-import { draw } from "./drawer";
+import { Draw } from "./drawer";
 
 const LOAD_MORE = {
   "en-US":
@@ -29,6 +29,6 @@ export const Infinite = () => (
       fill="#FAFAFA"
       stroke="#D3D3D3"
     />
-    <path d={draw(LOAD_MORE)} fill="#454545" />
+    <path d={Draw(LOAD_MORE)} fill="#454545" />
   </svg>
 );

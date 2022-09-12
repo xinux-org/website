@@ -9,7 +9,9 @@
     "start": "next start",
     "build": "next build",
     "format": "prettier --check --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "lint": "next lint --fix",
+    "lint:check": "next lint"
   },
   "author": "UwUssimo Robinson <uwussimo@icloud.com>",
   "license": "MIT",
@@ -27,6 +29,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.2",
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.3.0",
     "postcss": "^8.4.5",
     "prettier": "^2.7.1",
     "tailwindcss": "^3.0.16"

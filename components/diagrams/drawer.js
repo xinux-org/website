@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-export const draw = (paths = {}, name = "") => {
+export const Draw = (paths = {}, name = "") => {
   const { locale, defaultLocale } = useRouter();
 
   if (!paths.hasOwnProperty(defaultLocale)) {

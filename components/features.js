@@ -37,7 +37,7 @@ const FEATURES_WITH_TRANSLATIONS = {
   },
 };
 
-export default () => {
+const Features = () => {
   const { locale, defaultLocale } = useRouter();
 
   const featureText = (key) =>
@@ -129,3 +129,5 @@ export default () => {
     </div>
   );
 };
+
+export default Features;

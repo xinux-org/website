@@ -1,4 +1,4 @@
-import { draw } from "./drawer";
+import { Draw } from "./drawer";
 
 const WELCOME_BACK = {
   "en-US":
@@ -28,7 +28,7 @@ export const Welcome = () => (
     <path fill="#EEE" d="M15 24h186v7H15z"></path>
     <path stroke="#EEE" d="M0 54.5h768"></path>
     <path fill="#E5E5E5" d="M423 107h108v14H423z"></path>
-    <path fill="#000" d={draw(WELCOME_BACK)}></path>
+    <path fill="#000" d={Draw(WELCOME_BACK)}></path>
     <path
       fill="#EEE"
       fillRule="evenodd"

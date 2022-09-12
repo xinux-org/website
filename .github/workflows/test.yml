@@ -32,5 +32,4 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Finally, installing & TESTING!
-        run: pnpm install
-      - run: pnpm format:check
+        run: pnpm install &&  pnpm format:check && pnpm lint:check

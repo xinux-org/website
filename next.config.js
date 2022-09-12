@@ -52,6 +52,11 @@ module.exports = withNextra({
         destination: "/useful/aur",
         statusCode: 302,
       },
+      {
+        source: "/download/latest",
+        destination: "/api/download/latest",
+        statusCode: 302,
+      },
     ];
   },
 });

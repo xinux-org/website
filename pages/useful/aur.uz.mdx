@@ -4,3 +4,29 @@ full: true
 ---
 
 # AUR o'rnatish
+
+Eng avvalo internetga ulanganligimizni tekshirib olamiz:
+```bash
+ping google.com -c 5
+```
+
+Internetga ulanganligimizni tekshirganimizdan so'ng pacman yordamida `git` paketini o'rnatamiz:
+```bash
+sudo pacman -S git
+```
+
+`git` paketini o'rnatgandan so'ng [aur.archlinux.org](aur.archlinux.org) dan repozitoriyani klon qilib olamiz:
+```bash
+git clone https://aur.archlinux.org/yay-bin.git # yay uchun
+git clone https://aur.archlinux.org/paru-bin.git # paru uchun
+```
+
+So'ngra repozitoriyaga kiramiz va paketni o'rnatamiz:
+
+```bash
+cd yay-bin # yay ni yuklab olgan bo'lsak
+cd paru-bin # paru ni yuklab olgan bo'lsak
+makepkg -si
+```
+
+Aur muvaffaqiyatli o'rnatildi!

@@ -1,0 +1,29 @@
+{
+  "index": {
+    "type": "page",
+    "title": "Xinux",
+    "display": "hidden",
+    "theme": {
+      "layout": "raw"
+    }
+  },
+  "about": {
+    "type": "page",
+    "title": "Ma'lumot",
+    "theme": {
+      "typesetting": "article"
+    }
+  },
+  "docs": {
+    "type": "page",
+    "title": "Dokumentatsiya"
+  },
+  "download": {
+    "type": "page",
+    "title": "Yuklash",
+    "theme": {
+      "typesetting": "article",
+      "layout": "full"
+    }
+  }
+}

@@ -1,6 +1,4 @@
 node_modules
 .next
-.swc
-.idea
-license.md
-pnpm-lock.yaml
+out
+old

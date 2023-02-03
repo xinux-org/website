@@ -1,0 +1,43 @@
+{
+  "name": "xinux-docs",
+  "version": "1.0.0",
+  "description": "Documentation for Xinux",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "debug": "NODE_OPTIONS='--inspect' next",
+    "start": "next start",
+    "build": "next build",
+    "format": "prettier --check --write .",
+    "format:check": "prettier --check .",
+    "lint": "next lint --fix",
+    "lint:check": "next lint"
+  },
+  "author": "UwUssimo Robinson <uwussimo@icloud.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@reach/skip-nav": "^0.16.0",
+    "focus-visible": "^5.1.0",
+    "intersection-observer": "^0.10.0",
+    "markdown-to-jsx": "^6.11.4",
+    "next": "^12.2.0",
+    "nextra": "^2.0.0-beta.6",
+    "nextra-theme-docs": "^2.0.0-beta.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-intersection-observer": "^8.26.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.2",
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.3.0",
+    "eslint-config-prettier": "^8.5.0",
+    "postcss": "^8.4.5",
+    "prettier": "^2.7.1",
+    "tailwindcss": "^3.0.16"
+  },
+  "prettier": {
+    "embeddedLanguageFormatting": "off",
+    "htmlWhitespaceSensitivity": "strict"
+  }
+}

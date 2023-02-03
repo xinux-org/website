@@ -47,9 +47,6 @@ const config: DocsThemeConfig = {
   toc: {
     title: "Ushbu sahifada",
   },
-  darkMode: {
-
-  },
   docsRepositoryBase:
     "https://github.com/uzinfocom-org/xinux-docs/tree/main/docs",
   useNextSeoProps() {

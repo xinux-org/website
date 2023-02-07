@@ -48,19 +48,19 @@ export function I18n() {
       a={
         <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
           <File
-            name="/hello.en-US.mdx"
+            name="Uzbek"
             className={active === "en" && styles.active}
             onPointerOver={() => setActive("en")}
           />
           <File
-            name="/hello.de-DE.mdx"
-            className={active === "de" && styles.active}
-            onPointerOver={() => setActive("de")}
+            name="Русский"
+            className={active === "ru" && styles.active}
+            onPointerOver={() => setActive("ru")}
           />
           <File
-            name="/hello.ja-JP.mdx"
-            className={active === "ja" && styles.active}
-            onPointerOver={() => setActive("ja")}
+            name="O'zbek"
+            className={active === "uz" && styles.active}
+            onPointerOver={() => setActive("uz")}
           />
         </div>
       }
@@ -78,29 +78,29 @@ export function I18n() {
             )}
             onPointerOver={() => setActive("en")}
           >
-            English
+            Hello! 👋
           </span>
           <span
             className={cn(
               "cursor-default select-none relative py-1.5 px-4 whitespace-nowrap",
-              active === "de"
+              active === "ru"
                 ? "nx-text-primary-600 nx-bg-primary-50 dark:nx-bg-primary-500/10"
                 : "text-gray-800 dark:text-gray-100 "
             )}
-            onPointerOver={() => setActive("de")}
+            onPointerOver={() => setActive("ru")}
           >
-            Deutsch
+            Привет! 👋
           </span>
           <span
             className={cn(
               "cursor-default select-none relative py-1.5 px-4 whitespace-nowrap",
-              active === "ja"
+              active === "uz"
                 ? "nx-text-primary-600 nx-bg-primary-50 dark:nx-bg-primary-500/10"
                 : "text-gray-800 dark:text-gray-100 "
             )}
-            onPointerOver={() => setActive("ja")}
+            onPointerOver={() => setActive("uz")}
           >
-            日本語
+            Salom! 👋
           </span>
         </div>
       }
@@ -346,21 +346,19 @@ import docsCardDark from "../public/assets/card-1.dark.png";
               </div>
               <div className={styles.optimization}>
                 <div style={{ fontSize: '.9rem' }} className="leading-8">
-                  <code>{`<Link .../>`}</code>
-                  <br/>
-                  <code>{`<Image .../>`}</code>
+                  <code>{`Linux comet 6.1.8-zen1-1-zen #1 ZEN SMP PREEMPT_DYNAMIC Tue, 24 Jan 2023 21:07:06 +0000 x86_64 GNU/Linux`}</code>
                 </div>
               </div>
             </div>
           </div>
         </Feature>
         <Feature index={2} id="highlighting-card" href="/docs/guide/syntax-highlighting">
-          <h3>Advanced syntax <br className="show-on-mobile"/>highlighting solution.</h3>
-          <p>Performant and reliable build-time syntax highlighting powered by [Shiki](https://shiki.matsu.io).</p>
+          <h3>Xavfsiz ekosistema <br className="show-on-mobile"/>Rust bilan birga.</h3>
+          <p>Hamma Xinux boshqaruvchilari tomonidan yasalgan dasturlar [Rust](http://rust-lang.org/uz) va [Deno](https://deno.land/) dasturlash tilida yoziladi.</p>
         </Feature>
         <Feature index={3} href="/docs/guide/i18n">
-          <h3>I18n as easy as <br className="show-on-mobile"/>creating new files.</h3>
-          <p className='mb-4'>Name your page files with locales suffixed, Nextra and Next.js will do the rest for you.</p>
+          <h3>Oson lokalizatsiya <br className="show-on-mobile"/>hamma 3 tilda.</h3>
+          <p className='mb-4'>Bizning lokalizatsiya guruhimiz interfeysingizdagi har bir so'z to'g'riligini kafolatlashadi.</p>
           <I18n/>
         </Feature>
         <Feature index={4} centered style={{
@@ -435,7 +433,7 @@ import docsCardDark from "../public/assets/card-1.dark.png";
               position: 'relative',
               mixBlendMode: 'difference',
             }}
-          >Dark <br/>mode <br/>included.</motion.h3>
+          >Tungi <br/>qiyofa <br/>mavjud.</motion.h3>
         </Feature>
         <Feature index={6} large id="search-card" href="/docs/docs-theme/theme-configuration#search">
           <div style={{ zIndex: 2}}>

@@ -98,6 +98,6 @@ const og = async (req) => {
       ],
     }
   );
-}
+};
 
 export default og;

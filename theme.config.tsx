@@ -42,7 +42,7 @@ const config: DocsThemeConfig = {
   search: {
     emptyResult: "Hech narsa topilmadi",
     loading: "Qidirilmoqda...",
-    placeholder: "Dokumentatsiyadan qidirish"
+    placeholder: "Dokumentatsiyadan qidirish",
   },
   toc: {
     title: "Ushbu sahifada",

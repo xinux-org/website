@@ -67,7 +67,7 @@ const config: DocsThemeConfig = {
     const { route } = useRouter();
     const socialCard =
       route === "/" || !title
-        ? "https://xinux.uz/og.jpeg"
+        ? "https://xinux.uz/og.png"
         : `https://xinux.uz/api/og?title=${title}`;
 
     return (

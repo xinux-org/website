@@ -16,6 +16,10 @@
   },
   "docs": {
     "type": "page",
+    "title": "Dokumentatsiya"
+  },
+  "article": {
+    "type": "page",
     "title": "Maqolalar",
     "theme": {
       "typesetting": "article"

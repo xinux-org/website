@@ -27,3 +27,25 @@ Ko'pgina tizimlarda kernel ishga tushirilganda (bootloderdan keyin) yuklangan bi
 U ishga tushirishning qolgan qismini, shuningdek, xotira, tashqi qurilmalar va dasturiy ta'minotdan input/output (I/O) so'rovlarini boshqaradi va ularni markaziy protsessor uchun ma'lumotlarni qayta ishlash instructionlariga aylantiradi. Kernelning critical kodi odatda xotiraning alohida maydoniga yuklanadi, u application software yoki operatsion tizimning boshqa unchalik muhim bo'lmagan qismlari tomonidan kirishdan himoyalangan. Kernel ushbu himoyalangan kernel maydonida running process, hard disk kabi hardware qurilmalarini boshqarish va uzilishlarni boshqarish kabi vazifalarini bajaradi.
 
 Bundan farqli o'laroq, brauzerlar, word processorlari va audio yoki video playerlar kabi amaliy dasturlar xotiraning alohida maydonidan, user space(foydalanuvchi maydoni)dan foydalanadi. Kernel interfeysi low-level abstraction layerdir.
+
+
+![Linux](images/article/kernel/2.png)
+
+Rasmda soddalashtirilgan kernel arxitekturasi
+
+
+### Random-access memory RAM
+
+Random-access memory (RAM) dastur instructionlarini va ma'lumotlarni saqlash uchun ishlatiladi. Odatda, dastur bajarilishi uchun ikkalasi ham xotirada bo'lishi kerak.Ko'pincha bir nechta dasturlar xotiraga kirishni xohlaydi, ko'pincha kompyuter mavjud bo'lganidan ko'ra ko'proq xotira talab qiladi.Kernel har bir jarayon qaysi xotiradan foydalanishi mumkinligi va xotira yetarli bo'lmaganda nima qilish kerakligini aniqlash uchun javobgardir.
+
+### Input/Output qurilmalari
+
+I/O(Input/Output) qurilmalariga klaviatura, sichqoncha, disk drayvlar, printerlar, USB qurilmalari, tarmoq adapterlari va displey qurilmalari kabi tashqi qurilmalar kiradi.Kernel tegishli qurilmaga I/O ni amalga oshirish uchun ilovalardan so'rovlarni taqsimlaydi va qurilmadan foydalanishning qulay usullarini taqdim etadi (odatda dastur qurilmaning amalga oshirish tafsilotlarini bilishi shart bo'lmagan darajada abstraktlangan).
+
+### Resource Management
+
+Resource managementda zarur bo'lgan asosiy jihatlar execution domenini (space address) va domen ichidagi resurslarga kirishda vositachilik qilish uchun foydalaniladigan himoya mexanizmini aniqlashdir.Kernellar, shuningdek, sinxronizatsiya va jarayonlararo aloqa inter-process communication (IPC) usullarini taqdim etadi.Ushbu ilovalar kernelning o'zida joylashgan bo'lishi mumkin yoki kernel boshqa ishlaydigan jarayonlarga ham tayanishi mumkin. Garchi kernel bir-biri tomonidan taqdim etilgan obyektlarga kirishni ta'minlash uchun IPC ni ta'minlashi kerak bo'lsa-da, kernellar ushbu obyektlarga kirish uchun so'rovlar yuborish usuli bilan ishlaydigan dasturlarni ham ta'minlashi kerak. Kernel jarayonlar yoki threadlar o'rtasida context switching uchun ham javobgardir.
+
+### Memory management
+
+Kernel tizim xotirasiga to'liq kirish huquqiga ega va jarayonlarga ushbu xotiraga o'zlari talab qilganda xavfsiz kirishiga ruxsat berishi kerak.Ko'pincha buni amalga oshirishda birinchi qadam virtual manzillash bo'lib, odatda paging va/yoki segmentation orqali erishiladi.Agar dasturga operativ xotirada bo'lmagan ma'lumotlar kerak bo'lsa, protsessor kernelga bu sodir bo'lganligi haqida signal beradi kernel esa faol bo'lmagan xotira blokining tarkibini diskka yozish (agar kerak bo'lsa) va uni dastur tomonidan so'ralgan ma'lumotlar bilan almashtirish orqali javob beradi. Keyin dastur to'xtatilgan joydan davom ettirilishi mumkin. Ushbu sxema odatda `demand paging` sifatida tanilgan. Virtual manzillash, shuningdek, ikkita ajratilgan sohada xotiraning virtual bo'limlarini yaratishga imkon beradi, ulardan biri kernel (kernel space), ikkinchisi esa ilovalar uchun (user space). Ilovalar kernel xotirasiga murojaat qilish uchun protsessor tomonidan ruxsat etilmaydi, bu esa dastur ishlaydigan kernelga zarar yetkazishining oldini oladi.

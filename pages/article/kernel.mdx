@@ -4,7 +4,7 @@ import { Callout } from "nextra-theme-docs";
 
 ![Linux](images/article/kernel/1.webp)
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info" emoji="">
     Buguni maqolada biz ko'p sirlarni mavhumliklarni ochamiz. Bu maqolada kernel nima?, kernel tarixi, Apple Microsoft kernel ishlab chiqishi, Unix kernel, Linux FreeBSD OpenBSD, Kernel arxitekturasi va kerneldagi muammolar va boshqa ko'p qiziqarli malumotlarni bilib olasiz.
 
     Tayyormisiz qani kettik :)
@@ -201,3 +201,142 @@ Mach, L4, AmigaOS, Minix, K42 va boshqalar.
 ##### Rasmda Mikro Kernel tasvirlangan va Monolitik va Mikrokernel arxitekturalari tasvirlangan
 
 ### Monolitik kernellar va mikrokernellar
+
+1990-yillarning boshlariga kelib, monolit kernellarning mikrokernellarga nisbatan turli kamchiliklari tufayli, deyarli barcha operatsion tizim tadqiqotchilari tomonidan monolit kernellar eskirgan deb hisoblangan. Natijada, Linuxning mikrokernel emas, balki monolit kernel sifatida dizayni Linus Torvalds va Andrew Tanenbaum o'rtasidagi mashhur munozaraning mavzusi edi. Tanenbaum–Torvalds bahsida keltirilgan argumentning har ikki tomonida ham asos bor.
+
+Monolitik kernellar o'zlarining barcha kodlari bir xil address space (kernel space) bo'lishi uchun yaratilgan bo'lib, ba'zi ishlab chiquvchilar buni tizimning ishlashini oshirish uchun zarur deb hisoblaydilar.
+Ushbu ma'lumotlarning tushuntirishlari `kernel-mode`dan `user-mode` ga o'tish chastotasining ko'payishi, inter-process communication(jarayonlararo aloqa) chastotasining ko'payishi bilan bog'liq degan taxmin bilan `folklore` ga qoldirildi va context switchelarning ortib borayotgan chastotasiga.
+
+
+### Gibrid (yoki modulli) kernellar
+
+Gibrid kernellar `Microsoft Windows` NT 3.1, NT 3.5, NT 3.51, NT 4.0, 2000, XP, Vista, 7, 8, 8.1 va 10 kabi ko'pgina tijorat operatsion tizimlarida qo'llaniladi. `Apple Inc` kompaniyasining o'z macOS tizimi OSF/1 Mach kerneli (OSFMK 7.3)va FreeBSD monolit kerneli kodiga asoslangan `XNU` nomli gibrid kerneldan foydalanadi.
+
+Gibrid kernellar monolit va mikro kernellarni birlashtiradi. Ular mikro kernellarga qaraganda ko'proq servicelarni o'z ichiga oladi, lekin monolit kernellardan kamroq. Bu ularga ikkala kernelning ba'zi afzalliklarini taklif qilish imkonini beradi. U monolit kernellardan tezlikni va mikro kernellardan modullikni oladi.
+
+##### Misollar:
+
+<Callout type="info" emoji="">
+Windows NT, Netware, BeOS, XNU va boshqalar.
+</Callout>
+
+#### Afzalliklari
+
+* U monolit kernel va mikro kernelni birlashtiradi.
+* Uchinchi tomon texnologiyasining tezroq integratsiyasi
+* Modullar ichidan ishlashi mumkin bo'lgan drayverlar uchun tezroq ishlab chiqish vaqti. Sinov uchun qayta ishga tushirish shart emas.
+
+#### Kamchiliklari
+
+* U hali ham monolit kernelga o'xshaydi.
+* Symbollar farqi kabi muammolarni hal qilishda modullarni saqlash ba'zi ma'murlar uchun chalkash bo'lishi mumkin.
+
+![Linux](images/article/kernel/6.png)
+
+##### Rasmda Gibrid kernel arxitekturasi
+
+#### Nano Kernel
+
+Nano kernellar kernelning eng kichik turi bo'lib, bir necha ming kod qatoridan iborat. Bu hardware abstractionini taklif qiladigan, lekin system servicelarisiz kernel turi. Micro Kernel ham system servicelariga ega emas, shuning uchun Micro Kernel va Nano Kernel o'xshash bo'ladi. Bu hardwerining privilegeli rejimida bajariladigan kod minimal ekanligini anglatadi. Ular asosan embedded systemlarda yoki cheklangan resurslarga ega qurilmalarda qo'llaniladi.
+
+##### Misollar:
+
+<Callout type="info" emoji="">
+EROS va boshqalar.
+</Callout>
+
+#### Afzalliklari
+
+* U system servicelarisiz hardware abstractionlarini taklif qiladi.
+
+#### Kamchiliklari
+
+* Bu mikro kernel bilan bir xil, shuning uchun u kamroq qo'llaniladi.
+
+#### Exo Kernel
+Bu `end-to-end` tamoyiliga amal qiladigan kernel turi. Unda iloji boricha kamroq hardware abstractionlari mavjud. U jismoniy resurslarni ilovalarga ajratadi. Bu kernel alohida resurs protection va boshqaruviga ega. Ilovaga maxsus moslashtirishni amalga oshirishda foydalanish uchun javob beradi. Exo kernellari mobil qurilmalarda foydalanish uchun mo'ljallangan. Ular power management va bir nechta protsessorlarni qo'llab-quvvatlash kabi mobil qurilmalar uchun maxsus qo'shimcha funksiyalarni o'z ichiga olgan mikrokernellarning o'zgarishi.
+
+Exo kernellar operatsion tizimni loyihalashda hali ham eksperimental yondashuvdir. Ular boshqa turdagi kernellardan o'zlarining funksional imkoniyatlarini raw hardwareni himoya qilish va multiplekslash bilan cheklashlari bilan farq qiladi, buning ustiga ilovalarni ishlab chiqish uchun hech qanday apparat hardware abstractionlarini ta'minlamaydi.
+
+##### Misollar:
+
+<Callout type="info" emoji="">
+Nemesis, ExOS va boshqalar.
+</Callout>
+
+#### Afzalliklari
+
+* Unda juda kam hardware abstractionlari mavjud.
+
+#### Kamchiliklari
+
+* Ilovalarni ishlab chiquvchilar uchun ko'proq ish bor.
+
+### Multi kernellar
+
+Multikernelli operatsion tizim multi-coreli mashinaga xuddi taqsimlangan tizim kabi mustaqil yadrolar tarmog'i sifatida qaraydi. U umumiy xotirani o'z zimmasiga olmaydi, balki message-passing sifatida inter-process communicationni amalga oshiradi. `Barrelfish` ko'p multikernelli deb ta'riflangan birinchi operatsion tizim edi.
+
+## Unix
+
+Unixni loyihalash bosqichida dasturchilar har bir yuqori darajali qurilmani fayl sifatida modellashtirishga qaror qilishdi, chunki ular hisoblashning maqsadi ma'lumotlarni o'zgartirish deb hisoblashgan. Tizimni fayl darajasida virtualizatsiya qilish foydalanuvchilarga mavjud fayllarni boshqarish yordam dasturlari va kontseptsiyalari yordamida butun tizimni manipulyatsiya qilish imkonini berdi va bu operatsiyani sezilarli darajada soddalashtirdi.
+
+Xuddi shu paradigmaning kengaytmasi sifatida Unix dasturchilarga pipelar kontseptsiyasidan foydalangan holda bir qator kichik dasturlardan foydalanib fayllarni manipulyatsiya qilish imkonini beradi.
+
+Yakuniy natija bir xil bo'lsa-da, shu tarzda kichikroq dasturlardan foydalanish moslashuvchanlikni, shuningdek, ishlab chiqish va foydalanish qulayligini sezilarli darajada oshirdi, bu foydalanuvchiga dasturni zanjirdan qo'shish yoki olib tashlash orqali o'z ish jarayonini o'zgartirish imkonini berdi.
+
+Unix modelida operatsion tizim ikki qismdan iborat: birinchidan, ko'pchilik operatsiyalarni boshqaradigan yordamchi dasturlarning ulkan to'plami; ikkinchidan, dasturlarni boshqaradigan kernel. Yillar davomida hisoblash modeli o'zgardi va Unix-ning hamma narsani fayl yoki bayt oqimi sifatida ko'rib chiqishi avvalgidek universal qo'llanilmaydi.
+
+Kompyuterlarning imkoniyatlari oshgani sayin, Unix kodlar bilan tobora ko'proq chigallashib bordi. 1970 va 1980 - yillarda kernellarda 100 000 qator kod boʻlishi mumkin boʻlsa-da, Linux kabi kernellar, GNU kabi zamonaviy Unix vorislari 13 milliondan ortiq qatorga ega.
+
+2020 yil hisobiga ko'ra Linux kerneli kodi 27.8 million qatorga yetgan.
+
+Zamonaviy Unix hosilalari odatda modul yuklaydigan monolit kernellarga asoslangan. Bunga misol qilib GNU, IBM AIX ning koʻplab distribyutsiyalaridagi Linux yadrosi, shuningdek, FreeBSD, DragonflyBSD, OpenBSD, NetBSD va macOS kabi Berkeley Software Distribution variant kernelllari misol boʻla oladi. Ushbu muqobil variantlardan tashqari, havaskor ishlab chiquvchilar asosan Linux, FreeBSD, DragonflyBSD, OpenBSD yoki NetBSD kernellari bilan ko‘p funksiyalarni baham ko‘radigan va/yoki ular bilan mos keladigan o‘z-o‘zidan yozilgan sevimli mashg‘ulot kernellari bilan to‘ldirilgan faol operatsion tizimni ishlab chiqish hamjamiyatiga ega.
+
+## Classic Mac OS va macOS
+
+
+Apple birinchi marta 1984 yilda Macintosh shaxsiy kompyuteri bilan birga o'zining classic Mac OS-ni ishga tushirdi. Apple Mac OS 8.6 da nanokernel dizayniga o'tdi. Bunga qarshi zamonaviy macOS (dastlab Mac OS X deb nomlangan) Darvinga asoslangan bo'lib, u 4.3BSD kerneli va Mach kernelnini birlashtirish orqali yaratilgan XNU deb nomlangan gibrid kerneldan foydalanadi.
+
+### XNU
+
+XNU - bu Mac OS X (hozirgi macOS) operatsion tizimida foydalanish uchun 1996 yil dekabr oyidan beri Apple Inc da ishlab chiqilgan va Darvin OSning bir qismi sifatida bepul va open source dasturiy ta'minot sifatida chiqarilgan kompyuter operatsion tizimining (OS) kerneli. macOS uchun ham Apple TV dasturiy ta'minoti, iOS, iPadOS, watchOS va tvOS operatsion tizimlari uchun asosdir.
+
+
+XNU - X is Not Unix qisqartmasi.
+
+[XNU Open Source Github](https://github.com/apple/darwin-xnu)
+
+## Microsoft Windows
+
+Microsoft Windows birinchi marta 1985 yilda MS-DOS qo'shimchasi sifatida chiqarilgan. Boshqa operatsion tizimga bog'liqligi sababli, Windows 95 dan oldingi Windowsning dastlabki versiyalari operating environment(operatsion muhit) deb hisoblangan (operatsion tizim bilan adashtirmaslik kerak).
+
+Ushbu mahsulot qatori 1980 va 1990 yillar davomida rivojlanishda davom etdi, Windows 9x seriyali 32-bitli adreslash va oldindan ko'p vazifalarni qo'shdi; lekin 2000 yilda `Windows Me`-ning chiqarilishi bilan yakunlandi. Microsoft shuningdek, `Windows NT` operatsion tizimini ishlab chiqdi, bu juda o'xshash interfeysga ega, lekin yuqori darajadagi va biznes foydalanuvchilari uchun mo'ljallangan.
+
+Bu yoʻnalish 1993-yilda Windows NT 3.1-ning chiqarilishi bilan boshlangan va umumiy foydalanuvchilarga 2001-yil oktabr oyida Windows XP-ning chiqarilishi bilan tanishtirilgan - Windows 9x-ni butunlay boshqacha, ancha murakkab operatsion tizim bilan almashtirgan. Bu Windows 11 bilan davom etadigan yo'nalish.
+
+Windows NT kernelining arxitekturasi gibrid kernel hisoblanadi, chunki kernelning o'zi client/server qatlamli subsystem modeliga ega Window Manager va IPC Managers kabi vazifalarni o'z ichiga oladi. U o'zgartirilgan mikrokernel sifatida ishlab chiqilgan, chunki Windows NT kernelii Mach mikrokernelidan ilhomlangan, ammo sof mikrokernelning barcha mezonlariga javob bermaydi.
+
+### IBM Supervisor
+
+Supervisor dastur yoki supervisor - kompyuter dasturi, odatda operatsion tizimning bir qismi bo'lib, u boshqa tartiblarning bajarilishini nazorat qiladi va ishni rejalashtirish, input/output operatsiyalari, xato harakatlar va shunga o'xshash funksiyalarni tartibga soladi va ma'lumotlarni qayta ishlash tizimidagi ish oqimini tartibga soladi.
+
+Tarixiy jihatdan, bu atama IBM ning OS/360 dan boshlangan asosiy operatsion tizimlari qatori bilan bog'liq edi. Boshqa operatsion tizimlarda supervisor odatda kernel deb ataladi.
+
+1970-yillarda IBM supervisor holatini hardwaredan ajratib oldi, natijada toʻliq virtualizatsiya, yaʼni bir mashinada bir nechta operatsion tizimlarni bir-biridan mutlaqo mustaqil ravishda ishga tushirish imkoniyatini beruvchi hypervisor paydo boʻldi.
+Shunday qilib, birinchi bunday tizim `Virtual Machine` yoki `VM`deb nomlangan.
+
+
+Maqola juda uzun bo'lgani uchun uzur so'rayman )
+
+Endi siz kernel ishlashi kelib chiqishi kernel turlari haqidagi bilimlarni bilib oldingiz )
+
+Xato va kamchiliklar bo'lsa uzur so'rayman :)
+
+Muallif: [Otabek Ismoilov](https://t.me/Otabek_Ismoilov)
+Hamjamiyat: [Xinux](https://www.xinux.uz/)
+
+
+Foydanilgan Manbalar
+
+[Wikipedia](https://en.wikipedia.org/wiki/Kernel_(operating_system))
+va boshqa juda ko'p manbalar

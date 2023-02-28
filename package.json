@@ -11,7 +11,7 @@
     "lint": "next lint --fix",
     "lint:check": "next lint"
   },
-  "author": "Uzinfocom Open Source Devs",
+  "author": "Uzinfocom Open Source",
   "license": "MIT",
   "dependencies": {
     "@vercel/og": "^0.0.27",

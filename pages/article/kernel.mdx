@@ -54,50 +54,46 @@ Foydali funksiyalarni bajarish uchun jarayonlar yadro tomonidan qurilma drayverl
 
 ##### Hardware levelda qurilma drayverlarining umumiy abstractionlari quyidagilarni o'z ichiga oladi:
 
-* To'g'ridan-to'g'ri interfeys
-* Yuqori darajadagi interfeysdan foydalanish (BIOS)
-* Quyi darajadagi qurilma drayveridan foydalanish (disk drayverlari yordamida fayl drayverlari)
-* Hardware bilan ishlashni simulyatsiya qilish, shu bilan birga butunlay boshqacha narsalarni qilish
-
+- To'g'ridan-to'g'ri interfeys
+- Yuqori darajadagi interfeysdan foydalanish (BIOS)
+- Quyi darajadagi qurilma drayveridan foydalanish (disk drayverlari yordamida fayl drayverlari)
+- Hardware bilan ishlashni simulyatsiya qilish, shu bilan birga butunlay boshqacha narsalarni qilish
 
 ##### Software levelda, qurilma drayverlari abstractionlari quyidagilarni o'z ichiga oladi:
 
-* Operatsion tizimning hardware resurslariga bevosita kirishiga ruxsat berish
-* Faqat primitivlarni implement qilish
-* TWAIN kabi driveri bo'lmagan dasturiy ta'minot uchun interfeysni implement qilish
-* Tilni implement qilish (ko'pincha PostScript kabi yuqori darajadagi til)
-
+- Operatsion tizimning hardware resurslariga bevosita kirishiga ruxsat berish
+- Faqat primitivlarni implement qilish
+- TWAIN kabi driveri bo'lmagan dasturiy ta'minot uchun interfeysni implement qilish
+- Tilni implement qilish (ko'pincha PostScript kabi yuqori darajadagi til)
 
 Misol uchun, foydalanuvchiga ekranda biror narsani ko'rsatish uchun dastur kernelga so'rov yuboradi, bu so'rovni displey drayveriga yo'naltiradi, keyin esa belgi/pikselni chizish uchun javobgardir.
 
-
 ### System call
 
-Hisoblashda system call jarayonning operatsion tizim kernelidan odatda ishga ruxsati bo‘lmagan xizmatni so‘rashidir. System callari jarayon va operatsion tizim o'rtasidagi interfeysni ta'minlaydi. 
+Hisoblashda system call jarayonning operatsion tizim kernelidan odatda ishga ruxsati bo‘lmagan xizmatni so‘rashidir. System callari jarayon va operatsion tizim o'rtasidagi interfeysni ta'minlaydi.
 
 System call - bu operatsion tizimdan xizmat so'rash uchun amaliy dastur tomonidan foydalaniladigan mexanizm.
 Ular protsessorni rejimni o'zgartirishga olib keladigan machine-code instructiondan foydalanadilar.
 
 Bu yerda operatsion tizim hardware qurilmalari yoki memory management unitga kirish kabi amallarni bajaradi.Odatda operatsion tizim va oddiy foydalanuvchi dasturlari o'rtasida joylashgan kutubxonani ta'minlaydi.Odatda bu `Glibc` yoki `Windows API` kabi `C` kutubxonasi.
 
- Kutubxona kernelga ma'lumot uzatish va supervisor rejimiga o'tishning low-leveldagi tafsilotlarini boshqaradi. System callarga yopish, ochish, o'qish, kutish va yozish kiradi. Haqiqiy foydali ishni bajarish uchun jarayon kernel tomonidan taqdim etilgan xizmatlarga kirish imkoniyatiga ega bo'lishi kerak. Bu har bir kernel tomonidan turlicha amalga oshiriladi, lekin ko'pchilik C kutubxonasi yoki APIni taqdim etadi, bu esa o'z navbatida tegishli kernel funksiyalarini chaqiradi.
+Kutubxona kernelga ma'lumot uzatish va supervisor rejimiga o'tishning low-leveldagi tafsilotlarini boshqaradi. System callarga yopish, ochish, o'qish, kutish va yozish kiradi. Haqiqiy foydali ishni bajarish uchun jarayon kernel tomonidan taqdim etilgan xizmatlarga kirish imkoniyatiga ega bo'lishi kerak. Bu har bir kernel tomonidan turlicha amalga oshiriladi, lekin ko'pchilik C kutubxonasi yoki APIni taqdim etadi, bu esa o'z navbatida tegishli kernel funksiyalarini chaqiradi.
 
- ### Kernel loyihalash
+### Kernel loyihalash
 
- ##### Protection - Himoya
+##### Protection - Himoya
 
 Kernelni loyihalashda muhim e'tibor uning nosozliklardan (nosozliklarga chidamlilik) va zararli xatti-harakatlardan (xavfsizlik) himoya qilishni ta'minlaydigan yordamidir.Bu ikki jihat odatda aniq ajratilmaydi va kernel dizaynida bu farqning qabul qilinishi himoya uchun ierarxik tuzilmani rad etishga olib keladi.
 
 Kernel tomonidan taqdim etilgan mexanizmlar yoki siyosatlar bir nechta mezonlarga ko'ra tasniflanishi mumkin, jumladan: statik (kompilyatsiya vaqtida amalga oshiriladi) yoki dinamik (ishlash vaqtida amalga oshiriladi); oldindan yoki keyingi aniqlash; ular qondiradigan himoya tamoyillariga ko'ra ular hardware tomonidan qo'llab-quvvatlanadimi yoki tilga asoslanganmi; ular ko'proq ochiq mexanizmmi yoki majburiy siyosatmi; va boshqalar.
 
-
 Himoya ierarxik domenlarini qo'llab-quvvatlash odatda CPU rejimlari yordamida amalga oshiriladi.
 
-Imkoniyatlarni hardware ta'minoti bilan ta'minlashning samarali va oddiy usuli bu memory management unit (MMU)ga  har bir xotiraga kirish uchun kirish huquqlarini tekshirish mas'uliyatini topshirishdir, bu mexanizm `called capability-based addressing` deb ataladi.
+Imkoniyatlarni hardware ta'minoti bilan ta'minlashning samarali va oddiy usuli bu memory management unit (MMU)ga har bir xotiraga kirish uchun kirish huquqlarini tekshirish mas'uliyatini topshirishdir, bu mexanizm `called capability-based addressing` deb ataladi.
 
 Muqobil yondashuv keng tarqalgan qo'llab-quvvatlanadigan ierarxik domenlar yordamida capabilitielarni simulyatsiya qilishdir.
 
-##### Hardware yoki tilga asoslangan himoya 
+##### Hardware yoki tilga asoslangan himoya
 
 Bugungi kunda odatiy kompyuter tizimlari qaysi dasturlarga qanday ma'lumotlarga kirishga ruxsat berilganligi haqida hardware tomonidan qo'llaniladigan qoidalardan foydalanadi.
 Protsessor executionni nazorat qiladi va qoidani buzadigan dasturni to'xtatadi, masalan, kernel xotirasiga yozishga harakat qiladigan foydalanuvchi jarayoni.
@@ -115,10 +111,11 @@ Tabiiyki, yuqorida sanab o'tilgan vazifalar va xususiyatlar dizayn va implement 
 Mexanizm va siyosatni ajratish printsipi mikro va monolit kernelar falsafasi o'rtasidagi jiddiy farqdir. Bu yerda mexanizm ko'plab turli siyosatlarni amalga oshirishga imkon beruvchi qo'llab-quvvatlashdir, siyosat esa ma'lum bir "ish rejimi" dir.
 
 Misol:
- * Mexanizm: Foydalanuvchining kirishga urinishlari avtorizatsiya serveriga yo'naltiriladi
- * Siyosat: Avtorizatsiya serveri maʼlumotlar bazasida saqlangan parollar bilan tasdiqlangan parolni talab qiladi
 
- Mexanizm va siyosat bir-biridan ajratilganligi sababli, siyosat osongina o'zgartirilishi mumkin, masalan. xavfsizlik tokenidan foydalanishni talab qiladi. Monolit kernel ko'plab siyosatlarni o'z ichiga oladi, shuning uchun tizimning qolgan qismini ularga tayanishni cheklaydi.
+- Mexanizm: Foydalanuvchining kirishga urinishlari avtorizatsiya serveriga yo'naltiriladi
+- Siyosat: Avtorizatsiya serveri maʼlumotlar bazasida saqlangan parollar bilan tasdiqlangan parolni talab qiladi
+
+Mexanizm va siyosat bir-biridan ajratilganligi sababli, siyosat osongina o'zgartirilishi mumkin, masalan. xavfsizlik tokenidan foydalanishni talab qiladi. Monolit kernel ko'plab siyosatlarni o'z ichiga oladi, shuning uchun tizimning qolgan qismini ularga tayanishni cheklaydi.
 
 Per Brinch Hansen mexanizm va siyosatni ajratish foydasiga dalillar keltirdi. Ushbu ajratishning to'g'ri bajarilmasligi mavjud operatsion tizimlarda jiddiy innovatsiyalar yo'qligining asosiy sabablaridan biri bo'lib, kompyuter arxitekturasida keng tarqalgan muammo.
 
@@ -131,12 +128,12 @@ Asosiy muqobil arxitektura yondoshuvi, capability-based addressing ikkalasini an
 <Callout type="info" emoji="">
 Kernellarning beshta asosiy turi:
 
-* Monolitik kernel
-* Micro Kernel
-* Gibrid Kernel
-* Exo Kernel
-* Nano Kernel
-</Callout>
+- Monolitik kernel
+- Micro Kernel
+- Gibrid Kernel
+- Exo Kernel
+- Nano Kernel
+  </Callout>
 
 ### Monolitik kernellar
 
@@ -146,54 +143,53 @@ Monolit kernelda barcha OS xizmatlari asosiy kernel thread bilan birga ishlaydi,
 
 Monolitik kernellarning asosiy kamchiliklari tizim komponentlari o'rtasidagi bog'liqlikdir - qurilma drayveridagi xato butun tizimni ishdan chiqarishi mumkin - va katta kernellarni saqlash juda qiyin bo'lishi mumkin. Unix-ga o'xshash operatsion tizimlar tomonidan an'anaviy ravishda qo'llaniladigan monolit kernellar operatsion tizimning barcha asosiy funksiyalarini va qurilma drayverlarini o'z ichiga oladi. Bu UNIX tizimlarining an'anaviy dizayni. Linux (GNU operatsion tizimining kernellaridan biri) va FreeBSD kernellari kabi zamonaviy monolit kernellar, har ikkalasi ham Unix-ga o'xshash operatsion tizimlar toifasiga kiradi, modullarni ish vaqtida yuklash qobiliyatiga ega va shu bilan oson ishlashga imkon beradi, zarur bo'lganda kernel imkoniyatlarini kengaytirish, shu bilan birga kernel spaceda ishlaydigan kod miqdorini minimallashtirishga yordam beradi.
 
-
 ##### Misollar:
 
 <Callout type="info" emoji="">
-Unix, Linux, Open VMS, XTS-400 va boshqalar.
+  Unix, Linux, Open VMS, XTS-400 va boshqalar.
 </Callout>
 
 #### Afzalliklari
 
-* Dasturiy ta'minot kamroq bo'lgani uchun u tezroq ishlaydi.
-* Bu bitta dasturiy ta'minot bo'lagi bo'lgani uchun u ham manba, ham kompilyatsiya shaklida kichikroq bo'lishi kerak.
-* Kamroq kod odatda kamroq xavfsizlik muammolariga aylanishi mumkin bo'lgan kamroq xatolarni anglatadi.
+- Dasturiy ta'minot kamroq bo'lgani uchun u tezroq ishlaydi.
+- Bu bitta dasturiy ta'minot bo'lagi bo'lgani uchun u ham manba, ham kompilyatsiya shaklida kichikroq bo'lishi kerak.
+- Kamroq kod odatda kamroq xavfsizlik muammolariga aylanishi mumkin bo'lgan kamroq xatolarni anglatadi.
 
 #### Kamchiliklari
 
-* Modullar bir xil address spaceda ishlaganligi sababli, xato butun tizimni buzishi mumkin.
-* Monolitik kernellar portativ emas; shuning uchun ular operatsion tizim foydalaniladigan har bir yangi arxitektura uchun qayta yozilishi kerak.
-* Kernelning bir qismidagi xatolar kuchli yon ta'sirga ega; kerneldagi har bir funksiya barcha imtiyozlarga ega bo'lganligi sababli, bitta funksiyadagi xato boshqasining ma'lumotlar strukturasini, kernelning mutlaqo aloqador bo'lmagan qismini yoki har qanday ishlaydigan dasturni buzishi mumkin.
+- Modullar bir xil address spaceda ishlaganligi sababli, xato butun tizimni buzishi mumkin.
+- Monolitik kernellar portativ emas; shuning uchun ular operatsion tizim foydalaniladigan har bir yangi arxitektura uchun qayta yozilishi kerak.
+- Kernelning bir qismidagi xatolar kuchli yon ta'sirga ega; kerneldagi har bir funksiya barcha imtiyozlarga ega bo'lganligi sababli, bitta funksiyadagi xato boshqasining ma'lumotlar strukturasini, kernelning mutlaqo aloqador bo'lmagan qismini yoki har qanday ishlaydigan dasturni buzishi mumkin.
 
 ![Linux](images/article/kernel/3.png)
 ![Linux](images/article/kernel/2.png)
 
 ##### Rasmda Monolitik kernellar arxitekturasi
 
-### Mikro kernellar 
+### Mikro kernellar
 
-Mikro kernellar yangi ishlanmadir va shuning uchun monolit kernellar kabi keng tarqalgan emas. Ular faqat tizimning ishlashi uchun zarur bo'lgan asosiy servicelar va qurilmalarni o'z ichiga oladi. Bu tezroq va kamroq xotiradan foydalanadigan kichikroq kernelgaga olib keladi. Bu yerda foydalanuvchi va kernel servicelari ikki xil spaceda amalga oshiriladi. Unda alohida `User Space` va `Kernel Space` mavjud.Bu kernel hajmini kamaytiradi va operatsion tizim hajmini qisqartiradi. 
+Mikro kernellar yangi ishlanmadir va shuning uchun monolit kernellar kabi keng tarqalgan emas. Ular faqat tizimning ishlashi uchun zarur bo'lgan asosiy servicelar va qurilmalarni o'z ichiga oladi. Bu tezroq va kamroq xotiradan foydalanadigan kichikroq kernelgaga olib keladi. Bu yerda foydalanuvchi va kernel servicelari ikki xil spaceda amalga oshiriladi. Unda alohida `User Space` va `Kernel Space` mavjud.Bu kernel hajmini kamaytiradi va operatsion tizim hajmini qisqartiradi.
 
 Mikro kernellar an'anaviy `monolitik` kernel dizayniga reaksiya sifatida ixtiro qilingan, bunda tizimning barcha funksiyalari protsessorning maxsus `system` rejimida ishlaydigan bitta statik dasturga kiritilgan. Faqat privileged rejimda bo'lishni talab qiladigan qismlar kernel spaceda: `IPC (Inter-Process Communication)`(jarayonlararo aloqa), asosiy rejalashtiruvchi yoki rejalashtirish primitivlari, asosiy xotira bilan ishlash, asosiy I/O(input/output) primitivlari.
 
 ##### Misollar:
 
 <Callout type="info" emoji="">
-Mach, L4, AmigaOS, Minix, K42 va boshqalar.
+  Mach, L4, AmigaOS, Minix, K42 va boshqalar.
 </Callout>
 
 #### Afzalliklari
 
-* Bu yanada barqaror.
-* Patchlar alohida misolda sinovdan o'tkazilishi va keyin ishlab chiqarish namunasini egallash uchun almashtirilishi mumkin.
-* Tez ishlab chiqish vaqti va yangi dasturiy ta'minot kernelni qayta ishga tushirmasdan sinovdan o'tkazilishi mumkin.
+- Bu yanada barqaror.
+- Patchlar alohida misolda sinovdan o'tkazilishi va keyin ishlab chiqarish namunasini egallash uchun almashtirilishi mumkin.
+- Tez ishlab chiqish vaqti va yangi dasturiy ta'minot kernelni qayta ishga tushirmasdan sinovdan o'tkazilishi mumkin.
 
 #### Kamchiliklari
 
-* Kattaroq ishlaydigan memory footprint
-* Interfeys uchun ko'proq dasturiy ta'minot talab qilinadi, ishlashni yo'qotish ehtimoli mavjud.
-* Umuman olganda, jarayonni boshqarish juda murakkab bo'lishi mumkin.
-* Ko'p system calllari va context switchelar mavjud.
+- Kattaroq ishlaydigan memory footprint
+- Interfeys uchun ko'proq dasturiy ta'minot talab qilinadi, ishlashni yo'qotish ehtimoli mavjud.
+- Umuman olganda, jarayonni boshqarish juda murakkab bo'lishi mumkin.
+- Ko'p system calllari va context switchelar mavjud.
 
 ![Linux](images/article/kernel/4.png)
 ![Linux](images/article/kernel/5.png)
@@ -207,7 +203,6 @@ Mach, L4, AmigaOS, Minix, K42 va boshqalar.
 Monolitik kernellar o'zlarining barcha kodlari bir xil address space (kernel space) bo'lishi uchun yaratilgan bo'lib, ba'zi ishlab chiquvchilar buni tizimning ishlashini oshirish uchun zarur deb hisoblaydilar.
 Ushbu ma'lumotlarning tushuntirishlari `kernel-mode`dan `user-mode` ga o'tish chastotasining ko'payishi, inter-process communication(jarayonlararo aloqa) chastotasining ko'payishi bilan bog'liq degan taxmin bilan `folklore` ga qoldirildi va context switchelarning ortib borayotgan chastotasiga.
 
-
 ### Gibrid (yoki modulli) kernellar
 
 Gibrid kernellar `Microsoft Windows` NT 3.1, NT 3.5, NT 3.51, NT 4.0, 2000, XP, Vista, 7, 8, 8.1 va 10 kabi ko'pgina tijorat operatsion tizimlarida qo'llaniladi. `Apple Inc` kompaniyasining o'z macOS tizimi OSF/1 Mach kerneli (OSFMK 7.3)va FreeBSD monolit kerneli kodiga asoslangan `XNU` nomli gibrid kerneldan foydalanadi.
@@ -217,19 +212,19 @@ Gibrid kernellar monolit va mikro kernellarni birlashtiradi. Ular mikro kernella
 ##### Misollar:
 
 <Callout type="info" emoji="">
-Windows NT, Netware, BeOS, XNU va boshqalar.
+  Windows NT, Netware, BeOS, XNU va boshqalar.
 </Callout>
 
 #### Afzalliklari
 
-* U monolit kernel va mikro kernelni birlashtiradi.
-* Uchinchi tomon texnologiyasining tezroq integratsiyasi
-* Modullar ichidan ishlashi mumkin bo'lgan drayverlar uchun tezroq ishlab chiqish vaqti. Sinov uchun qayta ishga tushirish shart emas.
+- U monolit kernel va mikro kernelni birlashtiradi.
+- Uchinchi tomon texnologiyasining tezroq integratsiyasi
+- Modullar ichidan ishlashi mumkin bo'lgan drayverlar uchun tezroq ishlab chiqish vaqti. Sinov uchun qayta ishga tushirish shart emas.
 
 #### Kamchiliklari
 
-* U hali ham monolit kernelga o'xshaydi.
-* Symbollar farqi kabi muammolarni hal qilishda modullarni saqlash ba'zi ma'murlar uchun chalkash bo'lishi mumkin.
+- U hali ham monolit kernelga o'xshaydi.
+- Symbollar farqi kabi muammolarni hal qilishda modullarni saqlash ba'zi ma'murlar uchun chalkash bo'lishi mumkin.
 
 ![Linux](images/article/kernel/6.png)
 
@@ -242,18 +237,19 @@ Nano kernellar kernelning eng kichik turi bo'lib, bir necha ming kod qatoridan i
 ##### Misollar:
 
 <Callout type="info" emoji="">
-EROS va boshqalar.
+  EROS va boshqalar.
 </Callout>
 
 #### Afzalliklari
 
-* U system servicelarisiz hardware abstractionlarini taklif qiladi.
+- U system servicelarisiz hardware abstractionlarini taklif qiladi.
 
 #### Kamchiliklari
 
-* Bu mikro kernel bilan bir xil, shuning uchun u kamroq qo'llaniladi.
+- Bu mikro kernel bilan bir xil, shuning uchun u kamroq qo'llaniladi.
 
 #### Exo Kernel
+
 Bu `end-to-end` tamoyiliga amal qiladigan kernel turi. Unda iloji boricha kamroq hardware abstractionlari mavjud. U jismoniy resurslarni ilovalarga ajratadi. Bu kernel alohida resurs protection va boshqaruviga ega. Ilovaga maxsus moslashtirishni amalga oshirishda foydalanish uchun javob beradi. Exo kernellari mobil qurilmalarda foydalanish uchun mo'ljallangan. Ular power management va bir nechta protsessorlarni qo'llab-quvvatlash kabi mobil qurilmalar uchun maxsus qo'shimcha funksiyalarni o'z ichiga olgan mikrokernellarning o'zgarishi.
 
 Exo kernellar operatsion tizimni loyihalashda hali ham eksperimental yondashuvdir. Ular boshqa turdagi kernellardan o'zlarining funksional imkoniyatlarini raw hardwareni himoya qilish va multiplekslash bilan cheklashlari bilan farq qiladi, buning ustiga ilovalarni ishlab chiqish uchun hech qanday apparat hardware abstractionlarini ta'minlamaydi.
@@ -261,16 +257,16 @@ Exo kernellar operatsion tizimni loyihalashda hali ham eksperimental yondashuvdi
 ##### Misollar:
 
 <Callout type="info" emoji="">
-Nemesis, ExOS va boshqalar.
+  Nemesis, ExOS va boshqalar.
 </Callout>
 
 #### Afzalliklari
 
-* Unda juda kam hardware abstractionlari mavjud.
+- Unda juda kam hardware abstractionlari mavjud.
 
 #### Kamchiliklari
 
-* Ilovalarni ishlab chiquvchilar uchun ko'proq ish bor.
+- Ilovalarni ishlab chiquvchilar uchun ko'proq ish bor.
 
 ### Multi kernellar
 
@@ -294,13 +290,11 @@ Zamonaviy Unix hosilalari odatda modul yuklaydigan monolit kernellarga asoslanga
 
 ## Classic Mac OS va macOS
 
-
 Apple birinchi marta 1984 yilda Macintosh shaxsiy kompyuteri bilan birga o'zining classic Mac OS-ni ishga tushirdi. Apple Mac OS 8.6 da nanokernel dizayniga o'tdi. Bunga qarshi zamonaviy macOS (dastlab Mac OS X deb nomlangan) Darvinga asoslangan bo'lib, u 4.3BSD kerneli va Mach kernelnini birlashtirish orqali yaratilgan XNU deb nomlangan gibrid kerneldan foydalanadi.
 
 ### XNU
 
 XNU - bu Mac OS X (hozirgi macOS) operatsion tizimida foydalanish uchun 1996 yil dekabr oyidan beri Apple Inc da ishlab chiqilgan va Darvin OSning bir qismi sifatida bepul va open source dasturiy ta'minot sifatida chiqarilgan kompyuter operatsion tizimining (OS) kerneli. macOS uchun ham Apple TV dasturiy ta'minoti, iOS, iPadOS, watchOS va tvOS operatsion tizimlari uchun asosdir.
-
 
 XNU - X is Not Unix qisqartmasi.
 
@@ -325,7 +319,6 @@ Tarixiy jihatdan, bu atama IBM ning OS/360 dan boshlangan asosiy operatsion tizi
 1970-yillarda IBM supervisor holatini hardwaredan ajratib oldi, natijada toʻliq virtualizatsiya, yaʼni bir mashinada bir nechta operatsion tizimlarni bir-biridan mutlaqo mustaqil ravishda ishga tushirish imkoniyatini beruvchi hypervisor paydo boʻldi.
 Shunday qilib, birinchi bunday tizim `Virtual Machine` yoki `VM`deb nomlangan.
 
-
 Maqola juda uzun bo'lgani uchun uzur so'rayman )
 
 Endi siz kernel ishlashi kelib chiqishi kernel turlari haqidagi bilimlarni bilib oldingiz )
@@ -336,8 +329,7 @@ Muallif: [Otabek Ismoilov](https://t.me/Otabek_Ismoilov)
 
 Hamjamiyat: [Xinux](https://www.xinux.uz/)
 
-
 Foydanilgan Manbalar
 
-[Wikipedia](https://en.wikipedia.org/wiki/Kernel_(operating_system))
+[Wikipedia](<https://en.wikipedia.org/wiki/Kernel_(operating_system)>)
 va boshqa juda ko'p manbalar

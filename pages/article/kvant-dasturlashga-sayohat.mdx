@@ -178,3 +178,102 @@ Kvant hisoblash sohasi ishlab chiquvchilar uchun mavjud bo'lgan bir nechta dastu
 #### Qiskit
 
 `Qiskit` - IBM tomonidan ishlab chiqilgan Python-ga asoslangan kvant hisoblash tizimi. U kvant sxemalarini yaratish va ishga tushirish, kvant kompyuterlarini taqlid qilish va IBM kvant hardwaresi bilan aloqa o'rnatish uchun toollar to'plamini taqdim etadi. Qiskit turli kvant operatsiyalarini qo'llab-quvvatlaydi, masalan, bitta qubit va ko'p qubit operatsiyalari uchun gatelar, shuningdek, o'lchovlar va noiselarni modellashtirish. Shuningdek, u gibrid kvant-klassik algoritmlar uchun klassik hisoblashni qo'llab-quvvatlaydi.
+
+#### Microsoft Q#
+
+`Q#` — Microsoft tomonidan ishlab chiqilgan kvant hisoblash uchun domenga xos dasturlash tili. U C#-ga o'xshash sintaksisga ega va kvant algoritmlarini ishlab chiqish uchun yuqori darajadagi dasturlash modelini taqdim etadi. Q# turli kvant operatsiyalarini qo'llab-quvvatlaydi, masalan, bitta va ko'p qubitli gatelar, o'lchovlar va simulyatsiyalar va u gibrid kvant-klassik algoritmlar uchun klassik hisoblashni qo'llab-quvvatlaydi.
+
+#### Cirq
+
+`Cirq` - bu Python-da kvant sxemalarini yaratish va ishga tushirish uchun open-source kutubxona. U turli xil kvant qurilma platformalarida ishlay oladigan yuqori unumdorlikdagi sxemalarni yaratishga qaratilgan holda moslashuvchan va kengaytiriladigan bo‘lishi uchun mo‘ljallangan. Cirqni  Google Quantum ishlab chiqqan.
+
+
+#### PyQuil
+
+`PyQuil` - bu Rigettining kvant hisoblash platformasidan foydalangan holda kvant dasturlash uchun Python kutubxonasi. U kvant dasturlarini yaratish va ularni real yoki simulyatsiya qilingan kvant uskunasida ishga tushirish uchun yuqori darajadagi interfeysni taqdim etadi.
+
+#### IBM Quantum Composer
+
+`IBM Quantum Composer` kvant sxemalarini loyihalash uchun drag-and-drop grafik foydalanuvchi interfeysi hisoblanadi. U ta'lim va targ'ibotga e'tibor qaratgan holda, mutaxassis bo'lmaganlar uchun foydalanish uchun qulay bo'lishi uchun yaratilgan.
+
+Ushbu dasturlash tillarining har biri o'zining kuchli va zaif tomonlariga ega va tilni tanlash loyihaning o'ziga xos talablariga bog'liq. Ishlab chiquvchilar kvant hisoblashning hayajonli salohiyatini o'rganish uchun ularning ehtiyojlari va afzalliklariga eng mos keladigan tilni tanlashlari mumkin.
+
+
+
+## Kvant dasturlashda Pythondan Rustni ustunligi 
+
+![Linux](images/article/kvant-dasturlash/15.png)
+
+Rust ham, Python ham o'zining kuchli va zaif tomonlariga ega bo'lsa-da, Rust uni kvant hisoblash uchun yaxshi tanlovga aylantiradigan bir nechta xususiyatlarga ega:
+
+#### Tezlik
+
+Rust - bu tez va samarali bo'lish uchun mo'ljallangan kompilyatsiya qilingan til. Bu uni kvant hisoblash kabi yuqori unumdorlikni talab qiladigan ilovalar uchun juda mos keladi. Bundan farqli o'laroq, Python talqin qilinadigan til bo'lib, u ba'zi ilovalarda sekinroq bo'ladi.
+
+#### Xavfsizlik
+
+Rust xavfsiz til boʻlib ishlab chiqilgan boʻlib, bufer toʻlib ketishi va null koʻrsatgichni yoʻqotish kabi keng tarqalgan dasturlash xatolarining oldini olishga yordam beradi. Bu, ayniqsa, hisob-kitoblarning aniqligi muhim bo'lgan kvant hisoblashlarida muhimdir. Python mashhur va moslashuvchan til bo'lsa-da, Rust kabi xavfsizlikka yo'naltirilgan emas.
+
+#### Parallelizm
+
+Rust kvant hisoblashda muhim bo'lgan parallelizmni qo'llab-quvvatlash uchun mo'ljallangan. Kvant algoritmlari ko'pincha bir vaqtning o'zida bir nechta mustaqil simulyatsiyalarni bajarishni talab qiladi va Rustning parallelizmni qo'llab-quvvatlashi buni samaraliroq qiladi. Python-ning parallelizmni qo'llab-quvvatlashi cheklangan va ko'pincha tashqi kutubxonalardan foydalanishni talab qiladi.
+
+#### Low-leveldagi boshqaruv
+
+Rust - bu tizim dasturlash tili bo'lib, u xotirani boshqarish va tizim darajasidagi boshqa operatsiyalar ustidan low-lewel darajadagi nazoratni ta'minlaydi. Bu maxsus apparat uchun kodni optimallashtirishni osonlashtiradi, bu esa kvant hisoblashda muhim, bunda apparatga xos optimallashtirish ish faoliyatini sezilarli darajada yaxshilashga olib kelishi mumkin. Python, yuqori darajadagi til bo'lsa-da, low-lweldagi optimallashtirishga unchalik mos kelmaydi.
+
+Qisqa qilib aytganda, Rustning ishlashi, xavfsizligi, parallelligi va low-leweldagi boshqaruvi uni kvant hisoblash ilovalari uchun samarador tanlovga aylantiradi, ayniqsa yuqori unumdorlik va apparatga xos optimallashtirish muhim bo'lgan hollarda.
+
+Kvant hisoblashning salohiyati juda katta, ammo u o'z va'dasini amalga oshirishdan oldin yengib o'tish kerak bo'lgan muhim qiyinchiliklar mavjud. Ba'zi asosiy muammolar qatoriga xatolarni tuzatish zarurati, kvant tizimlarini kengaytirish qiyinligi va texnologiyaning hozirgi holati kiradi. Xatolarni tuzatish juda muhim, chunki kvant tizimlari noisega va xatolarga olib kelishi mumkin bo'lgan atrof-muhit omillariga juda sezgir. Kvant tizimlarini kengaytirish qiyinligi qiyin, chunki mazmunli hisoblash uchun zarur bo'lgan qubitlar soni hozirda cheklangan va qubitlar sonini ko'paytirish qo'shimcha noise va xatolarga olib kelishi mumkin.
+
+Ushbu qiyinchiliklarga qaramay, bu sohada sezilarli yutuqlarga erishildi va bir nechta kompaniyalar va tadqiqot guruhlari kengaytiriladigan kvant hisoblash tizimlarini yaratish ustida ishlamoqda. Ushbu tizimlar keng tarqalib borar ekan, kvant kompyuterlari uchun kod yoza oladigan dasturchilarga talab ortib boradi. Kvant dasturlashni o'rganishga qiziquvchilar uchun Internetda ko'plab resurslar mavjud, jumladan, o'quv qo'llanmalari, onlayn kurslar va amaliyot dasturlari.
+
+Qisqa qilib aytganda, kvant hisoblash shiddat bilan rivojlanayotgan soha bo‘lib, kriptografiya, optimallashtirish va simulyatsiya kabi sohalardagi murakkab muammolarni hal qilish uchun ulkan salohiyatga ega. Hali hal qilinishi kerak bo'lgan jiddiy muammolar mavjud bo'lsa-da, so'nggi bir necha yil ichida bu sohada erishilgan yutuqlar ta'sirchan bo'ldi va kvant hisoblashning kelajakdagi istiqbollari hayajonli. Ko'proq tadqiqotchilar va kompaniyalar texnologiyaga sarmoya kiritar ekan, kelgusi yillarda kvant hisoblashlari kompyuter fanining tobora muhim sohasiga aylanishi mumkin.
+
+
+
+## Kvant dasturlashni o'rganish
+
+Kvant dasturlashni o'rganishga qiziquvchilar uchun boshlash uchun bir nechta onlayn resurslar mavjud. Ba'zi mashhur onlayn kurslar va qo'llanmalar quyidagilarni o'z ichiga oladi:
+
+#### [IBM Quantum Experience](https://quantum-computing.ibm.com/)
+
+IBM kvant kompyuterlariga, shuningdek, oʻquv qoʻllanmalari va misol dasturlari toʻplamiga kirishni taʼminlovchi bepul onlayn platforma.
+
+#### [Qiskit Textbook](https://qiskit.org/textbook/preface.html)
+
+Qiskit yordamida kvant hisoblash, kvant mexanikasi va kvant dasturlash asoslarini qamrab olgan keng qamrovli onlayn darslik.
+
+#### [Microsoft Quantum Development Kit](https://azure.microsoft.com/en-us/resources/development-kit/quantum-computing/)
+
+Microsoft-ning Q# dasturlash tilidan foydalangan holda kvant kompyuterlarini dasturlash uchun toollar va o'quv qo'llanmalar to'plami.
+
+#### [Rigetti Forest](https://pyquil-docs.rigetti.com/en/v2.3.0/)
+
+Rigetti kvant kompyuterlariga, shuningdek, o'quv qo'llanmalari va misol dasturlariga kirishni ta'minlaydigan cloudga asoslangan kvant hisoblash platformasi.
+
+#### Kelajakdagi ishlanmalar
+
+Kvant hisoblash sohasi jadal rivojlanmoqda va davom etayotgan tadqiqot va ishlanmalar yanada mustahkam va kengaytiriladigan kvant hisoblash tizimlarini, shuningdek, yanada kuchli va foydalanuvchilarga qulay kvant dasturlash tillarini yaratishga qaratilgan. Kvant dasturlash tillarida davom etayotgan ba'zi ishlanmalarga quyidagilar kiradi:
+
+#### Gibrid klassik-kvant dasturlash
+
+Klassik va kvant hisoblashlarni birlashtirishga imkon beruvchi dasturlash tillarini ishlab chiqish.
+
+#### Avtomatlashtirilgan xatolarni tuzatish
+
+Avtomatlashtirilgan xatolarni tuzatishni o'z ichiga olgan dasturlash tillarini ishlab chiqish, xatolarni qo'lda tuzatishga bo'lgan ehtiyojni kamaytiradi.
+
+#### Yaxshilangan simulyatsiya imkoniyatlari
+
+Kvant hisoblash tizimlarini aniqroq simulyatsiya qila oladigan dasturlash tillarini ishlab chiqish, bu yanada samaraliroq va samarali sinov va optimallashtirish imkonini beradi.
+
+## Xulosa yakun
+
+Kvant dasturlash tillari kvant hisoblash kelajagining muhim tarkibiy qismidir. Soha o'sishda va rivojlanishda davom etar ekan, tadqiqotchilar va amaliyotchilar uchun eng so'nggi ishlanmalar va vositalardan xabardor bo'lish juda muhimdir. Kuchliroq va foydalanuvchilarga qulay kvant dasturlash tillarining davom etayotgan rivojlanishi bilan kvant hisoblashning kelajagi istiqbolli ko'rinadi. Kvant hisoblashlari kengroq qo'llanilsa, kvant dasturlash kriptografiya, optimallashtirish va simulyatsiya kabi sohalarga ta'sir ko'rsatadigan kompyuter fanining tobora muhim sohasiga aylanishi mumkin.
+
+Xato va kamchiliklar bo'lsa uzur so'rayman )
+
+Muallif: [Otabek Ismoilov](https://t.me/Otabek_Ismoilov)
+
+Hamjamiyat: [Xinux](https://www.xinux.uz/)

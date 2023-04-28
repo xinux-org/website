@@ -16,4 +16,10 @@ export default withNextra({
   eslint: {
     ignoreDuringBuilds: true,
   },
+  rewrites: async () => [
+    {
+      source: "/download/latest",
+      destination: "https://mirror.dc.uz/xinux/iso/",
+    }
+  ],
 });

@@ -87,3 +87,69 @@ Kengaytirilgan tilni qo'llab-quvvatlash: Vaqt o'tishi bilan WebAssembly-ga kompi
 WebAssembly System Interface (WASI): 2019-yilda taqdim etilgan WASI modulli tizim interfeysi boʻlib, WebAssembly modullariga operatsion tizim bilan oʻzaro aloqada boʻlish va tizim resurslariga xavfsiz kirish imkonini beradi. Ushbu ishlanma WebAssembly-ning qo'llanilishini brauzerdan tashqari kengaytirib, uni server tomonida va boshqa brauzer bo'lmagan kontekstlarda ishlatish imkonini berdi.
 
 WebAssembly rivojlanishda davom etmoqda, parallellikni ta'minlovchi threadlar va ma'lum operatsiyalar uchun ishlashni optimallashtiradigan SIMD (Single Instruction Multiple Data) kabi takliflar ustida ish olib borilmoqda. Ushbu va boshqalar kelajakda WebAssembly imkoniyatlarini yanada oshirishi kutilmoqda.
+
+### Implemention
+WebAssembly dastlab veb-brauzerda near-native tezligini yoqish uchun ishlab chiqilgan bo'lsa-da, u bundan tashqari, umumiy kontekstlarda qimmatli deb hisoblanadi. WebAssembly runtime environmentlari (RE) low leveldagi virtual stack machinelari (JVM yoki Flash VM ga o'xshash) bo'lib, ular xost ilovalariga kiritilishi mumkin, ularning ba'zilari Wasmtime va Wasmer kabi standalone runtime environmenlariga yo'l topdilar.
+
+### Veb-brauzerlar
+2017 yil noyabr oyida Mozilla Edge 16 da default holda WebAssembly yoqilganidan soʻng, Mozilla barcha asosiy brauzerlarda qoʻllab-quvvatlashni eʼlon qildi. Qo'llab-quvvatlash iOS va Android uchun mobil veb-brauzerlarni o'z ichiga oladi. 2023-yil aprel holatiga koʻra, oʻrnatilgan brauzerlarning 96% WebAssembly-ni qoʻllab-quvvatlaydi (1.0-versiya). Ammo eski brauzerlar uchun Wasm asm.js ga JavaScript polyfill orqali kompilyatsiya qilinishi mumkin.
+
+
+## Kompilyatorlar
+
+WebAssembly ilovalari odatda oldindan (AOT) yoki o'z vaqtida (JIT) kompilyatsiyasidan foydalanadi, lekin interpretatordan ham foydalanishi mumkin. Birinchi ilovalar veb-brauzerlarda paydo bo'lgan bo'lsa-da, umumiy maqsadlarda foydalanish uchun brauzer bo'lmagan ilovalar ham mavjud, jumladan Wasmer, Wasmtime yoki WAMR, wasm3, WAVM va boshqalar. WebAssembly executable(bajariladigan) fayllar oldindan kompilyatsiya qilinganligi sababli ularni yaratish uchun turli dasturlash tillaridan foydalanish mumkin. Bunga Wasm-ga to'g'ridan-to'g'ri kompilyatsiya qilish yoki Wasm-da tegishli virtual mashinalarni amalga oshirish orqali erishiladi. Wasm-ni kompilyatsiya maqsadi sifatida qo'llab-quvvatlaydigan 40 ga yaqin dasturlash tillari haqida xabar berilgan. 
+
+Emscripten, Binaryen va LLVM-dan foydalanib, C va C++ ni Wasmga kompilyatsiya qiladi. Emscripten SDK har qanday LLVM tomonidan qo'llab-quvvatlanadigan tillarni (masalan, C, C++ yoki Rust va boshqalar) manba kodini JavaScript kodi bilan bir xil sandboxda ishlaydigan binary faylga kompilyatsiya qilishi mumkin. Emscripten WebGL kabi bir nechta tez-tez ishlatiladigan muhit interfeyslari uchun ulanishlarni ta'minlaydi.
+
+8-versiyadan boshlab, mustaqil Clang C va C++ ni Wasm-ga kompilyatsiya qilishi mumkin. Uning boshlang'ich maqsadi C va C++ dan kompilyatsiya qilishni qo'llab-quvvatlash edi, lekin Rust, .NET va AssemblyScript (TypeScript-ga o'xshash) kabi boshqa manba tillarini qo'llab-quvvatlash ham paydo bo'lmoqda.
+
+MVP chiqarilgandan so'ng, WebAssembly-ni C# (Blazor orqali qo'llab-quvvatlanadi), F# (Blazor yordamida Bolero orqali qo'llab-quvvatlanadi) kabi garbage-collecterli dasturlash tillari uchun kompilyatsiya maqsadiga aylantiradigan multithreading garbage-collecterni qo'llab-quvvatlash rejalari mavjud.
+
+Python va hatto JavaScript-da brauzerning just-in-time kompilyatsiya tezligi juda sekin hisoblanadi. Python, Julia, va Ruby kabi bir qator boshqa tillar ham qoʻllab-quvvatlanadi. Bir qator tizimlar Java va boshqa bytecode tillarini JavaScript va WebAssembly-ga kompilyatsiya qilishlari mumkin. Bularga CheerpJ, JWebAssembly va TeaVM kiradi. Bularning barchasi Java byte codi .class fayllarini kirish sifatida qabul qiladi va Groovy, Kotlin va Scala kabi boshqa JVM tillaridan ham foydalanishga imkon beradi.
+
+## Cheklovlar
+
+* Umuman olganda, WebAssembly DOM bilan to'g'ridan-to'g'ri ishlashga ruxsat bermaydi. Barcha interactionlar JavaScript interop orqali o'tishi kerak.
+
+* Garbage collectionning yo'qligi (garchi buni hal qilish rejalashtirilgan bo'lsa ham).
+
+* Xavfsizlik masalalari
+
+WebAssembly desktopda va mobil qurilmalarda qo'llab-quvvatlanadi, ammo ikkinchisida amalda (kichik bo'lmagan xotira ajratish uchun, masalan, Unity o'yin mexanizmida) "ko'plab ilovalarni mobil brauzerlarda ishonchli tarzda joylashtirishni imkonsiz qiladigan jiddiy cheklovlar mavjud. Hozirda ~300MB dan ortiq xotira ajratish Chrome-ga xos vaqtinchalik yechimlarga murojaat qilmasdan Android-dagi Chrome-da ham, iOS-dagi Safari-da ham ishonchli emas."
+
+To'g'ridan-to'g'ri Document Object Model (DOM) kirish imkoniyati yo'q; ammo, buning uchun proksi-server funksiyalarini yaratish mumkin, masalan, Rust tilidan foydalanganda `stdweb` yoki `web_sys` orqali. Barcha asosiy veb-brauzerlar, agar  Content-Security-Policy (Kontent-Xavfsizlik-Siyosat) ko'rsatilmagan bo'lsa yoki "unsafe-eval (xavfsiz baholash)" ishlatilsa, WebAssembly-ga ruxsat beradi, lekin aks holda asosiy veb-brauzerlar boshqacha harakat qiladi.
+
+## WASI
+
+WebAssembly System Interface (WASI) Mozilla tomonidan ishlab chiqilgan oddiy interfeys (ABI va API) boʻlib, har qanday platformaga koʻchma boʻlishi uchun moʻljallangan. U POSIX-ga o'xshash xususiyatlarni taqdim etadi, masalan, imkoniyatlarga asoslangan xavfsizlik bilan cheklangan fayl I/O kiritish-chiqarish. Yana bir nechta taklif qilingan ABI/API mavjud.
+
+WASI yoki WebAssembly System Interface - bu WebAssembly (Wasm) ilovalari uchun mo'ljallangan modulli tizim interfeysi. WebAssembly veb-ilovalar uchun low-leveldagi binary format bo'lib, u JavaScript-ga qaraganda tezroq va samaraliroq bo'lishni maqsad qilib qo'yadi, shu bilan birga C, C++ va Rust kabi yuqori darajali tillarni kompilyatsiya qilish uchun portativ maqsaddir.
+
+WASI WebAssembly ilovalari va xost tizimi o'rtasida izchil va xavfsiz interfeysni ta'minlaydi, bu Wasm dasturlariga fayllar, tarmoq ulanishlari va muhit o'zgaruvchilari kabi operatsion tizim resurslariga kirish imkonini beradi. WASI maqsadi WebAssembly uchun turli platformalar va operatsion tizimlarda ishlaydigan standartlashtirilgan tizim interfeysini yaratishdir, bu esa dasturchilarga Wasm ilovalarini yaratish va joylashtirishni osonlashtiradi.
+
+Standart interfeysni taqdim etish orqali WASI WebAssembly ilovalarini yanada ko‘chma, sinov muhitiga ega va xavfsizroq bo‘lishiga yordam beradi, chunki ular kodni o‘zgartirishni talab qilmasdan turli operatsion tizimlar va qurilmalarda ishlashi mumkin. WASI-ning modulli dizayni, shuningdek, ishlab chiquvchilarga o'z ilovalari uchun kerakli interfeys qismlaridan foydalanishga imkon beruvchi maxsus API-larni bosqichma-bosqich qabul qilishga imkon beradi.
+
+Docker asoschilaridan biri Solomon Hykes 2019 yilda shunday deb yozgan edi: “Agar WASM+WASI 2008-yilda mavjud bo‘lganida, biz Docker-ni yaratishimiz shart emas edi. Bu qanchalik muhim. Serverdagi WebAssembly - bu hisoblashning kelajagi." Wasmer, 1.0 versiyasida "dasturiy ta'minotni konteynerlashtirishni ta'minlaydi, biz Linux, macOS, Windows va veb-brauzerlar kabi operatsion tizimlarni o'z ichiga olgan holda istalgan joyda o'zgartirilmagan holda ishlaydigan universal binary(ikkilik) fayllarni yaratamiz. Wasm xavfsiz bajarilishi uchun ilovalarni standart bo'yicha avtomatik ravishda sandboxga o'tkazadi"
+
+## Virtual machine
+
+Wasm kodi (ikkilik kod, ya'ni bayt kod) portativ virtual stek mashinasida (VM) ishga tushirish uchun mo'ljallangan. VM JavaScript-ga qaraganda tezroq tahlil qilish va bajarish va ixcham kod taqdimotiga ega bo'lish uchun mo'ljallangan. Wasm binary kodi tomonidan kutilishi mumkin bo'lgan tashqi funksionallik (masalan, tizimli syscall-lar) standartda ko'zda tutilmagan. Bu, aksincha, VM ilovasi ishlaydigan xost muhiti tomonidan modullar orqali interfeyslarni yetkazib berish usulini taqdim etadi.
+
+WebAssembly virtual mashinasi kompilyatsiya, instantsiya va execution kabi bir necha bosqichda ishlaydi. Bu jarayon qanday ishlashi haqida umumiy ma'lumot:
+
+#### Kompilyatsiya
+
+Dasturchi kodni C, C++ yoki Rust kabi yuqori darajadagi tilda yozadi, keyin esa WebAssembly bayt-kodiga kompilyatsiya qilinadi. Bu brauzerlar tomonidan tez va oson dekodlash uchun maxsus ishlab chiqilgan ikkilik format.
+WebAssembly ikkilik kodi (.wasm) veb-sahifaga odatda WebAssembly moduli bilan o'zaro aloqada bo'lgan JavaScript kodi bilan birga yuklanadi.
+
+#### Instantiation
+
+Brauzer WebAssembly modulini yuklaganida, u to‘g‘ri formatlanganligi va bajarilishi xavfsiz ekanligiga ishonch hosil qilish uchun avval modul bayt kodini tekshiradi. Ushbu qadam WebAssembly ilovalarining xavfsizligi ta'minlash uchun zarurdir.
+Brauzer keyin WebAssembly bayt-kodini Just-In-Time (JIT) kompilyatsiyasi yoki oldindan (AOT) kompilyatsiyasidan foydalangan holda xost mashinasi uchun optimallashtirilgan mahalliy mashina kodiga kompilyatsiya qiladi.
+Kompilyatsiyadan so'ng WebAssembly namunasi yaratiladi, u xotira, table va execution uchun zarur bo'lgan boshqa WebAssembly-ga xos elementlarni o'z ichiga oladi.
+
+#### Execution
+
+JavaScript endi optimallashtirilgan mahalliy mashina kodi tufayli deyarli near-native tezlikda bajariladigan WebAssembly funksiyalarini chaqirishi mumkin. WebAssembly nusxasi va JavaScript WebAssembly xotirasini almashishi va boshqarishi va veb-sahifaning DOM (Document Object Model) bilan o'zaro ta'sir qilishi mumkin.
+
+WebAssembly-ning sandboxda execution environment kodning xavfsiz ishlashini ta'minlaydi, tizim resurslariga ruxsatsiz kirishni oldini oladi va zararli kodlar bajarilishini cheklaydi. WebAssembly virtual mashinasi veb-brauzerlarda yuqori unumli ilovalarni bajarishga imkon beradi va an'anaviy JavaScript-ga nisbatan sezilarli yaxshilanishni ta'minlaydi. Sandboxing va tekshirish orqali xavfsiz va xavfsiz muhitni saqlab qolgan holda, u kodni near-native tezlikda kompilyatsiya qiladi va bajaradi.

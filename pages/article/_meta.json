@@ -3,5 +3,6 @@
   "kernel": "Kernel nima va u qanday ishlaydi?",
   "kvant-dasturlashga-sayohat": "Kvant dasturlashga sayohat",
   "llvm-arxitekturasi": "LLVM Arxitekturasi",
-  "blockchain": "Blockchain"
+  "blockchain": "Blockchain",
+  "wasm": "WebAssembly WASM"
 }

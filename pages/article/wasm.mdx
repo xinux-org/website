@@ -153,3 +153,135 @@ Kompilyatsiyadan so'ng WebAssembly namunasi yaratiladi, u xotira, table va execu
 JavaScript endi optimallashtirilgan mahalliy mashina kodi tufayli deyarli near-native tezlikda bajariladigan WebAssembly funksiyalarini chaqirishi mumkin. WebAssembly nusxasi va JavaScript WebAssembly xotirasini almashishi va boshqarishi va veb-sahifaning DOM (Document Object Model) bilan o'zaro ta'sir qilishi mumkin.
 
 WebAssembly-ning sandboxda execution environment kodning xavfsiz ishlashini ta'minlaydi, tizim resurslariga ruxsatsiz kirishni oldini oladi va zararli kodlar bajarilishini cheklaydi. WebAssembly virtual mashinasi veb-brauzerlarda yuqori unumli ilovalarni bajarishga imkon beradi va an'anaviy JavaScript-ga nisbatan sezilarli yaxshilanishni ta'minlaydi. Sandboxing va tekshirish orqali xavfsiz va xavfsiz muhitni saqlab qolgan holda, u kodni near-native tezlikda kompilyatsiya qiladi va bajaradi.
+
+## Instruction set
+
+Wasm dasturining binary formati uchun asosiy standart VM tomonidan bajariladigan operatsiyalar turlarining o'ziga xos binary kodlashlaridan tashkil topgan instruction set architecture (ISA) (tarjimasi ko'rsatmalar to'plami arxitekturasi) belgilaydi. instructionlar ro'yxati standart xotira load/store instructionlari, numeric, parametric, control flow instructionlari turlarini boshqarish va Wasm-ga xos o'zgaruvchan instructionlarni o'z ichiga oladi. 
+
+Asl standartda (MVP) foydalanilgan opcodelar soni 256 ta mumkin boʻlgan opcodedan 200 tadan ozroq edi. WebAssembly-ning keyingi versiyalari opcodelar sonini 200 dan biroz oshirdi. WebAssembly SIMD proposal (parallel ishlov berish uchun) 128-bitli SIMD uchun muqobil opcode prefiksini (0xfd) taqdim etadi. SIMD prefiksining birlashuvi, shuningdek, SIMD prefiksidan keyin amal qiladigan opcode SIMD opcodini hosil qiladi. SIMD opcodelari "minimum viable product" (MVP) SIMD uchun qo'shimcha 236 ta instructionlarni (jami 436 ta instructionlar uchun) olib keladi. Ushbu instructionlar, "yakunlangan operatsiya kodlari" Google-ning V8 (Google Chrome-da) va Mozilla Firefox-ning tegishli enginesida (lekin veb-brauzerlarning barqaror versiyalarida yoqilmagan) amalga oshiriladi.
+
+![WASM](images/article/wasm/3.png)
+
+## Kod 
+
+2017-yil mart oyida WebAssembly hamjamiyat guruhi boshlang‘ich (MVP) binary formati, JavaScript API va reference interpretator bo‘yicha konsensusga erishdi. WebAssembly binary format bo'lib, u asosan odamlar tomonidan o'qilmaydigan, kompyuterlar tomonidan bajarilishi uchun mo'ljallangan. Shu bilan birga, WebAssembly uchun WebAssembly Text Format (yoki qisqacha .wat) deb nomlangan matn formati ham mavjud bo'lib, u inson tomonidan o'qilishi uchun mo'ljallangan.
+
+Quyidagi jadvalda C da yozilgan 2ta sonni qo'shish va kompilyatsiyadan so'ng unga mos keladigan WebAssembly kodi misoli ko'rsatilgan WebAssembly-ni qo'llab-quvvatlaydigan veb-brauzer yoki runtime environment tomonidan bajariladigan .wat matn formatida (WebAssemblyning odam o'qiy oladigan matnli ko'rinishi) va .wasm binary formatida ko'rsatilgan.
+
+                         C manba kodi va WebAssembly
+
+`C` kodi
+```c
+#include <stdio.h>
+
+int main() {
+    int a = 5;
+    int b = 7;
+    int c;
+    c = a + b;
+    printf("Natija: %d\n", c);
+
+    return 0;
+}
+
+```
+
+                       WebAssembly .wat matn formati
+
+```wasm
+(module
+ (type $FUNCSIG$ii (func (param i32) (result i32)))
+ (type $FUNCSIG$iii (func (param i32 i32) (result i32)))
+ (import "env" "printf" (func $printf (param i32 i32) (result i32)))
+ (table 0 anyfunc)
+ (memory $0 1)
+ (data (i32.const 16) "Natija: %d\n\00")
+ (export "memory" (memory $0))
+ (export "main" (func $main))
+ (func $main (; 1 ;) (result i32)
+  (local $0 i32)
+  (i32.store offset=4
+   (i32.const 0)
+   (tee_local $0
+    (i32.sub
+     (i32.load offset=4
+      (i32.const 0)
+     )
+     (i32.const 16)
+    )
+   )
+  )
+  (i32.store
+   (get_local $0)
+   (i32.const 12)
+  )
+  (drop
+   (call $printf
+    (i32.const 16)
+    (get_local $0)
+   )
+  )
+  (i32.store offset=4
+   (i32.const 0)
+   (i32.add
+    (get_local $0)
+    (i32.const 16)
+   )
+  )
+  (i32.const 0)
+ )
+)
+
+```
+                     WebAssembly `.wasm` binary formati
+
+```wasm
+wasm-function[1]:
+  sub rsp, 0x28                         ; 0x000000 48 83 ec 28
+  cmp qword ptr [r14 + 0x28], rsp       ; 0x000004 49 39 66 28
+  jae 0x78                              ; 0x000008 0f 83 6a 00 00 00
+ 0x00000e:                              
+  mov esi, dword ptr [r15 + 4]          ; 0x00000e 41 8b 77 04
+  sub esi, 0x10                         ; 0x000012 83 ee 10
+  mov dword ptr [rsp + 0x1c], esi       ; 0x000015 89 74 24 1c
+  mov dword ptr [r15 + 4], esi          ; 0x000019 41 89 77 04
+  mov dword ptr [r15 + rsi], 0xc        ; 0x00001d 41 c7 04 37 0c 00 00 00
+  mov edi, 0x10                         ; 0x000025 bf 10 00 00 00
+  mov qword ptr [rsp], r14              ; 0x00002a 4c 89 34 24
+  mov rax, qword ptr [r14 + 0x30]       ; 0x00002e 49 8b 46 30
+  mov r14, qword ptr [r14 + 0x38]       ; 0x000032 4d 8b 76 38
+  mov r15, qword ptr [r14 + 0x18]       ; 0x000036 4d 8b 7e 18
+  call rax                              ; 0x00003a ff d0
+  mov r14, qword ptr [rsp]              ; 0x00003c 4c 8b 34 24
+  mov r15, qword ptr [r14 + 0x18]       ; 0x000040 4d 8b 7e 18
+  mov eax, dword ptr [rsp + 0x1c]       ; 0x000044 8b 44 24 1c
+  add eax, 0x10                         ; 0x000048 83 c0 10
+  mov dword ptr [r15 + 4], eax          ; 0x00004b 41 89 47 04
+  xor eax, eax                          ; 0x00004f 33 c0
+  nop                                   ; 0x000051 66 90
+  add rsp, 0x28                         ; 0x000053 48 83 c4 28
+  ret                                   ; 0x000057 c3
+
+wasm-function[0]:
+  sub rsp, 0x18                         ; 0x000000 48 83 ec 18
+  mov qword ptr [rsp], r14              ; 0x000004 4c 89 34 24
+  mov rax, qword ptr [r14 + 0x30]       ; 0x000008 49 8b 46 30
+  mov r14, qword ptr [r14 + 0x38]       ; 0x00000c 4d 8b 76 38
+  mov r15, qword ptr [r14 + 0x18]       ; 0x000010 4d 8b 7e 18
+  call rax                              ; 0x000014 ff d0
+  mov r14, qword ptr [rsp]              ; 0x000016 4c 8b 34 24
+  mov r15, qword ptr [r14 + 0x18]       ; 0x00001a 4d 8b 7e 18
+  nop                                   ; 0x00001e 66 90
+  add rsp, 0x18                         ; 0x000020 48 83 c4 18
+  ret                                   ; 0x000024 c3
+```
+
+Barcha butun son konstantalari boʻsh joyni tejaydigan, oʻzgaruvchan uzunlikdagi [`LEB128`](https://en.wikipedia.org/wiki/LEB128) kodlash yordamida kodlangan. WebAssembly matn formati S-expressionlari yordamida folded formatda ko'proq kanonik(canonicall) tarzda yozilgan. Instructionlar va expressionlar uchun bu format sof syntactic sugar bo'lib, chiziqli(linear) format bilan xatti-harakatlarida farq qilmaydi.
+
+![WASM](images/article/wasm/4.png)
+
+[`wasmdec`](https://wwwg.github.io/web-wasmdec/) - wasm modullari uchun onlayn dekompilyator.
+
+[`wasmExplorer`](https://mbebenita.github.io/WasmExplorer/) - wasmExplorer - bu wasm modullarini ishlab chiqish va sinovdan o'tkazish uchun veb-asoslangan IDE-ni taqdim etadigan onlayn dastur.
+
+WebAssembly ish jarayoni to'rtta asosiy bosqichdan iborat.

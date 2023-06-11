@@ -567,3 +567,82 @@ Networking stack - bu tarmoq orqali qurilmalar o'rtasida aloqa o'rnatishga imkon
 Asosan, networking stacki bir necha layerlardan(qatlam) iborat bo'lib, ularning har biri tarmoq aloqasining o'ziga xos jihati uchun javobgardir. Ushbu layerlar ulanishlarni o'rnatish, ma'lumotlar uzatishni boshqarish va ishonchli yetkazib berishni ta'minlash uchun birgalikda ishlaydi. Oddiy tarmoq stek layerlarining soddalashtirilgan ko‘rinishi:
 
 #### Physical Layer
+
+Bu layer ma'lumotlarni jismoniy uzatish bilan shug'ullanadi, shu jumladan kabellar, tarmoq adapterlari va tarmoq orqali ma'lumotlarni uzatish uchun ishlatiladigan signalizatsiya usullari.
+
+#### Data Link Layer
+
+Data Link Layeri ma'lumotlarni framelar yoki paketlarga tartibga solish va tizimlashtirish, zarur boshqaruv ma'lumotlarini qo'shish va jismoniy tarmoq muhitiga kirishni boshqarish uchun javobgardir.
+
+#### Network Layer
+
+Network Layeri turli tarmoqlar bo'ylab ma'lumotlar paketlarini addressing va routing bilan shug'ullanadi. U ma'lumotlarni uzatish uchun optimal yo'lni aniqlaydi va paketlarning mo'ljallangan manziliga yetib borishini ta'minlaydi.
+
+#### Transport Layer
+
+Bu qatlam end-to-end commincate xizmatlarini, ulanishlarni o'rnatish, ma'lumotlarni kichikroq birliklarga (segmentlarga) ajratish va TCP (Transmission Control Protocol) yoki UDP (User Datagram Protocol) kabi protokollar orqali ishonchli yetkazib berishni ta'minlaydi.
+
+#### Application Layer
+
+Application Layeri muayyan tarmoq applicationlarining bir-biri bilan aloqa qilishiga imkon beruvchi protokollar va servicelarni o'z ichiga oladi. Masalan, veb-sahifalar uchun HTTP, elektron pochta uchun SMTP va fayllarni uzatish uchun FTP.
+
+Amaliy ma'noda, networking stacki qurilmalarga tarmoqlar orqali ulanish va bir-biri bilan muloqot qilish imkonini beradi. U qurilmalar oʻrtasida maʼlumotlar uzatishni boshqarish, maʼlumotlar yaxlitligi va ishonchli yetkazib berishni taʼminlash orqali internetni koʻrish, fayllarni almashish, video oqim va onlayn oʻyinlar kabi faoliyatni osonlashtiradi.
+
+![Tizim arxitekturasi](images/article/os-kernel/12.png)
+
+## Linux Security Modules
+
+Linux xavfsizlik modullari (LSM) turli xil xavfsizlik siyosatlarini(security policies) amalga oshirish uchun standartlashtirilgan interfeysni ta'minlovchi Linux kernelidagi framework hisoblanadi. U kirishni boshqarish(access control), mandatory access control (MAC) va boshqa xavfsizlik mexanizmlarini qo'llashi mumkin bo'lgan xavfsizlik modullarini qo'shish imkonini beradi.
+
+Oddiy qilib aytganda, LSM kernelga standart sozlamalardan tashqari turli xil xavfsizlik modellarini qo'llab-quvvatlash imkonini beradi. Bu system administratorga qo'shimcha xavfsizlik modullarini ulash orqali o'zlarining Linux tizimlari xavfsizligini oshirishga imkon beradi.
+
+Ushbu xavfsizlik modullari fayl tizimi ruxsatlari(file system permission), tarmoqqa kirishni boshqarish(network access control), process cheklovlari(process restrictions) va boshqalar kabi poliselarni amalga oshirishi mumkin.
+
+LSM bir vaqtning o'zida bir nechta xavfsizlik modullaridan foydalanishga imkon beruvchi moslashuvchanlik va kengayishni ta'minlaydi. Ushbu modulli yondashuv Linux kerneliga uning asosiy kod bazasini o'zgartirmasdan uchinchi tomon xavfsizlik yechimlarini integratsiyalashni osonlashtiradi.
+
+Bir nechta Linux security extensionlari kengaytirilgan security policelarini qo'llash uchun LSM dan foydalanadi. 
+
+Mana bir nechta diqqatga sazovor misollar:
+
+#### Security Enhanced Linux (SELinux)
+
+![Tizim arxitekturasi](images/article/os-kernel/13.jpg)
+
+SELinux keng qoʻllaniladigan security extensioni boʻlib, mandatory access control (MAC) policelarini amalga oshiradi. U processlarga, fayllarga va tarmoq resurslariga tayinlangan security labellariga asoslangan fine-grained access controlini amalga oshiradi.
+
+#### AppArmor
+
+![Tizim arxitekturasi](images/article/os-kernel/14.png)
+
+AppArmor - bu  application-leveldagi xavfsizlikka qaratilgan yana bir mashhur security extension. U LSM dan individual applicationlar uchun xavfsizlik profillarini aniqlash va joriy qilish, ularning resurslarga kirishini cheklash va xavfsizlikning mumkin bo'lgan zaifliklarining ta'sirini kamaytirish uchun foydalanadi.
+
+#### Tomoyo
+
+Tomoyo Linux - bu fine-grained system-wide protectionni ta'minlaydigan  lightweight access control tizimi. U LSM dan domain-specific policy konfiguratsiyasiga asoslangan poliselarni amalga oshirish, oldindan belgilangan qoidalarga asoslangan muayyan harakatlarga ruxsat berish yoki rad etish uchun foydalanadi.
+
+#### Smack
+
+Smack (Simplified Mandatory Access Control Kernel) bu soddalashtirilgan MAC yondashuvidan foydalanadigan Linux xavfsizlik modulidir. U processlar va obyektlarga security labellarini belgilash uchun LSM dan foydalanadi, bu esa ushbu teglar asosida kirishni boshqarish qarorlarini qabul qilish imkonini beradi.
+
+LSM dan foydalangan holda, ushbu xavfsizlik kengaytmalari Linux yadrosi bilan muammosiz integratsiyalashishi va maxsus xavfsizlik siyosatini amalga oshirishi mumkin. Ushbu modulli yondashuv tizim ma'murlariga o'z talablariga eng mos keladigan xavfsizlik kengaytmasini tanlash va yadroning asosiy kod bazasini o'zgartirmasdan qo'llash imkonini beradi.
+
+LSM Linux kernelining xavfsizlik imkoniyatlarini oshiradigan, turli xil kirishni boshqarish va xavfsizlik siyosatlarini amalga oshirish uchun qo'shimcha xavfsizlik modullarini amalga oshirish imkonini beruvchi framework hisoblanadi.
+
+<Callout type="info" emoji="">
+
+Bu shunchaki kirish mavzu edi holos )
+
+Biz bu maqolada asosiy ishlatiladigan atamalarni yuzaki ko'rib chiqdik aslida bularni har biri katta katta mavzu hisoblanadi :)
+Keyingi qimslarda bularni hammasiga alohida alohida to'xtalamiz.
+
+Xato va kamchiliklar bo'lsa uzur so'rayman :)
+
+[Telegram Blog](https://t.me/Otabek_Ismoilov)
+
+Foydanilgan Manbalar
+
+[linux-kernel-labs](https://linux-kernel-labs.github.io/refs/heads/master/lectures/intro.html)
+
+va boshqa ko'plab manbalar
+
+</Callout>

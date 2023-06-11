@@ -256,3 +256,148 @@ Dastlab Linus Torvalds tomonidan yozilgan Linux kerneli open source dasturiy ta'
 Shunday qilib, siz Internetni ko'rib chiqyapsizmi, hujjat yozyapsizmi yoki Linux tizimida o'yin o'ynayapsizmi, barchasi muammosiz ishlashi uchun sahna ortida ishlaydigan Linux kerneli.
 
 ### Linux development model
+
+![Tizim arxitekturasi](images/article/os-kernel/19.png)
+
+Linux operatsion tizimi ko'pincha "Linux kernel development model" deb ataladigan ishlab chiqish modeliga amal qiladi. Bu open source loyihadir, ya'ni manba(source) kodi ommaga ochiq(public) va har kim unga hissa qo'shishi(contribute qilishi) mumkin. Biroq, bu jarayonni boshqaradigan ba'zi asosiy tamoyillar va rollar mavjud:
+
+Linus Torvalds: Linuxning asl yaratuvchisi Linus Torvalds hali ham Linux kernelini ishlab chiqish bo'yicha eng yuqori vakolatga ega. Qaysi o'zgartirishlar, tuzatishlar va qo'shimchalar uni asosiy kernel deb nomlanuvchi kernelning rasmiy versiyasiga kiritishini oxir-oqibat u hal qiladi.
+
+Maintainerlar: Tarmoq drayverlari yoki fayl tizimlari kabi kernelning muayyan qismlari uchun mas'ul bo'lgan ko'plab subsystem maintainerlari mavjud. Ular kernelning tegishli qismlari uchun o'zgarishlarni ko'rib chiqadilar va qabul qiladilar, so'ngra bu o'zgarishlarni yakuniy tasdiqlash uchun Linus Torvaldsga topshiradilar.
+
+Contributorlar: Har kim kodni yaxshilash yoki xatolarni tuzatish orqali Linux kerneliga contribute qilishi mumkin. Contributionlar odatda tegishli subsystem maintainerlariga elektron pochta orqali patcheslar sifatida yuboriladi.
+
+Release Cycle: Linux kerneli yangi versiyalar odatda har 9-10 haftada chiqariladigan release cyclelini kuzatib boradi. Har bir reliz davri ikki haftalik bmerge windowni o'z ichiga oladi, unda yangi xususiyatlar qo'shiladi, so'ngra barqarorlashtirish davri keladi, bu yerda faqat xatolarni tuzatish qabul qilinadi.
+
+Linux Distributionlari: Rasmiy Linux kerneli turli xil Linux distributivlari uchun asos bo'lib xizmat qiladi (Ubuntu, Fedora va boshqalar). Ushbu distributionlar asosiy kernel ustiga qo'shimcha funksiyalar, oldindan tuzilgan sozlamalar yoki foydalanuvchi uchun qulay vositalarni qo'shishi mumkin.
+
+GPL Litsenziyasi: Linux kerneli GNU General Public License (GPL) ostida chiqarilgan boʻlib, u har kimga dasturiy taʼminotdan foydalanish, oʻzgartirish va tarqatish imkonini beradi, agar ular har qanday oʻzgartirish yoki yaxshilanishlar kiritsa, open source.
+
+Open Source va hamkorlikdagi rivojlanish modeli Linuxni kichik embedded qurilmalardan tortib yirik superkompyuterlargacha bo'lgan hamma narsada qo'llanilishiga olib keldi. Turli xil contributorlar va foydalanuvchilar uni doimiy ravishda rivojlantirish va takomillashtirishga yordam beradi.
+
+![Tizim arxitekturasi](images/article/os-kernel/20.png)
+
+### Maintainer hierarchy
+
+Linux kerneli ishlab chiquvchilarning ierarxik tuzilishi(hierarchical structure) bilan ta'minlanadi, uni quyidagicha soddalashtirish mumkin:
+
+Linus Torvalds: Ierarxiyaning yuqori qismida Linuxning asl yaratuvchisi Linus Torvalds turadi. Rasmiy Linux kerneliga qaysi oʻzgarishlar kiritilishi haqida soʻnggi soʻzni u aytadi.
+
+Leytenant Maintainerlar: Linusning to'g'ridan-to'g'ri ostida leytenant maintainerlar, vaqt o'tishi bilan izchil va yuqori sifatli hissa(contribute qilgan) qo'shgan ishonchli shaxslar. Bu shaxslar kernelning turli qismlarini saqlab turadilar, o'ziga xos subsystem(quyi tizim)lari uchun patchelarni ko'rib chiqadilar va Linusga ma'qullagan patchelarni yo'naltiradilar.
+
+Subsystem Maintainerlari: Ushbu Maintainerlar Linux kernelining networking stackgi(tarmoq stegi), fayl tizimi, qurilma drayverlari va boshqalar kabi ma'lum subsystemlari yoki componentlari(tarkibiy qismlari) uchun javobgardir. Ular o'z hududiga tegishli patchelar va contributionlarni ko'rib chiqadilar va o'zlari ma'qullaganlarini leytenantga yuboradilar. maintainerlarga yoki to'g'ridan-to'g'ri Linus Torvaldsga.
+
+Contributorlar: Bular kernelga patchelarni qo'shadigan butun dunyo bo'ylab dasturchilardir. Ular o'zlarining patchelarini ko'rib chiqish uchun tegishli subsystem maintainerga taqdim etadilar.
+
+Ushbu ierarxiya Linux loyihasining keng ko'lamini boshqarishga yordam beradi, har bir relizda yuz minglab kod satrlari o'zgartiriladi. Shuni ta'kidlash kerakki, bu soddalashtirilgan tushuntirish va haqiqiy tuzilma murakkabroq va harakatchan bo'lishi mumkin, ba'zi shaxslar bir nechta rollarni o'ynaydi.
+
+
+## Linux manba kodining tartibi
+
+![Tizim arxitekturasi](images/article/os-kernel/7.png)
+
+Linux kernelining manba kodi har bir kernelning turli qismlarini o'z ichiga olgan ma'lum bir directory structureda tashkil etilgan. Bu yerda tartibning yuqori darajadagi umumiy ko'rinishi:
+
+
+`/arch:` Bu yerda siz arxitekturaga xos kodni topasiz. Linux tomonidan qo'llab-quvvatlanadigan kompyuter arxitekturasining har bir turi (masalan, `x86`, `arm`, `mips`) bu yerda alohida subdirectoryga ega.
+
+`/block:` Ushbu directoryda siz hard drivelar, SSDlar kabi storage devicelariga "blocks"lardagi ma'lumotlarni o'qish va yozishni(read/write) boshqaradigan kernelning bir qismi bo'lgan blokli I/O(input/output) qatlami kodini topasiz, va boshqa block devicelar.
+
+`/certs:` Ushbu directory module signatureni tekshirish uchun sertifikatlarni saqlash uchun ishlatiladi. Xavfsiz yuklash(secure boot) stsenariysida ushbu directorydagi sertifikatlar kernel modullarining digital signaturelarini(raqamli imzolarini) kernela yuklanishidan oldin tekshirish uchun ishlatiladi. Bu faqat ishonchli, o'zgartirilmagan modullarning yuklanishini(load) ta'minlashga yordam beradi va tizim xavfsizligini oshiradi.
+
+`/crypto:` Ushbu directoryda siz Linux kernelining kriptografik API-ni topasiz. Ushbu API turli xil kriptografik algoritmlarni amalga oshirishni o'z ichiga oladi, ular butun kernelda xavfsizlik xususiyatlarini ta'minlash uchun ishlatiladi.
+
+`/Documentation:` Ushbu directoryda siz kernelning turli qismlarini, ular qanday ishlashini va ulardan qanday foydalanishni tavsiflovchi turli xil hujjat fayllarini topasiz. Bu kernel ustida ishlaydigan developerlar yoki kernel qanday ishlashini tushunishni istaganlar uchun qimmatli manbadir.
+
+`/drivers:` Ushbu directory barcha turli hardware device driverlari uchun kodni o'z ichiga oladi. Qurilma drayveri - kernelning ma'lum bir hardware qismi bilan o'zaro ta'sirini ta'minlaydigan dasturiy ta'minot. Masalan, hard devicelar, USB devicelari, network cardlari va boshqalar uchun drayverlar mavjud. Har bir toifadagi drayverlar `/drivers` directorysida o'z subdirectorysiga ega.
+
+`/firmware:` Ushbu directoryda siz ba'zi drayverlar to'g'ri ishlashi uchun kerak bo'lgan firmware fayllarini topasiz. Firmware low-leveldagi dasturiy ta'minot bo'lib, uning funksiyalarini boshqarish uchun qurilmaga o'rnatiladi. Ba'zi hardware devicelari o'zlarining drayverlari tomonidan ma'lum firmware filelarini yuklashni talab qiladi va bu directory ushbu firmware fayllari saqlanadigan joydir.
+
+`/fs:` Ushbu directory fayl tizimi(file system) ilovalarini o'z ichiga oladi. Fayl tizimlari - bu storage devicelarida(saqlash qurilmalari) ma'lumotlarni saqlash va tartibga solish usullari. `/fs` directoryda siz Linux tomonidan qo'llab-quvvatlanadigan `ext4`, `XFS`, `Btrfs` va boshqa ko'plab fayl tizimlarining kodini topasiz.
+
+`/include:` directoryda siz butun kernelda ishlatiladigan header filelarini topasiz. Header filelari odatda funksiyalar va o'zgaruvchilarning definitionlarini, shuningdek, kernelning bir nechta qismlarida ishlatiladigan ma'lumotlar turlari va tuzilmalarini o'z ichiga oladi. Ushbu umumiy elementlarni header filelarida `/include` directoryda saqlash orqali ularni kerak bo'lganda osongina kiritish mumkin, bu kodni qayta ishlatish va tartibga solishga yordam beradi.
+
+`/init:` directory kernelni yuklash uchun javobgar bo'lgan kodni o'z ichiga oladi. Kernelni ishga tushirish jarayoni shu yerda boshlanadi, jumladan xotira boshqaruvini sozlash, dastlabki jarayonni yaratish va boshqalar.
+
+`/ipc:` directoryda siz inter-process communication(jarayonlararo aloqa)(IPC) mexanizmlarini amalga oshirishni topasiz. IPC mexanizmlari turli jarayonlarni bir-biri bilan aloqa qilish va sinxronlashtirish imkonini beruvchi usullardir. Message queuelari, emaphorelar va shared memory.
+
+`/kernel` directory Linux kernelining asosiy qismlarini o'z ichiga oladi. U process management(jarayonlarni boshqarish) (scheduling, creating va destroying process), interrupt handling va system calllarini amalga oshirish kabi muhim kichik tizimlarni o'z ichiga oladi. Aslini olganda, u kernelning "yuragi" ni ushlab turadi.
+
+`/lib` directoryda siz kernel tomonidan ishlatiladigan turli xil library routinelarini topasiz. Bular kernelning bir nechta joylarida ishlatiladigan umumiy funksiyalardir. Bularni libraryga qo‘yish orqali ularni kerakli joyda qayta ishlatish mumkin, bu esa DRY (Don't Repeat Yourself) kod bazasini saqlaydi.
+
+`/mm` directory Linux kernelining memory management subsystemni o'z ichiga oladi. U xotirani qanday ajratish, ajratish va tartibga solish, jumladan, paging va swappingni boshqaradi. Bu tizimning muhim qismi boʻlib, har bir process oʻziga kerakli xotirani olishini va jismoniy xotiradan samarali foydalanishni taʼminlaydi.
+
+`/net` directoryda turli tarmoq protokollarini (TCP/IP, UDP va boshqalar) amalga oshiradigan va tarmoq aloqasini boshqaradigan networking subsystemi joylashgan. Tarmoqlarning keng qo'llanilishi bilan bu har qanday zamonaviy operatsion tizimning muhim qismidir.
+
+`/samples` directory Linux kernelining turli funksiyalari va API-laridan qanday foydalanishni ko'rsatadigan namuna kodini o'z ichiga oladi. Bu kernel uchun kod yozishni o'rganayotgan developerlar uchun foydali bo'lishi mumkin.
+
+`/scripts` directory siz kernelni yaratish va sozlash bilan bog'liq turli maqsadlarda ishlatiladigan skriptlarni topasiz. Bunga konfiguratsiya fayllarini yaratish, kernelni kompilyatsiya qilish va boshqalar uchun skriptlar kiradi.
+
+`/security` directoryda Linux Security Modules (LSM)(Linux Xavfsizlik Modullari) frameworki hamda unga ulanishi mumkin bo'lgan turli xil xavfsizlik modullari, masalan, SELinux, AppArmor va hokazolar bor. Kernelning xavfsizlik bilan bog'liq kodining katta qismi shu yerda joylashgan. Standart (Unix) xavfsizlik modelini kengaytirish, shuningdek, SELinux, smack, apparmor, tomoyo va boshqalar kabi bir nechta kengaytmalarni amalga oshirish imkonini beruvchi Linux Xavfsizlik Moduli fremworki directorysi.
+
+`/sound` directoryda siz sound subsystemni, jumladan, ovoz drayverlari va turli xil audio qurilmalar bilan o'zaro ishlash uchun kodni topasiz. ALSA (Advanced Linux Sound System), Linux sound framework (OSS)
+
+`/tools` directory kernel bilan ishlash uchun turli xil tollarni o'z ichiga oladi. Ushbu tollarning ba'zilari kernelni ishlab chiqishda qo'llaniladi, boshqalari esa kernel bilan ishlaydigan tizimlarni boshqaruvchi administratorlar uchun foydalidir.
+
+`/usr` directory tashqi modullarni yaratish uchun  headerlar va Makefilelar mavjud. To'g'ridan-to'g'ri kernelning bir qismi bo'lmasa-da, bu fayllar kernel bilan o'zaro aloqada bo'lgan modullarni yozayotgan yoki yaratayotgan ishlab chiquvchilar uchun muhim bo'lishi mumkin.
+
+`/virt` directory virtualizatsiya bilan bog'liq kodni o'z ichiga oladi. Xususan, u Linux kerneliga integratsiyalangan virtualizatsiya yechimi bo'lgan Kernel-based Virtual Machine (KVM)(Kernelga asoslangan virtual mashina) amalga oshirishni o'z ichiga oladi.
+
+#### Linux kerneli arxitekturasi
+
+![Tizim arxitekturasi](images/article/os-kernel/8.png)
+
+
+![Tizim arxitekturasi](images/article/os-kernel/21.png)
+
+### arch
+
+Linux kerneli manba kodida `arch` directorysi arxitekturaga xos kodni bildiradi. U Linux kerneli tomonidan qo'llab-quvvatlanadigan turli protsessor arxitekturalari va platformalariga mos keladigan subdirectorilarni o'z ichiga oladi. `arch` ichidagi har bir subdirectory `x86`, `ARM`, `MIPS`, `PowerPC` va boshqalar kabi o'ziga xos arxitekturani ifodalaydi. `arch` directorysining maqsadi low-leveldagi funksionallikning arxitekturaga xos ilovalarini, jumladan, hardwarega xos kodni, qurilma drayverlari va kernelning low-level darajadagi ishga tushirish tartiblari.
+
+Keling, `arch` directorysi tuzilishining texnik tafsilotlarini ko'rib chiqaylik:
+
+#### archga xos(arch-specific) directorylar
+
+`arch/x86:` Bu directory x86 arxitekturasiga xos kodni o'z ichiga oladi, u 32-bitli va 64-bitli tizimlarni qamrab oladi. U 32 bitli tizimlar uchun `x86_32` va 64 bitli tizimlar uchun `x86_64` kabi turli xil x86 platformalari uchun subdirectorilarni o'z ichiga oladi.
+
+`arch/arm:` directoryda embedded systemlar va mobil qurilmalarda keng qo'llaniladigan ARM arxitekturasi uchun kod mavjud. U turli xil ARM platformalari uchun `arm`, `arm64`, `arm32` va boshqalar kabi kichik subdirectorilarni o'z ichiga oladi.
+
+`arch/mips:` directory odatda tarmoq uskunalari va embedded systemlarda mavjud bo'lgan MIPS arxitekturasi uchun kodni o'z ichiga oladi.
+
+`arch/powerpc:` directory turli tizimlarda, jumladan serverlar, o'yin konsollari va embedded devicelarda qo'llaniladigan PowerPC arxitekturasi uchun kodni o'z ichiga oladi.
+
+#### Machine-specific Directorylar
+
+Har bir arxitektura uchun maxsus directory ichida siz ma'lum machine yoki platforma turlari uchun qo'shimcha subdirectorilarni topasiz. Ushbu subdirectorylarda ma'lum hardware platformalari yoki oilalariga xos kod mavjud. 
+
+Masalan:
+
+`arch/x86/platforms` Bu directory da `pc`, `acer`, `dell`, kabi turli xil x86 platformalariga xos kodlar mavjud.
+
+`arch/arm/mach` directoryda `omap`, `exynos`, `imx` va boshqalar kabi turli xil ARM-ga asoslangan mashina turlariga xos kod mavjud.
+
+#### Asosiy arxitektura fayllari
+
+Machine uchun maxsus directorylardan tashqari, `arch` directorisi turli platformalarda low-leveldagi funksionallikni ta'minlaydigan asosiy arxitektura fayllarini ham o'z ichiga oladi. Bu fayllarga quyidagilar kiradi:
+
+`arch/<arch>/kernel` directory tizimni ishga tushirish(system initialization), interrupt handling, context switching, memory management va timekeeping kabi arxitekturaga xos kernel core kodini o'z ichiga oladi.
+
+`arch/<arch>/include/asm` directory hardware registerlarini, low-leveldagi ma'lumotlar turlarini va kernel tomonidan ishlatiladigan protsessorga xos makrolarni belgilaydigan arxitekturaga xos header fayllarini o'z ichiga oladi.
+
+#### Qurilma drayverlari va tashqi qurilmalar
+
+`arch` directorysi shuningdek, arxitekturaga xos bo'lgan turli xil qurilma drayverlari va tashqi qurilmalar uchun directorylarni o'z ichiga oladi. Ushbu directorylarda storage controllerlari, tarmoq interfeyslari, grafik adapterlar va boshqalar kabi muayyan hardware componentlari uchun drayverlar mavjud.
+
+`arch` directorysining tuzilishi Linux kerneli turli protsessor arxitekturalarida yuqori darajada portativ bo'lishiga imkon beradi va shu bilan birga samarali va arxitekturaga xos ilovalarni ta'minlaydi. Arxitekturaga xos kodni alohida directorylarda tashkil qilish orqali har bir arxitektura uchun kernelni mustaqil ravishda saqlash, ishlab chiqish va debug qilish osonlashadi.
+
+### Device drivers (Qurilma drayverlari)
+
+Linux kernelidagi qurilma drayverlari operatsion tizim va hardware qurilmalari o'rtasidagi aloqani ta'minlovchi dasturiy komponentlardir. Ular application uchun tarmoq kartalari(network card), storage controller(saqlash kontroller)lari va displey adapterlari kabi qurilmalar bilan o'zaro ishlash uchun standartlashtirilgan interfeysni ta'minlaydi. Qurilma drayverlari Linux kerneli manba kodining `drivers` directorysida tashkil etilgan.
+
+Linux kerneli unified device modelidan foydalanadi, uning maqsadi tizimning holati va tuzilishini aks ettiruvchi ichki ma'lumotlar tuzilmalarini saqlashdir. Bunday ma'lumotlarga qaysi qurilmalar borligi, ularning holati, ular qaysi bus ga ulanganligi, qaysi driverga biriktirilganligi va hokazo kiradi. Bu ma'lumotlar tizimni keng miqyosda power managementni amalga oshirish, shuningdek, qurilmani aniqlash va dinamik qurilmani olib tashlash uchun zarurdir.
+
+Har bir subsystem o'ziga xos drayver interfeysiga ega bo'lib, u to'g'ri drayverlarni yozishni osonlashtirish va kodlarning takrorlanishini kamaytirish uchun o'zi taqdim etgan qurilmalarga moslashtirilgan.
+
+Linux qurilma drayverlarining eng xilma-xil to'plamidan birini qo'llab-quvvatlaydi, ba'zi misollar: TTY, serial, SCSI, fileystem, ethernet, USB, framebuffer, input, sound va boshqalar.
+
+### Process management

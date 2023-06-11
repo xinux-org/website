@@ -401,3 +401,169 @@ Har bir subsystem o'ziga xos drayver interfeysiga ega bo'lib, u to'g'ri drayverl
 Linux qurilma drayverlarining eng xilma-xil to'plamidan birini qo'llab-quvvatlaydi, ba'zi misollar: TTY, serial, SCSI, fileystem, ethernet, USB, framebuffer, input, sound va boshqalar.
 
 ### Process management
+
+Process management - bu operatsion tizim ichidagi processlarni(jarayon) muvofiqlashtirish va boshqarish. Bu processlarni yaratish(creating), bajarish(executing) va tugatish(terminating), shuningdek, ularning resurslarini boshqarish va rejalashtirishni(scheduling) o'z ichiga oladi. Process management bir vaqtning o'zida bir nechta vazifalar yoki dasturlarni bajarishga imkon beradi, resurslardan samarali foydalanishni ta'minlaydi va operatsion tizimda barqarorlik va xavfsizlikni ta'minlaydi. U processlarning bajarilishini tashkil etish va nazorat qilish, multitaskinglarni bajarish va tizim resurslaridan samarali foydalanish uchun javobgardir.
+
+Process management loyihani bajarish uchun birgalikda ishlaydigan bir guruh odamlarni boshqarishning oddiy hayotiy misoli bilan tushuntirish mumkin.
+
+Tasavvur qiling-a, bir guruh shaxslar loyiha ustida hamkorlik qilmoqda, masalan, mablag' yig'ish tadbirini tashkil qilish. Har bir jamoa a'zosi loyiha doirasidagi jarayonni ifodalaydi. Loyiha menejeri operatsion tizimning process manageri rolini o'z zimmasiga oladi.
+
+Loyiha menejeri har bir guruh a'zosiga o'z mahorati va tajribasidan kelib chiqqan holda aniq vazifalarni belgilash orqali loyihani boshlaydi. Ushbu vazifani belgilash operatsion tizimda processni yaratishga o'xshaydi.
+
+Loyiha davomida loyiha menejeri har bir topshiriqning(task) bajarilishini nazorat qilib, belgilangan muddatlarga rioya etilishini va loyihaning yo‘lda davom etishini ta’minlaydi. Ular vazifalarni qayta belgilashlari yoki kerak bo'lganda ustuvorliklarni sozlashlari mumkin, xuddi operatsion tizimdagi process scheduling kabi.
+
+Loyiha menejeri, shuningdek, byudjet, vaqt va jihozlar kabi resurslarni boshqaradi va ularni jamoa ishini qo'llab-quvvatlash uchun to'g'ri taqsimlaydi. Ushbu resurslarni taqsimlash operatsion tizim proceslar o'rtasida tizim resurslarini qanday boshqarishi bilan taqqoslanadi.
+
+Har qanday muammo yoki nizolar bo'lsa, loyiha menejeri ularni hal qilish uchun harakat qiladi va loyiha muammosiz davom etishini ta'minlaydi. Bu rol operatsion tizimning process manageri tomonidan bajariladigan xatolarni qayta ishlash va nizolarni hal qilishga o'xshaydi.
+
+Oxir-oqibat, loyiha tugallangach, loyiha menejeri vazifalarni tugatadi va loyihani yakunlaydi. Ushbu tugatish jarayoni, ularning bajarilishi tugagandan so'ng, operatsion tizim processlarni qanday tugatishiga mos keladi.
+
+Ushbu real misolda loyiha menejerining mas'uliyati operatsion tizimda processlarni boshqarishning asosiy jihatlarini, jumladan, processni yaratish, rejalashtirish(scheduling), resurslarni taqsimlash(resource allocation), xatolarni qayta ishlash(handling) va tugatishni( termination) aks ettiradi.
+
+Linux fork(), exec(), wait() kabi standart Unix processlarni boshqarish API-larini, shuningdek, standart POSIX threadlarini implement qiladi.
+
+Biroq, Linux processnlari va threadlari boshqa kernellardan farqli ravishda implement qilinadi. Processlar yoki threadlarni implement qiladigan  internal structurelar mavjud emas, buning o'rniga task deb nomlangan abstract scheduling unit tavsiflovchi struct task_struct mavjud.
+
+Taskda address space, file descriptorlari, IPC idlari va boshqalar kabi manbalar pointerlari mavjud. Xuddi shu processning bir qismi bo'lgan tasklar uchun resurs ko'rsatkichlari bir xil resurslarga ishora qiladi, turli processlarning tasklari resurslari esa turli resurslarga ishora qiladi.
+
+Bu o'ziga xoslik, clone() va unshare() system calllari bilan birgalikda namespacelari kabi yangi xususiyatlarni(feature) implement qilish imkonini beradi.
+
+Linuxda operatsion tizim virtualizatsiyasini implement qilish uchun namespacelari boshqaruv guruhlari(control group)(cgroup) bilan birgalikda ishlatiladi.
+
+cgroup - bu processlarni ierarxik tarzda tashkil qilish va tizim resurslarini ierarxiya bo'ylab boshqariladigan va sozlanishi mumkin bo'lgan tarzda taqsimlash mexanizmi.
+
+### Memory management
+
+![Tizim arxitekturasi](images/article/os-kernel/22.png)
+
+Memory management deganda operatsion tizimda kompyuter xotirasi resurslarini tashkil qilish va boshqarish jarayoni tushuniladi. Bu xotirani dasturlarga ajratish, xotiraning qaysi qismlari ishlatilayotganligini kuzatish va kerak bo‘lmaganda xotirani ajratishni(allocating memory) o‘z ichiga oladi. Memory management dasturlarning muammosiz bajarilishini ta'minlash va ishdan chiqish yoki tizim sekinlashishi kabi xotira bilan bog'liq muammolarni oldini olish uchun mavjud xotiradan samarali va xavfsiz foydalanishni ta'minlaydi.
+
+Tasavvur qiling, sizda kitoblarni saqlash uchun cheklangan joy bo'lgan kitob javoningiz bor. Har bir kitob kompyuter tizimidagi dastur yoki  processni, kitob javoni esa xotirani(memory) ifodalaydi. Memory management tizimi kutubxonachi vazifasini bajaradi, kitob javonini boshqarish uchun javobgardir.
+
+#### Memory Allocation (Xotirani taqsimlash)
+
+Agar javonga yangi kitob qo'shmoqchi bo'lsangiz, kutubxonachi bo'sh joy topadi va uni kitob uchun ajratadi. Xuddi shunday, memory managementda, dastur ishlashi uchun xotira kerak bo'lganda, operatsion tizim uning instructionlari va datalarini saqlash uchun ushbu dasturga xotira blokini ajratadi.
+
+#### Memory Deallocation (Xotirani ajratish)
+Agar siz kitob javonidan kitobni olib tashlasangiz, kutubxonachi bu joyni boshqa kitoblar foydalanishi mumkin deb belgilaydi. Memory managementda, dastur tugallanganda yoki tugatilganda, operatsion tizim ushbu dasturga ajratilgan xotirani bo'shatadi va uni boshqa dasturlarning foydalanishi uchun imkon yaratadi.
+
+#### Memory Tracking (Xotirani kuzatish)
+Kutubxonachi kitob javonida qaysi joy ajratilgani va qaysi biri bo'sh ekanligini qayd qiladi. Xuddi shunday, operatsion tizimdagi memory management tizimi xotiraning qaysi qismlari ishlatilayotganligi va qaysi biri mavjud ekanligini kuzatib boradi.
+
+#### Memory Fragmentation
+
+Vaqt o'tishi bilan kitob javonida kitoblar orasidagi bo'shliqlar bo'lishi mumkin, bu esa katta kitob uchun katta doimiy joy topishni qiyinlashtiradi. Bu fragmentation deb ataladi. Memory managementda fragmentation xotira ajratilganda va ajratilganda sodir bo'ladi, natijada xotirada kichik foydalanilmagan bo'shliqlar paydo bo'ladi. Bu internal fragmentation (ajratilgan xotira bloklari ichida foydalanilmagan bo'sh joy) yoki external fragmentation (ajratilgan xotira bloklari orasidagi foydalanilmagan bo'sh joy) bo'lishi mumkin. Memory management usullari fragmentationni minimallashtirish va xotiradan maksimal darajada foydalanishga qaratilgan.
+
+Memory management kompyuter xotirasidan samarali foydalanishni ta'minlaydi, xotiraga ruxsatsiz kirishni oldini oladi va turli dasturlar va processlar o'rtasida xotira resurslarini taqsimlashni optimallashtiradi.
+
+Linux memory management murakkab subsystem bo'lib, u quyidagilar bilan shug'ullanadi:
+
+* Physical(jismoniy) xotirani boshqarish: memory allocating va freeing(bo'shatish)
+* Virtual xotirani boshqarish: paging, swapping, demand paging, yozishda nusxalash
+* Foydalanuvchi xizmatlari(User services): user address spaceni boshqarish (masalan, mmap(), brk(), shared memory)
+* Kernel servicelari: SL*B allocatorlari, vmalloc
+
+### Block I/O management
+
+Block I/O management operatsion tizimdagi blok qurilmalari(block device) ishtirokidagi input/output(O/I kiritish/chiqarish) operatsiyalarini management va controlni anglatadi. Hard drivelar yoki solid-state drivelar(SSD) kabi block devicelari ma'lumotlarni fixed-size blocklar yoki sektorlarda uzatishni amalga oshiradi(data transfer).
+
+Oddiy qilib aytganda, blokni I/O managementni boshqarish ombordagi jismoniy tovarlar harakatini boshqarishga o'xshaydi.
+
+#### Data Transfer (Ma'lumot uzatish)
+
+Tovarlar omborning turli joylari o'rtasida uzatilganidek,  block I/O managementi ham data blocklarini storage devicelari (block devicelari) va kompyuter xotirasi o'rtasida uzatishni o'z ichiga oladi.
+
+#### Request Handling (So'rovni ko'rib chiqish)
+
+Block I/O managementi dasturiy ta'minot yoki applicationlardan o'qish(read) yoki blok qurilmadagi ma'lum bloklarga yozish(write) uchun so'rovlarni qayta ishlaydi. Ushbu so'rovlar ombordagi ma'lum narsalar uchun berilgan buyurtmalarga o'xshaydi.
+
+#### Scheduling and Ordering
+
+Block I/O management boshqaruvi ishlashni optimallashtirish va kechikishni(latency) minimallashtirish uchun so'rovlarni tartibga soladi. Qidiruv vaqtini qisqartirish, ma'lumotlar joylashuvini maksimal darajada oshirish yoki umumiy o'tkazish qobiliyatini yaxshilash uchun so'rovlar tartibini o'zgartirishi mumkin.
+
+#### Buffering and Caching
+
+Ishlashni yaxshilash block I/O managementi buferlash(buffering) va keshlash(caching) usullaridan foydalanadi. Tez-tez foydalaniladigan ma'lumotlar bloklari kirish vaqtini kamaytirish uchun vaqtinchalik xotira buferlarida yoki keshlarida saqlanadi.
+
+#### Error Handling 
+Block I/O management diskdagi xatolar yoki ma'lumotlarning buzilishi kabi ma'lumotlarni uzatish paytida xatolarni aniqlaydi va hal qiladi. U muvaffaqiyatsiz operatsiyalarni qayta urinib ko'rishi, ortiqcha nusxalardan ma'lumotlarni tiklashi yoki xatolar haqida higher-leveldagi dasturiy ta'minotga xabar berishi mumkin.
+
+#### Synchronization (Sinxronizatsiya)
+
+Block I/O management bir vaqtda o'qish(read) va yozish(write) operatsiyalarini muvofiqlashtirish orqali ma'lumotlarning izchilligini ta'minlaydi. U bir vaqtning o'zida bir nechta jarayonlar bir blokga kirishda ma'lumotlarning buzilishi yoki conflictlarni oldini olish uchun sinxronizatsiya mexanizmlarini qo'llaydi.
+
+Block I/O managementi ma'lumotlarni samarali saqlash va qidirishda muhim rol o'ynaydi, bu ilovalar va operatsion tizimning block devicelar bilan samarali o'zaro ta'siriga imkon beradi. U ma'lumotlar uzatishni(data transfer) optimallashtiradi, xatolik holatlarini hal qiladi va block devicelar bilan ishlashda ma'lumotlar yaxlitligini ta'minlaydi.
+
+
+Linux Block I/O subsystemi qurilmalardan ma'lumotlarni o'qish va yozish bilan shug'ullanadi: blockli I/O requestlarini yaratish, blockli I/O requestlarini o'zgartirish (masalan, dasturiy ta'minot RAID yoki LVM uchun), so'rovlarni birlashtirish(merge request) va tartiblash(sorting) va ularni scheduling qilish qurilma drayverlarini blokirovka qilish uchun turli xil I/O schedulerlari.
+
+![Tizim arxitekturasi](images/article/os-kernel/9.png)
+
+### Virtual Filesystem Switch
+
+![Tizim arxitekturasi](images/article/os-kernel/23.jpg)
+
+Virtual Filesystem Switch (VFS) Linux kernelidagi software layer bo'lib, u turli fayl tizimlari bilan o'zaro ishlash uchun yagona interfeysni ta'minlaydi. U abstraction layer vazifasini bajarib, applicationlar va kernelga turli fayl tizimlari bilan izchil ishlash imkonini beradi.
+
+![Tizim arxitekturasi](images/article/os-kernel/24.png)
+
+Oddiy qilib aytganda, VFS ni turli tillar orasidagi tarjimon yoki vositachi bilan solishtirish mumkin:
+
+#### Common Interface (Umumiy interfeys)
+
+VFS fayl tizimlari qo'llab-quvvatlashi kerak bo'lgan standart operatsiyalar va ma'lumotlar tuzilmalari to'plamini belgilaydi. Ushbu umumiy interfeys applicationlar va kernelga fayllarni o'qish(read), yozish(write), ochish(open), yopish(close) va qidirish kabi operatsiyalarni har bir asosiy fayl tizimining o'ziga xos xususiyatlarini bilmasdan bajarishga imkon beradi.
+
+#### Transparent Translation (Shaffof tarjima)
+Malakali tarjimon og'zaki so'zlarni bir tildan boshqa tilga o'zgartirgani kabi, VFS hamapplicationlar tomonidan so'raladigan umumiy fayl tizimi operatsiyalarini asosiy fayl tizimlari uchun specific calllarga tarjima qiladi. Amaldagi fayl tizimidan qat'i nazar, tegishli fayl tizimiga xos funksiyalarni ishga tushirishni ta'minlaydi.
+
+#### File System Integration (Fayl tizimi integratsiyasi)
+VFS ext4, NTFS yoki NFS kabi turli fayl tizimlarini Linux yadrosiga muammosiz integratsiya qilish imkonini beradi. Har bir fayl tizimi VFS operatsiyalari uchun o'zining amalga oshirilishini ta'minlaydi, bu yadroga bir xil yuqori darajadagi buyruqlar to'plamidan foydalangan holda turli fayl tizimlari bilan ishlash imkonini beradi.
+
+#### Filesystem-Specific Mounting
+
+Fayl tizimiga kirish kerak bo'lganda, VFS uni tizimga o'rnatish(mounting) jarayonini boshqaradi. O'rnatish(mountlash) yangi tashqi xotira qurilmasini kompyuterga ulash va undan foydalanish imkoniyatini yaratishga o'xshaydi. VFS fayl tizimi turini tanib olish, kerakli resurslarni taqsimlash va uni fayl tizimi ierarxiyasiga integratsiyalash bilan shug'ullanadi.
+
+#### Virtual Filesystem Tree (Virtual fayl tizimi daraxti)
+VFS asosiy fayl tizimlaridan qat'i nazar, fayl tizimi ierarxiyasining yagona ko'rinishini taqdim etadi. U barcha o'rnatilgan fayl tizimlarini yagona directory tuzilishiga birlashtirgan virtual filesystem treeni yaratadi. Bu applicationlarga, ular yashaydigan haqiqiy fayl tizimidan qat'i nazar, izchil yo'llar yordamida fayllarni kezish va ularga kirish imkonini beradi.
+
+Virtual Filesystem Switch Linux kernelida bir xil interfeys va turli fayl tizimlarining uzluksiz integratsiyasini ta'minlashda hal qiluvchi rol o'ynaydi. Bu qo'llaniladigan fayl tizimining ma'lum bir dasturidan qat'i nazar, applicationlarning standartlashtirilgan buyruqlar to'plamidan foydalangan holda fayllar va directorilar bilan o'zaro ishlashini ta'minlaydi.
+
+
+Linux Virtual Filesystem Switch fayl tizimi drayverlarini takrorlashni kamaytirish uchun umumiy / generic fayl tizimi kodini implement qiladi. U ma'lum fayl tizimi abstraktsiyalarini taqdim etadi, masalan:
+
++ `inode` - diskdagi faylni tavsiflaydi (atributlar, diskdagi ma'lumotlar bloklarining joylashuvi)
+* `dentry` - inodeni nomga bog'laydi
+* `file` - ochilgan faylning xususiyatlarini tavsiflaydi (masalan, fayl ko'rsatkichi)
+* `superblock` - formatlangan fayl tizimining xususiyatlarini tavsiflaydi (masalan, bloklar soni, blok hajmi, diskdagi root directorining joylashuvi, shifrlash va boshqalar).
+
+![Tizim arxitekturasi](images/article/os-kernel/10.png)
+
+Linux VFS shuningdek, quyidagilarni o'z ichiga olgan murakkab keshlash mexanizmini amalga oshiradi:
+
+* `inode cache` - fayl atributlari va ichki fayl metama'lumotlarini keshlaydi
+* `dentry cache ` - fayl tizimining directory ierarxiyasini keshlaydi
+* `page cache` - xotiradagi fayl ma'lumotlar bloklarini keshlaydi
+
+### Networking stack
+
+Networking stack yoki TCP/IP stek sifatida ham tanilgan network protocol stack tarmoq aloqasini ta'minlaydigan operatsion tizimdagi software layerlari to'plamidir. U tarmoq orqali qurilmalar o'rtasida ma'lumotlarni uzatishni osonlashtiradigan protokollar va funksiyalardan iborat.
+
+Haqiqiy hayot nuqtai nazaridan, biz networking stacni pochta xizmati kabi tasavvur qilishimiz mumkin:
+
+#### Application Layer
+
+Linux VFS shuningdek, quyidagilarni o'z ichiga olgan murakkab keshlash mexanizmini amalga oshiradi:
+
+* `inode cache` - fayl atributlari va ichki fayl metama'lumotlarini keshlaydi
+* `dentry cache ` - fayl tizimining directory ierarxiyasini keshlaydi
+* `page cache` - xotiradagi fayl ma'lumotlar bloklarini keshlaydi
+
+### Networking stack
+
+![Tizim arxitekturasi](images/article/os-kernel/11.png)
+
+Networking stack - bu tarmoq orqali qurilmalar o'rtasida aloqa o'rnatishga imkon beruvchi dasturiy ta'minot protokollari va komponentlar to'plami. U ma'lumotlarni jo'natish va qabul qilish jarayonini tashkil qiladi, axborotni samarali uzatish va qabul qilishni ta'minlaydi.
+
+Asosan, networking stacki bir necha layerlardan(qatlam) iborat bo'lib, ularning har biri tarmoq aloqasining o'ziga xos jihati uchun javobgardir. Ushbu layerlar ulanishlarni o'rnatish, ma'lumotlar uzatishni boshqarish va ishonchli yetkazib berishni ta'minlash uchun birgalikda ishlaydi. Oddiy tarmoq stek layerlarining soddalashtirilgan ko‘rinishi:
+
+#### Physical Layer

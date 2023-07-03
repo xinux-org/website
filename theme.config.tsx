@@ -45,7 +45,6 @@ const config: DocsThemeConfig = {
   },
   nextThemes: {
     defaultTheme: "light",
-    forcedTheme: "light"
   },
   search: {
     emptyResult: "Hech narsa topilmadi",

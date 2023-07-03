@@ -43,6 +43,10 @@ const config: DocsThemeConfig = {
   project: {
     link: "https://github.com/uzinfocom-org/xinux",
   },
+  nextThemes: {
+    defaultTheme: "light",
+    forcedTheme: "light"
+  },
   search: {
     emptyResult: "Hech narsa topilmadi",
     loading: "Qidirilmoqda...",

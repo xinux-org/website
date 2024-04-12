@@ -6,7 +6,7 @@ export const config = {
 };
 
 const font = fetch(new URL("./Inter-SemiBold.otf", import.meta.url)).then(
-  (res) => res.arrayBuffer()
+  (res) => res.arrayBuffer(),
 );
 
 const og = async (req) => {
@@ -96,7 +96,7 @@ const og = async (req) => {
           style: "normal",
         },
       ],
-    }
+    },
   );
 };
 

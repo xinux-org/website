@@ -105,7 +105,7 @@ const Folder: React.FC<FolderProps> = React.memo(
         ) : null}
       </li>
     );
-  }
+  },
 );
 
 Folder.displayName = "Folder";
@@ -116,7 +116,7 @@ const File: React.FC<FileProps> = React.memo(
       <li
         className={cn(
           "flex list-none",
-          active && "nx-text-primary-600 contrast-more:nx-underline"
+          active && "nx-text-primary-600 contrast-more:nx-underline",
         )}
       >
         <a {...props} className="inline-flex cursor-default items-center py-1">
@@ -137,7 +137,7 @@ const File: React.FC<FileProps> = React.memo(
         </a>
       </li>
     );
-  }
+  },
 );
 
 File.displayName = "File";

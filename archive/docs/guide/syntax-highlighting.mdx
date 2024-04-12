@@ -172,7 +172,7 @@ export function DynamicCode({ children }) {
   useEffect(() => {
     if (ref.current) {
       const token = [...ref.current.querySelectorAll("code span")].find(
-        (el) => el.innerText === "1"
+        (el) => el.innerText === "1",
       );
       tokenRef.current = token;
     }

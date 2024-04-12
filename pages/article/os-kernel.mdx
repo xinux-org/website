@@ -2,36 +2,26 @@ import { Callout } from "nextra-theme-docs";
 
 # Asosiy operatsion tizim atamalari va tushunchalari
 
-
 <Callout type="info" emoji="">
-Dokumentatsiyada
-* Asosiy operatsion tizim atamalari va tushunchalari
-* Linux kernelining umumiy ko'rinishi
+  Dokumentatsiyada * Asosiy operatsion tizim atamalari va tushunchalari * Linux
+  kernelining umumiy ko'rinishi
 </Callout>
 
 Kernel(yadro) va foydalanuvchi(user) operatsion tizimlarda tez-tez ishlatiladigan ikkita atamadir. Ularning ta'rifi juda aniq: kernel(yadro) operatsion tizimning yuqori imtiyozlar bilan ishlaydigan qismidir, foydalanuvchi(user) odatda past imtiyozlar bilan ishlaydigan ilovalarni anglatadi. Biroq, bu atamalar haddan tashqari yuklangan va ba'zi kontekstlarda juda aniq ma'nolarga ega bo'lishi mumkin. Foydalanuvchi rejimi(user mode) va kernel rejimi(kernel mode) protsessorning ishlash rejimiga xos bo'lgan atamalardir. Kernel modeda ishlaydigan kod protsessorni to'liq boshqarishi mumkin, user modeda ishlaydigan kod esa ma'lum cheklovlarga ega. Agar user modeda ishlayotganda bunday operatsiyaga urinilsa, istisno hosil bo'ladi va kernel uni boshqarishni o'z zimmasiga oladi.
 
 <Callout type="info" emoji="">
-Ba'zi protsessorlar kernel modedan ham yuqori imtiyozlarga ega bo'lishi mumkin, masalan. hypervisor mode, unga faqat hypervisorda ishlaydigan kod kirish mumkin (virtual mashina monitori)
+  Ba'zi protsessorlar kernel modedan ham yuqori imtiyozlarga ega bo'lishi
+  mumkin, masalan. hypervisor mode, unga faqat hypervisorda ishlaydigan kod
+  kirish mumkin (virtual mashina monitori)
 </Callout>
 
-User space(foydalanuvchi maydoni) va kernel space(yadro maydoni), xususan,memory protectionga yoki kernel yoki foydalanuvchi ilovalari bilan bog'liq virtual address spacelariga tegishli bo'lishi mumkin. Juda soddalashtirilgan holda, kernel space kernel uchun ajratilgan memory area(xotira maydoni), user space  esa ma'lum bir foydalanuvchi jarayoni uchun ajratilgan xotira maydoni. Kernel spacega kirish himoyalangan bo'lib, user applications(foydalanuvchi ilovalari) unga to'g'ridan-to'g'ri kira olmaydi, user space esa kernel modeda ishlaydigan koddan to'g'ridan-to'g'ri kirish mumkin.
+User space(foydalanuvchi maydoni) va kernel space(yadro maydoni), xususan,memory protectionga yoki kernel yoki foydalanuvchi ilovalari bilan bog'liq virtual address spacelariga tegishli bo'lishi mumkin. Juda soddalashtirilgan holda, kernel space kernel uchun ajratilgan memory area(xotira maydoni), user space esa ma'lum bir foydalanuvchi jarayoni uchun ajratilgan xotira maydoni. Kernel spacega kirish himoyalangan bo'lib, user applications(foydalanuvchi ilovalari) unga to'g'ridan-to'g'ri kira olmaydi, user space esa kernel modeda ishlaydigan koddan to'g'ridan-to'g'ri kirish mumkin.
 
 <Callout type="info" emoji="">
-Asosiy operatsion tizim atamalari va tushunchalari:
-* Operating System (OS)
-* Kernel
-* Process
-* Thread
-* Scheduler
-* Memory Management
-* File System
-* Device Drivers
-* System Calls
-* Virtualization
-* Interrupt
-* Multitasking
-va boshqalar
+  Asosiy operatsion tizim atamalari va tushunchalari: * Operating System (OS) *
+  Kernel * Process * Thread * Scheduler * Memory Management * File System *
+  Device Drivers * System Calls * Virtualization * Interrupt * Multitasking va
+  boshqalar
 </Callout>
 
 ### Oddiy operatsion tizim arxitekturasi
@@ -72,15 +62,14 @@ Mikro-kernel arxitekturasida kernel turli xil ishlaydigan jarayonlar o'rtasida x
 Amalda bu kernelda scheduler(rejalashtiruvchi )va IPC mexanizmini, shuningdek ilovalar va servicelar o'rtasida himoyani o'rnatish uchun asosiy xotira boshqaruvini amalga oshirishni anglatadi. Ushbu arxitekturaning afzalliklaridan biri shundaki, servicelar izolyatsiya qilingan va shuning uchun bitta servicedagi xatolar boshqa servicelarga ta'sir qilmaydi. Shunday qilib, agar service ishlamay qolsa, biz butun tizimga ta'sir qilmasdan uni qayta ishga tushirishimiz mumkin.
 Biroq, amalda bunga erishish qiyin, chunki serviceni qayta ishga tushirish ushbu servicega bog'liq bo'lgan barcha ilovalarga ta'sir qilishi mumkin (masalan, agar fayl serveri ochilgan fayl identifikatorlari bo'lgan barcha ilovalarni buzsa, ularga kirishda xatolar yuzaga keladi). Ushbu arxitektura kernelga modulli yondashuvni qo'llaydi va xizmatlar o'rtasida memory protection(xotirani himoya) qilishni taklif qiladi, lekin ishlash xarajati bilan. Monolitik kernellardagi ikkita service o'rtasidagi oddiy funksiya chaqiruvi endi IPC va schedulingdan o'tishni talab qiladi.
 
-
 ### Micro-kernel vs Monolitik kernel
 
 Micro-kernel tarafdorlari ko'pincha micro-kernel modulli dizayni tufayli micro-kernelning ustun ekanligini ta'kidlaydilar. Biroq, monolit kernellar modulli bo'lishi mumkin va zamonaviy monolit kernellari bu maqsadda foydalanadigan bir nechta yondashuvlar mavjud:
 
-* Komponentlar kompilyatsiya vaqtida yoqilishi yoki o'chirilishi mumkin
-* Yuklanadigan kernel modullarini qo'llab-quvvatlash (runtimeda)
-* Logical, independent subsystemlarda kernelni tashkil qilish
-* Strict interfeyslar, lekin performance(unumdorligi) past: makroslar, inline funksiyalar, funksiya pointerlari
+- Komponentlar kompilyatsiya vaqtida yoqilishi yoki o'chirilishi mumkin
+- Yuklanadigan kernel modullarini qo'llab-quvvatlash (runtimeda)
+- Logical, independent subsystemlarda kernelni tashkil qilish
+- Strict interfeyslar, lekin performance(unumdorligi) past: makroslar, inline funksiyalar, funksiya pointerlari
 
 Monolit va mikro kernellar o'rtasida (masalan, Windows, Mac OS X) o'zini gibrid(hybrid) kernel deb da'vo qiladigan operatsion tizimlar sinfi mavjud. Biroq, barcha tipik monolit servicelar ushbu operatsion tizimlarda kernel modeda ishlaganligi sababli, ularni monolit kernellardan tashqari sifatlash uchun unchalik ahamiyatli emas. Ko'pgina operatsion tizimlar va kernel mutaxassislari buni ma'nosiz va shunchaki marketing deb rad etishdi. Linus Torvalds bu masala haqida shunday dedi:
 
@@ -112,18 +101,17 @@ User va kernel space o'rtasidagi bu bo'linish user-space processidagi xato yoki 
 
 ![Tizim arxitekturasi](images/article/os-kernel/4.png)
 
-
 ### Execution contexts
 
-Execution Context, sodda qilib aytganda, kod bo'lagi ishlayotgan  'environment' yoki 'state' ga o'xshaydi. U rocess qayerda bajarilayotgani, o'zgaruvchilar qiymatlari va kodni to'g'ri ishga tushirish uchun zarur bo'lgan boshqa tafsilotlar kabi ma'lumotlarni o'z ichiga oladi.
+Execution Context, sodda qilib aytganda, kod bo'lagi ishlayotgan 'environment' yoki 'state' ga o'xshaydi. U rocess qayerda bajarilayotgani, o'zgaruvchilar qiymatlari va kodni to'g'ri ishga tushirish uchun zarur bo'lgan boshqa tafsilotlar kabi ma'lumotlarni o'z ichiga oladi.
 
 Masalan, kompyuteringizda dastur ishlayotgan bo'lsa, operatsion tizim uning uchun execution contextini yaratadi. Bu dastur nima qilayotganini kuzatib borishi kerak bo'lgan barcha tafsilotlarni o'z ichiga oladi, masalan, keyingi instruction(ko'rsatma)ni bajarishi, qanday ma'lumotlar bilan ishlayotgani va hokazo. Agar dasturni to'xtatib turish kerak bo'lsa (masalan, boshqa dasturni ishga tushirish uchun), operatsion tizim ushbu kontekstni saqlab qo'yishi va dastur to'xtagan joyidan davom etishi uchun uni keyinroq qayta yuklashi mumkin.
 
-Kernelning eng muhim vazifalaridan biri interruptlarga xizmat ko'rsatish va ularga samarali xizmat ko'rsatishdir. Bu juda muhimki, u bilan maxsus execution context bog'langan. Kernel interrupt natijasida ishlaganda interrupt contextda ishlaydi. Bunga interrupt handler kiradi, lekin u bilan cheklanmaydi, interrupt modeda ishlaydigan boshqa maxsus(software)  konstruksiyalar mavjud. Interrupt kontekstida ishlaydigan kod har doim kernel modeda ishlaydi va kerel dasturchisi bilishi kerak bo'lgan ma'lum cheklovlar mavjud (masalan, blokirovkalash funktsiyalarini chaqirmaslik yoki user spacega kirish). Interrupt kontekstiga qarshi process(jarayon )konteksti mavjud. Process kontekstida ishlaydigan kod buni user modeda(executing application code)  yoki kernel modeda (executing a system call) amalga oshirishi mumkin.
+Kernelning eng muhim vazifalaridan biri interruptlarga xizmat ko'rsatish va ularga samarali xizmat ko'rsatishdir. Bu juda muhimki, u bilan maxsus execution context bog'langan. Kernel interrupt natijasida ishlaganda interrupt contextda ishlaydi. Bunga interrupt handler kiradi, lekin u bilan cheklanmaydi, interrupt modeda ishlaydigan boshqa maxsus(software) konstruksiyalar mavjud. Interrupt kontekstida ishlaydigan kod har doim kernel modeda ishlaydi va kerel dasturchisi bilishi kerak bo'lgan ma'lum cheklovlar mavjud (masalan, blokirovkalash funktsiyalarini chaqirmaslik yoki user spacega kirish). Interrupt kontekstiga qarshi process(jarayon )konteksti mavjud. Process kontekstida ishlaydigan kod buni user modeda(executing application code) yoki kernel modeda (executing a system call) amalga oshirishi mumkin.
 
 ### Multi-tasking
 
-Multitasking - bu operatsion tizimning bir nechta dasturlarni "bir vaqtning o'zida(simultaneously)" bajarish qobiliyati. Buni ishlaydigan processeslar o'rtasida tezda almashish orqali amalga oshiradi. Kooperativ multitasking dasturlardan ko'p vazifani bajarish uchun hamkorlik qilishni talab qiladi. Dastur ishga tushadi va CPU boshqaruvini OSga qaytaradi, keyin esa boshqa dasturni rejalashtiradi. Preemptive multitasking bilan kernel har bir  process uchun qat'iy cheklovlarni amalga oshiradi, shuning uchun barcha  processlarni ishga tushirish uchun  imkoniyat bo'ladi. Har bir processga vaqt boʻlagini (masalan, 100ms) ishga tushirishga ruxsat beriladi, shundan soʻng, agar u hali ham ishlayotgan boʻlsa, u majburiy ravishda oʻchiriladi va boshqa vazifa rejalashtiriladi.
+Multitasking - bu operatsion tizimning bir nechta dasturlarni "bir vaqtning o'zida(simultaneously)" bajarish qobiliyati. Buni ishlaydigan processeslar o'rtasida tezda almashish orqali amalga oshiradi. Kooperativ multitasking dasturlardan ko'p vazifani bajarish uchun hamkorlik qilishni talab qiladi. Dastur ishga tushadi va CPU boshqaruvini OSga qaytaradi, keyin esa boshqa dasturni rejalashtiradi. Preemptive multitasking bilan kernel har bir process uchun qat'iy cheklovlarni amalga oshiradi, shuning uchun barcha processlarni ishga tushirish uchun imkoniyat bo'ladi. Har bir processga vaqt boʻlagini (masalan, 100ms) ishga tushirishga ruxsat beriladi, shundan soʻng, agar u hali ham ishlayotgan boʻlsa, u majburiy ravishda oʻchiriladi va boshqa vazifa rejalashtiriladi.
 
 Multi-tasking - bu kompyuterning bir vaqtning o'zida bir nechta task yoki processlarni bajarishi(run).
 
@@ -163,20 +151,19 @@ Kitoblar to'plamini tasavvur qiling, bu yerda siz faqat yuqoridan kitob qo'shish
 
 Ushbu stuctura zarur, chunki u tizimga funksiyalarni chaqirish tartibini eslab qolishga yordam beradi. Turli tasklar ma'lumotlari o'rtasida chalkashliklarga yo'l qo'ymaslik uchun har bir task yoki thread o'z stekini oladi. Agar task boshqa funksiyani chaqiradigan funksiyani chaqirsa, stek hamma narsa sodir bo'lishini va to'g'ri tartibda tugashini ta'minlaydi. Bu operatsion tizimlar vazifalar va funksiya chaqiruvlarini qanday boshqarishining asosiy qismidir.
 
-
 ### Portability
 
 Turli arxitekturalar va hardware konfiguratsiyalarida portativlikni oshirish uchun zamonaviy kernellar yuqori darajada quyidagicha tashkil etilgan:
 
-* Arxitektura va mashinaga xos kod (C & ASM)
-* Mustaqil arxitektura kodi (C):
-* Kernel core (keyinchalik bir nechta quyi tizimlarga bo'lingan)
-* qurilma drayverlari
-Bu turli arxitekturalar va mashine konfiguratsiyalari o'rtasida kodni iloji boricha qayta ishlatishni osonlashtiradi.
+- Arxitektura va mashinaga xos kod (C & ASM)
+- Mustaqil arxitektura kodi (C):
+- Kernel core (keyinchalik bir nechta quyi tizimlarga bo'lingan)
+- qurilma drayverlari
+  Bu turli arxitekturalar va mashine konfiguratsiyalari o'rtasida kodni iloji boricha qayta ishlatishni osonlashtiradi.
 
 Portativ kernel turli hardware arxitekturalari yoki platformalarida ishlash uchun osongina moslash yoki ko'chirish uchun mo'ljallangan, operatsion tizimning asosiy komponenti bo'lgan kernelga ishora qiladi. U hardwarega xos assembler tili o‘rniga C kabi yuqori darajadagi tilda yozilgan bo‘lib, turli tizimlar uchun o‘zgartirishni osonlashtiradi.
 
-Agar sizda retsept bo'lsa, qaysi oshxonada bo'lishingizdan qat'i nazar, o'zingizning oshxonangizmi, do'stingizning oshxonasimi yoki  ijarada bo'lgan oshxonami, o'sha taomni pishirishingiz mumkin. Turli xil qozon va kostryulkalar yoki pechning quvvati uchun biroz sozlashingiz kerak bo'lishi mumkin, ammo retsept aslida bir xil bo'lib qoladi.
+Agar sizda retsept bo'lsa, qaysi oshxonada bo'lishingizdan qat'i nazar, o'zingizning oshxonangizmi, do'stingizning oshxonasimi yoki ijarada bo'lgan oshxonami, o'sha taomni pishirishingiz mumkin. Turli xil qozon va kostryulkalar yoki pechning quvvati uchun biroz sozlashingiz kerak bo'lishi mumkin, ammo retsept aslida bir xil bo'lib qoladi.
 
 Xuddi shunday tarzda, portativ kernel turli xil hardware platformalarida (masalan, turli oshxonalarda bo'lish) ba'zi o'zgarishlar bilan ishlashi mumkin. Xuddi retsept kabi, u o'zining asosiy funksiyalari va tuzilishini saqlab qolgan holda turli muhitlarda ishlash qobiliyatiga ega.
 
@@ -195,7 +182,6 @@ Loyiha ustida ishlayotgan jamoani tasavvur qiling. Ushbu jamoada har bir kishi d
 Misol uchun, bitta protsessor operatsion tizimni ishga tushirishga bag'ishlangan bo'lishi mumkin, ikkinchisi esa foydalanuvchi ilovalarini boshqaradi. Bu barcha protsessorlarga teng munosabatda bo'lgan va har qanday protsessor har qanday vazifani bajarishi mumkin bo'lgan Symmetric MultiProcessing (SMP) dan farqli o'laroq.
 
 ASMP ko'p protsessorli tizimlarning oldingi kunlarida ko'proq qo'llanilgan, ammo bugungi tizimlar load balancingni yaxshilanganligi va barcha mavjud qayta ishlash quvvatlaridan yaxshiroq foydalanish tufayli odatda SMP ni afzal ko'radi. Biroq, ASMP mantiqiy bo'lgan ba'zi maxsus stsenariylar mavjud bo'lishi mumkin, masalan, aniq vazifalar uchun kafolatlangan qayta ishlash resurslari kerak bo'lgan real vaqt tizimlarida.
-
 
 ![Tizim arxitekturasi](images/article/os-kernel/5.png)
 
@@ -217,21 +203,20 @@ SMP - bu bir vaqtning o'zida bir nechta foydalanuvchilarga veb-saytga xizmat ko'
 
 ![Tizim arxitekturasi](images/article/os-kernel/6.png)
 
-
 ![Tizim arxitekturasi](images/article/os-kernel/18.jpg)
 
 ### CPU Scalability
 
 CPU scalability corelar soni bilan ishlashning qanchalik yaxshi miqyosda ekanligini anglatadi. Kernel dasturchisi CPU scalability bilan bog'liq bir nechta narsalarni yodda tutishi kerak:
 
-* Concurrency and Parallelism
-* Load Balancing
-* Synchronization
-* Resource Management
-* Scalable Data Structures
-* Interrupt Handling
-* Power Efficiency
-* Portability
+- Concurrency and Parallelism
+- Load Balancing
+- Synchronization
+- Resource Management
+- Scalable Data Structures
+- Interrupt Handling
+- Power Efficiency
+- Portability
 
 Kernel Dasturchilar bir nechta CPUlardan haqiqatan ham foydalanish uchun kernelni diqqat bilan loyihalashlari va optimallashtirishlari kerak.
 
@@ -242,8 +227,6 @@ Magistral yo'lni tasavvur qiling. Ikki qatorli avtomagistralda tirbandlik juda k
 Biroq, avtomagistralni kengaytirish chorrahalarni qayta ishlashni va belgilarni o'zgartirishni talab qilishi mumkin bo'lganidek, CPU scalability ham har doim ham oson emas. Tizimning dasturiy ta'minoti, jumladan, operatsion tizim va applicationlar, tasklarni samarali taqsimlash orqali bir nechta protsessorlar yoki corelardan foydalanish uchun mo'ljallangan bo'lishi kerak. Bundan tashqari, qancha protsessor yoki core qo'shilishi mumkinligi uchun physical(jismoniy) yoki architectural(erxetekturaviy) cheklovlar bo'lishi mumkin.
 
 Oxir oqibat, CPU scalability ko'proq protsessorlar/corelarni qo'shish yoki kuchliroqlaridan foydalanish orqali qayta ishlash quvvatini oshirish orqali tizim ish faoliyatini yaxshilash bilan bog'liq.
-
-
 
 ## Linux Kernelining umumiy ko'rinishi
 
@@ -291,13 +274,11 @@ Contributorlar: Bular kernelga patchelarni qo'shadigan butun dunyo bo'ylab dastu
 
 Ushbu ierarxiya Linux loyihasining keng ko'lamini boshqarishga yordam beradi, har bir relizda yuz minglab kod satrlari o'zgartiriladi. Shuni ta'kidlash kerakki, bu soddalashtirilgan tushuntirish va haqiqiy tuzilma murakkabroq va harakatchan bo'lishi mumkin, ba'zi shaxslar bir nechta rollarni o'ynaydi.
 
-
 ## Linux manba kodining tartibi
 
 ![Tizim arxitekturasi](images/article/os-kernel/7.png)
 
 Linux kernelining manba kodi har bir kernelning turli qismlarini o'z ichiga olgan ma'lum bir directory structureda tashkil etilgan. Bu yerda tartibning yuqori darajadagi umumiy ko'rinishi:
-
 
 `/arch:` Bu yerda siz arxitekturaga xos kodni topasiz. Linux tomonidan qo'llab-quvvatlanadigan kompyuter arxitekturasining har bir turi (masalan, `x86`, `arm`, `mips`) bu yerda alohida subdirectoryga ega.
 
@@ -339,14 +320,13 @@ Linux kernelining manba kodi har bir kernelning turli qismlarini o'z ichiga olga
 
 `/tools` directory kernel bilan ishlash uchun turli xil tollarni o'z ichiga oladi. Ushbu tollarning ba'zilari kernelni ishlab chiqishda qo'llaniladi, boshqalari esa kernel bilan ishlaydigan tizimlarni boshqaruvchi administratorlar uchun foydalidir.
 
-`/usr` directory tashqi modullarni yaratish uchun  headerlar va Makefilelar mavjud. To'g'ridan-to'g'ri kernelning bir qismi bo'lmasa-da, bu fayllar kernel bilan o'zaro aloqada bo'lgan modullarni yozayotgan yoki yaratayotgan ishlab chiquvchilar uchun muhim bo'lishi mumkin.
+`/usr` directory tashqi modullarni yaratish uchun headerlar va Makefilelar mavjud. To'g'ridan-to'g'ri kernelning bir qismi bo'lmasa-da, bu fayllar kernel bilan o'zaro aloqada bo'lgan modullarni yozayotgan yoki yaratayotgan ishlab chiquvchilar uchun muhim bo'lishi mumkin.
 
 `/virt` directory virtualizatsiya bilan bog'liq kodni o'z ichiga oladi. Xususan, u Linux kerneliga integratsiyalangan virtualizatsiya yechimi bo'lgan Kernel-based Virtual Machine (KVM)(Kernelga asoslangan virtual mashina) amalga oshirishni o'z ichiga oladi.
 
 #### Linux kerneli arxitekturasi
 
 ![Tizim arxitekturasi](images/article/os-kernel/8.png)
-
 
 ![Tizim arxitekturasi](images/article/os-kernel/21.png)
 
@@ -368,7 +348,7 @@ Keling, `arch` directorysi tuzilishining texnik tafsilotlarini ko'rib chiqaylik:
 
 #### Machine-specific Directorylar
 
-Har bir arxitektura uchun maxsus directory ichida siz ma'lum machine yoki platforma turlari uchun qo'shimcha subdirectorilarni topasiz. Ushbu subdirectorylarda ma'lum hardware platformalari yoki oilalariga xos kod mavjud. 
+Har bir arxitektura uchun maxsus directory ichida siz ma'lum machine yoki platforma turlari uchun qo'shimcha subdirectorilarni topasiz. Ushbu subdirectorylarda ma'lum hardware platformalari yoki oilalariga xos kod mavjud.
 
 Masalan:
 
@@ -422,7 +402,7 @@ Ushbu real misolda loyiha menejerining mas'uliyati operatsion tizimda processlar
 
 Linux fork(), exec(), wait() kabi standart Unix processlarni boshqarish API-larini, shuningdek, standart POSIX threadlarini implement qiladi.
 
-Biroq, Linux processnlari va threadlari boshqa kernellardan farqli ravishda implement qilinadi. Processlar yoki threadlarni implement qiladigan  internal structurelar mavjud emas, buning o'rniga task deb nomlangan abstract scheduling unit tavsiflovchi struct task_struct mavjud.
+Biroq, Linux processnlari va threadlari boshqa kernellardan farqli ravishda implement qilinadi. Processlar yoki threadlarni implement qiladigan internal structurelar mavjud emas, buning o'rniga task deb nomlangan abstract scheduling unit tavsiflovchi struct task_struct mavjud.
 
 Taskda address space, file descriptorlari, IPC idlari va boshqalar kabi manbalar pointerlari mavjud. Xuddi shu processning bir qismi bo'lgan tasklar uchun resurs ko'rsatkichlari bir xil resurslarga ishora qiladi, turli processlarning tasklari resurslari esa turli resurslarga ishora qiladi.
 
@@ -438,16 +418,18 @@ cgroup - bu processlarni ierarxik tarzda tashkil qilish va tizim resurslarini ie
 
 Memory management deganda operatsion tizimda kompyuter xotirasi resurslarini tashkil qilish va boshqarish jarayoni tushuniladi. Bu xotirani dasturlarga ajratish, xotiraning qaysi qismlari ishlatilayotganligini kuzatish va kerak bo‘lmaganda xotirani ajratishni(allocating memory) o‘z ichiga oladi. Memory management dasturlarning muammosiz bajarilishini ta'minlash va ishdan chiqish yoki tizim sekinlashishi kabi xotira bilan bog'liq muammolarni oldini olish uchun mavjud xotiradan samarali va xavfsiz foydalanishni ta'minlaydi.
 
-Tasavvur qiling, sizda kitoblarni saqlash uchun cheklangan joy bo'lgan kitob javoningiz bor. Har bir kitob kompyuter tizimidagi dastur yoki  processni, kitob javoni esa xotirani(memory) ifodalaydi. Memory management tizimi kutubxonachi vazifasini bajaradi, kitob javonini boshqarish uchun javobgardir.
+Tasavvur qiling, sizda kitoblarni saqlash uchun cheklangan joy bo'lgan kitob javoningiz bor. Har bir kitob kompyuter tizimidagi dastur yoki processni, kitob javoni esa xotirani(memory) ifodalaydi. Memory management tizimi kutubxonachi vazifasini bajaradi, kitob javonini boshqarish uchun javobgardir.
 
 #### Memory Allocation (Xotirani taqsimlash)
 
 Agar javonga yangi kitob qo'shmoqchi bo'lsangiz, kutubxonachi bo'sh joy topadi va uni kitob uchun ajratadi. Xuddi shunday, memory managementda, dastur ishlashi uchun xotira kerak bo'lganda, operatsion tizim uning instructionlari va datalarini saqlash uchun ushbu dasturga xotira blokini ajratadi.
 
 #### Memory Deallocation (Xotirani ajratish)
+
 Agar siz kitob javonidan kitobni olib tashlasangiz, kutubxonachi bu joyni boshqa kitoblar foydalanishi mumkin deb belgilaydi. Memory managementda, dastur tugallanganda yoki tugatilganda, operatsion tizim ushbu dasturga ajratilgan xotirani bo'shatadi va uni boshqa dasturlarning foydalanishi uchun imkon yaratadi.
 
 #### Memory Tracking (Xotirani kuzatish)
+
 Kutubxonachi kitob javonida qaysi joy ajratilgani va qaysi biri bo'sh ekanligini qayd qiladi. Xuddi shunday, operatsion tizimdagi memory management tizimi xotiraning qaysi qismlari ishlatilayotganligi va qaysi biri mavjud ekanligini kuzatib boradi.
 
 #### Memory Fragmentation
@@ -458,10 +440,10 @@ Memory management kompyuter xotirasidan samarali foydalanishni ta'minlaydi, xoti
 
 Linux memory management murakkab subsystem bo'lib, u quyidagilar bilan shug'ullanadi:
 
-* Physical(jismoniy) xotirani boshqarish: memory allocating va freeing(bo'shatish)
-* Virtual xotirani boshqarish: paging, swapping, demand paging, yozishda nusxalash
-* Foydalanuvchi xizmatlari(User services): user address spaceni boshqarish (masalan, mmap(), brk(), shared memory)
-* Kernel servicelari: SL*B allocatorlari, vmalloc
+- Physical(jismoniy) xotirani boshqarish: memory allocating va freeing(bo'shatish)
+- Virtual xotirani boshqarish: paging, swapping, demand paging, yozishda nusxalash
+- Foydalanuvchi xizmatlari(User services): user address spaceni boshqarish (masalan, mmap(), brk(), shared memory)
+- Kernel servicelari: SL\*B allocatorlari, vmalloc
 
 ### Block I/O management
 
@@ -471,7 +453,7 @@ Oddiy qilib aytganda, blokni I/O managementni boshqarish ombordagi jismoniy tova
 
 #### Data Transfer (Ma'lumot uzatish)
 
-Tovarlar omborning turli joylari o'rtasida uzatilganidek,  block I/O managementi ham data blocklarini storage devicelari (block devicelari) va kompyuter xotirasi o'rtasida uzatishni o'z ichiga oladi.
+Tovarlar omborning turli joylari o'rtasida uzatilganidek, block I/O managementi ham data blocklarini storage devicelari (block devicelari) va kompyuter xotirasi o'rtasida uzatishni o'z ichiga oladi.
 
 #### Request Handling (So'rovni ko'rib chiqish)
 
@@ -485,7 +467,8 @@ Block I/O management boshqaruvi ishlashni optimallashtirish va kechikishni(laten
 
 Ishlashni yaxshilash block I/O managementi buferlash(buffering) va keshlash(caching) usullaridan foydalanadi. Tez-tez foydalaniladigan ma'lumotlar bloklari kirish vaqtini kamaytirish uchun vaqtinchalik xotira buferlarida yoki keshlarida saqlanadi.
 
-#### Error Handling 
+#### Error Handling
+
 Block I/O management diskdagi xatolar yoki ma'lumotlarning buzilishi kabi ma'lumotlarni uzatish paytida xatolarni aniqlaydi va hal qiladi. U muvaffaqiyatsiz operatsiyalarni qayta urinib ko'rishi, ortiqcha nusxalardan ma'lumotlarni tiklashi yoki xatolar haqida higher-leveldagi dasturiy ta'minotga xabar berishi mumkin.
 
 #### Synchronization (Sinxronizatsiya)
@@ -493,7 +476,6 @@ Block I/O management diskdagi xatolar yoki ma'lumotlarning buzilishi kabi ma'lum
 Block I/O management bir vaqtda o'qish(read) va yozish(write) operatsiyalarini muvofiqlashtirish orqali ma'lumotlarning izchilligini ta'minlaydi. U bir vaqtning o'zida bir nechta jarayonlar bir blokga kirishda ma'lumotlarning buzilishi yoki conflictlarni oldini olish uchun sinxronizatsiya mexanizmlarini qo'llaydi.
 
 Block I/O managementi ma'lumotlarni samarali saqlash va qidirishda muhim rol o'ynaydi, bu ilovalar va operatsion tizimning block devicelar bilan samarali o'zaro ta'siriga imkon beradi. U ma'lumotlar uzatishni(data transfer) optimallashtiradi, xatolik holatlarini hal qiladi va block devicelar bilan ishlashda ma'lumotlar yaxlitligini ta'minlaydi.
-
 
 Linux Block I/O subsystemi qurilmalardan ma'lumotlarni o'qish va yozish bilan shug'ullanadi: blockli I/O requestlarini yaratish, blockli I/O requestlarini o'zgartirish (masalan, dasturiy ta'minot RAID yoki LVM uchun), so'rovlarni birlashtirish(merge request) va tartiblash(sorting) va ularni scheduling qilish qurilma drayverlarini blokirovka qilish uchun turli xil I/O schedulerlari.
 
@@ -514,9 +496,11 @@ Oddiy qilib aytganda, VFS ni turli tillar orasidagi tarjimon yoki vositachi bila
 VFS fayl tizimlari qo'llab-quvvatlashi kerak bo'lgan standart operatsiyalar va ma'lumotlar tuzilmalari to'plamini belgilaydi. Ushbu umumiy interfeys applicationlar va kernelga fayllarni o'qish(read), yozish(write), ochish(open), yopish(close) va qidirish kabi operatsiyalarni har bir asosiy fayl tizimining o'ziga xos xususiyatlarini bilmasdan bajarishga imkon beradi.
 
 #### Transparent Translation (Shaffof tarjima)
+
 Malakali tarjimon og'zaki so'zlarni bir tildan boshqa tilga o'zgartirgani kabi, VFS hamapplicationlar tomonidan so'raladigan umumiy fayl tizimi operatsiyalarini asosiy fayl tizimlari uchun specific calllarga tarjima qiladi. Amaldagi fayl tizimidan qat'i nazar, tegishli fayl tizimiga xos funksiyalarni ishga tushirishni ta'minlaydi.
 
 #### File System Integration (Fayl tizimi integratsiyasi)
+
 VFS ext4, NTFS yoki NFS kabi turli fayl tizimlarini Linux yadrosiga muammosiz integratsiya qilish imkonini beradi. Har bir fayl tizimi VFS operatsiyalari uchun o'zining amalga oshirilishini ta'minlaydi, bu yadroga bir xil yuqori darajadagi buyruqlar to'plamidan foydalangan holda turli fayl tizimlari bilan ishlash imkonini beradi.
 
 #### Filesystem-Specific Mounting
@@ -524,14 +508,15 @@ VFS ext4, NTFS yoki NFS kabi turli fayl tizimlarini Linux yadrosiga muammosiz in
 Fayl tizimiga kirish kerak bo'lganda, VFS uni tizimga o'rnatish(mounting) jarayonini boshqaradi. O'rnatish(mountlash) yangi tashqi xotira qurilmasini kompyuterga ulash va undan foydalanish imkoniyatini yaratishga o'xshaydi. VFS fayl tizimi turini tanib olish, kerakli resurslarni taqsimlash va uni fayl tizimi ierarxiyasiga integratsiyalash bilan shug'ullanadi.
 
 #### Virtual Filesystem Tree (Virtual fayl tizimi daraxti)
+
 VFS asosiy fayl tizimlaridan qat'i nazar, fayl tizimi ierarxiyasining yagona ko'rinishini taqdim etadi. U barcha o'rnatilgan fayl tizimlarini yagona directory tuzilishiga birlashtirgan virtual filesystem treeni yaratadi. Bu applicationlarga, ular yashaydigan haqiqiy fayl tizimidan qat'i nazar, izchil yo'llar yordamida fayllarni kezish va ularga kirish imkonini beradi.
 
 Virtual Filesystem Switch Linux kernelida bir xil interfeys va turli fayl tizimlarining uzluksiz integratsiyasini ta'minlashda hal qiluvchi rol o'ynaydi. Bu qo'llaniladigan fayl tizimining ma'lum bir dasturidan qat'i nazar, applicationlarning standartlashtirilgan buyruqlar to'plamidan foydalangan holda fayllar va directorilar bilan o'zaro ishlashini ta'minlaydi.
 
-
 Linux Virtual Filesystem Switch fayl tizimi drayverlarini takrorlashni kamaytirish uchun umumiy / generic fayl tizimi kodini implement qiladi. U ma'lum fayl tizimi abstraktsiyalarini taqdim etadi, masalan:
 
-+ `inode` - diskdagi faylni tavsiflaydi (atributlar, diskdagi ma'lumotlar bloklarining joylashuvi)
+- `inode` - diskdagi faylni tavsiflaydi (atributlar, diskdagi ma'lumotlar bloklarining joylashuvi)
+
 * `dentry` - inodeni nomga bog'laydi
 * `file` - ochilgan faylning xususiyatlarini tavsiflaydi (masalan, fayl ko'rsatkichi)
 * `superblock` - formatlangan fayl tizimining xususiyatlarini tavsiflaydi (masalan, bloklar soni, blok hajmi, diskdagi root directorining joylashuvi, shifrlash va boshqalar).
@@ -540,9 +525,9 @@ Linux Virtual Filesystem Switch fayl tizimi drayverlarini takrorlashni kamaytiri
 
 Linux VFS shuningdek, quyidagilarni o'z ichiga olgan murakkab keshlash mexanizmini amalga oshiradi:
 
-* `inode cache` - fayl atributlari va ichki fayl metama'lumotlarini keshlaydi
-* `dentry cache ` - fayl tizimining directory ierarxiyasini keshlaydi
-* `page cache` - xotiradagi fayl ma'lumotlar bloklarini keshlaydi
+- `inode cache` - fayl atributlari va ichki fayl metama'lumotlarini keshlaydi
+- `dentry cache ` - fayl tizimining directory ierarxiyasini keshlaydi
+- `page cache` - xotiradagi fayl ma'lumotlar bloklarini keshlaydi
 
 ### Networking stack
 
@@ -554,9 +539,9 @@ Haqiqiy hayot nuqtai nazaridan, biz networking stacni pochta xizmati kabi tasavv
 
 Linux VFS shuningdek, quyidagilarni o'z ichiga olgan murakkab keshlash mexanizmini amalga oshiradi:
 
-* `inode cache` - fayl atributlari va ichki fayl metama'lumotlarini keshlaydi
-* `dentry cache ` - fayl tizimining directory ierarxiyasini keshlaydi
-* `page cache` - xotiradagi fayl ma'lumotlar bloklarini keshlaydi
+- `inode cache` - fayl atributlari va ichki fayl metama'lumotlarini keshlaydi
+- `dentry cache ` - fayl tizimining directory ierarxiyasini keshlaydi
+- `page cache` - xotiradagi fayl ma'lumotlar bloklarini keshlaydi
 
 ### Networking stack
 
@@ -600,7 +585,7 @@ Ushbu xavfsizlik modullari fayl tizimi ruxsatlari(file system permission), tarmo
 
 LSM bir vaqtning o'zida bir nechta xavfsizlik modullaridan foydalanishga imkon beruvchi moslashuvchanlik va kengayishni ta'minlaydi. Ushbu modulli yondashuv Linux kerneliga uning asosiy kod bazasini o'zgartirmasdan uchinchi tomon xavfsizlik yechimlarini integratsiyalashni osonlashtiradi.
 
-Bir nechta Linux security extensionlari kengaytirilgan security policelarini qo'llash uchun LSM dan foydalanadi. 
+Bir nechta Linux security extensionlari kengaytirilgan security policelarini qo'llash uchun LSM dan foydalanadi.
 
 Mana bir nechta diqqatga sazovor misollar:
 
@@ -614,11 +599,11 @@ SELinux keng qoʻllaniladigan security extensioni boʻlib, mandatory access cont
 
 ![Tizim arxitekturasi](images/article/os-kernel/14.png)
 
-AppArmor - bu  application-leveldagi xavfsizlikka qaratilgan yana bir mashhur security extension. U LSM dan individual applicationlar uchun xavfsizlik profillarini aniqlash va joriy qilish, ularning resurslarga kirishini cheklash va xavfsizlikning mumkin bo'lgan zaifliklarining ta'sirini kamaytirish uchun foydalanadi.
+AppArmor - bu application-leveldagi xavfsizlikka qaratilgan yana bir mashhur security extension. U LSM dan individual applicationlar uchun xavfsizlik profillarini aniqlash va joriy qilish, ularning resurslarga kirishini cheklash va xavfsizlikning mumkin bo'lgan zaifliklarining ta'sirini kamaytirish uchun foydalanadi.
 
 #### Tomoyo
 
-Tomoyo Linux - bu fine-grained system-wide protectionni ta'minlaydigan  lightweight access control tizimi. U LSM dan domain-specific policy konfiguratsiyasiga asoslangan poliselarni amalga oshirish, oldindan belgilangan qoidalarga asoslangan muayyan harakatlarga ruxsat berish yoki rad etish uchun foydalanadi.
+Tomoyo Linux - bu fine-grained system-wide protectionni ta'minlaydigan lightweight access control tizimi. U LSM dan domain-specific policy konfiguratsiyasiga asoslangan poliselarni amalga oshirish, oldindan belgilangan qoidalarga asoslangan muayyan harakatlarga ruxsat berish yoki rad etish uchun foydalanadi.
 
 #### Smack
 

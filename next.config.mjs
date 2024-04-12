@@ -20,6 +20,6 @@ export default withNextra({
     {
       source: "/download/latest",
       destination: "https://mirror.dc.uz/xinux/iso/",
-    }
+    },
   ],
 });

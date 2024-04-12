@@ -14,24 +14,24 @@
   "author": "Uzinfocom Open Source",
   "license": "MIT",
   "dependencies": {
-    "@vercel/og": "^0.0.27",
-    "clsx": "^1.2.1",
-    "framer-motion": "^9.0.0",
-    "next": "^13.1.1",
-    "nextra": "^2.2.14",
-    "nextra-theme-docs": "^2.2.14",
+    "@vercel/og": "^0.5.0",
+    "clsx": "^2.0.0",
+    "framer-motion": "^10.0.0",
+    "next": "^13.5.6",
+    "nextra": "2.13.4",
+    "nextra-theme-docs": "2.13.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sharp": "^0.32.6"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "@types/react": "^18.0.26",
-    "autoprefixer": "^10.4.13",
+    "@svgr/webpack": "^8.0.1",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.21",
+    "autoprefixer": "^10.4.15",
     "eslint": "^8.30.0",
-    "eslint-config-next": "13.1.6",
-    "postcss": "^8.4.21",
-    "prettier": "^2.8.3",
-    "tailwindcss": "^3.2.4",
-    "typescript": "^4.9.4"
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.4.5"
   }
 }

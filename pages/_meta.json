@@ -25,6 +25,13 @@
       "typesetting": "article"
     }
   },
+  "roadmap": {
+    "type": "page",
+    "title": "Roadmap",
+    "theme": {
+      "typesetting": "article"
+    }
+  },
   "download": {
     "type": "page",
     "title": "Yuklash",

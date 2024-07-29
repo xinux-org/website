@@ -4,9 +4,6 @@ const PREFIX_PATH = "";
 const withNextra = require("nextra")({
   theme: "nextra-theme-docs",
   themeConfig: "./theme.config.js",
-  images: {
-    quality: 90,
-  },
 });
 
 module.exports = withNextra({

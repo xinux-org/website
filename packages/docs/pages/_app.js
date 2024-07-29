@@ -2,15 +2,10 @@ import "../styles.css";
 import amplitude from "amplitude-js";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useInitAnalytics } from "../utils/useInitAnalytics";
-import "vanilla-cookieconsent/dist/cookieconsent.css";
-import "../utils/cookieConsentTheme.css";
 
 export default function Nextra({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page);
   const router = useRouter();
-
-  useInitAnalytics(process.env.NEXT_PUBLIC_AMPLITUDE);
 
   const isBrowser = typeof window !== "undefined";
   const [initialRouteTracked, setInitialRouteTracked] = useState(false);

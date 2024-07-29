@@ -2,10 +2,11 @@ const BASE_PATH = process.env.BASE_PATH;
 const PREFIX_PATH = "";
 
 const withNextra = require("nextra")({
+  output: "export",
   theme: "nextra-theme-docs",
   themeConfig: "./theme.config.js",
   images: {
-    quality: 90,
+    unoptimized: true,
   },
 });
 
@@ -471,7 +472,7 @@ module.exports = withNextra({
         permanent: true,
       },
       /*
-           Redirects for missing repo content that is available 
+           Redirects for missing repo content that is available
            under devboxes
            Not permanent redirection as content might change
         */

@@ -1,8 +1,8 @@
 {pkgs ? import <nixpkgs> {}}:
 pkgs.mkShell {
   buildInputs = [
-    pkgs.pnpm
     pkgs.nodejs_22
+    pkgs.nodePackages.pnpm
   ];
 
   shellHook = ''

@@ -9,11 +9,33 @@ export default {
   footer: { component: null },
   feedback: { content: null },
 
+  search: {
+    loading: "Yuklanmoqda...",
+    error: "Qidiruvda xatolik yuz berdi. Iltimos, keyinroq urinib ko'ring.",
+    emptyResult: () => <span className="nx-block nx-select-none nx-p-8 nx-text-center nx-text-sm nx-text-gray-400">Hech narsa topilmadi</span>,
+    placeholder: () => "Qidiruv...",
+  },
+
+  themeSwitch: {
+    useOptions() {
+      return {
+        light: 'Yorqin',
+        dark: 'Tungi',
+        system: 'Tizim'
+      }
+    }
+  },
+
+  toc: {
+    float: true,
+    title: 'Ushbu sahifada'
+  },
+
   editLink: {
-    text: "Edit this page on CodeSandbox →",
+    text: "Ushbu sahifani GitHub da to'g'irlash →",
     component: ({ children, className, filePath }) => (
       <a
-        href={`https://codesandbox.io/p/github/codesandbox/docs/main?file=/packages/projects-docs/${filePath}`}
+        href={`https://github.com/xinux-org/website/blob/main/packages/docs/${filePath}`}
         className={className}
       >
         {children}
@@ -34,7 +56,7 @@ export default {
   gitTimestamp: null,
   useNextSeoProps() {
     return {
-      titleTemplate: "%s – CodeSandbox",
+      titleTemplate: "%s – Xinux",
     };
   },
   head() {
@@ -48,25 +70,24 @@ export default {
           name="description"
           content={
             frontMatter.description ||
-            "Experience the future of web development and build projects anywhere and anytime with your team."
+            "NixOS va Xinux haqida yozilgan yordamchi ma'lumot va qo'llanmalar."
           }
         />
         <meta
           name="og:description"
           content={
             frontMatter.description ||
-            "Experience the future of web development and build projects anywhere and anytime with your team."
+            "NixOS va Xinux haqida yozilgan yordamchi ma'lumot va qo'llanmalar."
           }
         />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@codesandbox" />
         <meta name="twitter:image" content={OG_IMAGE_URL} />
         <meta
           name="og:title"
           content={
             frontMatter.title
-              ? frontMatter.title + " – CodeSandbox"
-              : "CodeSandbox Documentation"
+              ? frontMatter.title + " – Xinux Uzbekistan"
+              : "Xinux Documentation Website"
           }
         />
         <meta name="og:image" content={OG_IMAGE_URL} />

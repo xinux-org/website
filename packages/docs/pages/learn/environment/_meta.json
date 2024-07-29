@@ -1,0 +1,8 @@
+{
+  "vm": "VM Config & Persistence",
+  "devcontainers": "Dev Containers",
+  "docker": { "display": "hidden" },
+  "secrets": "Environment Variables",
+  "branch-protection": "Branch Protection",
+  "preview-urls": "Preview URLs"
+}

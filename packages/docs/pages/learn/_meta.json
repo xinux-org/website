@@ -1,0 +1,33 @@
+{
+  "index": "Introduction",
+  "guides": "Getting Started",
+  "-- cloud-development": {
+    "type": "separator",
+    "title": "Cloud Development"
+  },
+  "repositories": "Repositories",
+  "devboxes": "Devboxes",
+  "editors": "Editors",
+  "ai": "AI",
+  "environment": "Environment",
+  "integrations": "Integrations",
+  "-- sandboxes": {
+    "type": "separator",
+    "title": "Sandboxes"
+  },
+  "sandboxes": "Sandboxes",
+  "legacy-sandboxes": "Legacy Sandboxes",
+  "-- Plans": {
+    "type": "separator",
+    "title": "Plans & Billing"
+  },
+  "plans": "Plans",
+  "credit-usage": "Credits & Usage",
+  "access": "Access",
+  "-- more": {
+    "type": "separator",
+    "title": "More"
+  },
+  "ci": "CodeSandbox CI",
+  "explore": "Explore Page & Curators"
+}

@@ -1,4 +1,8 @@
 {
+  "index": {
+    "title": "Index",
+    "type": "page"
+  },
   "learn": {
     "title": "Documentation",
     "type": "page"

@@ -1,14 +1,14 @@
 {
   "index": {
-    "title": "Index",
+    "title": "Asosiy",
     "type": "page"
   },
   "learn": {
-    "title": "Documentation",
+    "title": "Qo'llanma",
     "type": "page"
   },
   "tutorial": {
-    "title": "Tutorial",
+    "title": "Yordamchi",
     "type": "page"
   },
   "faq": {

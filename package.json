@@ -7,8 +7,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:projects": "pnpm --filter docs dev",
-    "test:projects": "pnpm --filter docs test-docs"
+    "dev": "pnpm --filter docs dev",
+    "build": "pnpm --filter docs build",
+    "test": "pnpm --filter docs test-docs"
   },
   "dependencies": {
     "@radix-ui/react-tabs": "^1.0.4",

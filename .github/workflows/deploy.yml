@@ -38,7 +38,6 @@ jobs:
         run: |
           pnpm install
           pnpm build
-        working-directory: ./packages/docs
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

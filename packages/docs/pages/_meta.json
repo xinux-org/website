@@ -10,13 +10,5 @@
   "learn": {
     "title": "Qo'llanma",
     "type": "page"
-  },
-  "tutorial": {
-    "title": "Yordamchi",
-    "type": "page"
-  },
-  "faq": {
-    "title": "FAQ",
-    "type": "page"
   }
 }

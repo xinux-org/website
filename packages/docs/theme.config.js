@@ -1,7 +1,7 @@
 import Logo from "./components/Logo";
 import { useConfig } from "nextra-theme-docs";
 
-const OG_IMAGE_URL = "https://codesandbox.io/docs/projects/og-image.jpg";
+const OG_IMAGE_URL = "https://xinux.uz/og-image.jpg";
 
 export default {
   project: {},

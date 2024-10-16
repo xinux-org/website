@@ -3,6 +3,9 @@ import { useConfig } from "nextra-theme-docs";
 
 const OG_IMAGE_URL = "https://xinux.uz/og-image.jpg";
 
+/**
+ * @type {import('nextra-theme-docs').DocsThemeConfig}
+ */
 export default {
   project: {},
 

@@ -20,5 +20,6 @@
   "introduction-to-flakes": "Flakelar ga kirish",
   "nixos-with-flakes-enabled": "NixOS tizimida Flakesʼni yoqish",
   "nixos-flake-configuration-explained": "flake.nix konfiguratsiya tushunchalari",
-  "nixos-flake-and-module-system": "Flakes va Nixpkgs modullar tizimining kombinatsiya imkoniyatlari"
+  "nixos-flake-and-module-system": "Flakes va Nixpkgs modullar tizimining kombinatsiya imkoniyatlari",
+  "start-using-home-manager": "Home Manager bilan ishlashni boshlash"
 }

@@ -1,0 +1,285 @@
+---
+title: Home Manager bilan ishlashni boshlash
+authors: ['Orzklv']
+description:
+  NixOS da Home Manager bilan birgalikda ishlab ko'ramiz.
+---
+
+# Home Manager bilan ishlashni boshlash
+
+Yuqorida aytib o'tganimdek, NixOS faqat tizim darajasidagi konfiguratsiyalarni boshqaradi. Uy katalogidagi foydalanuvchi darajasidagi konfiguratsiyalarni boshqarish uchun esa biz Home Manager oʻrnatishimiz kerak.
+
+Rasmiy [Home Manager qoʻllanmasiga](https://nix-community.github.io/home-manager/index.xhtml) koʻra, Home Manager'ni NixOS moduli sifatida oʻrnatish uchun avval `/etc/nixos/home.nix` faylini yaratishimiz kerak. Quyida misol uchun ushbu faylning mazmuni keltirilgan:
+
+```nix
+{ config, pkgs, ... }:
+
+{
+  # Iltimos, foydalanuvchi nomini va uy katalogini oʻz holatingizga moslang
+  home.username = "ryan";
+  home.homeDirectory = "/home/ryan";
+
+  # Joriy katalogdagi konfiguratsiya faylini koʻrsatilgan joyga bogʻlash
+  # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
+
+  # `./scripts` ichidagi barcha fayllarni `~/.config/i3/scripts` ga bogʻlash
+  # home.file.".config/i3/scripts" = {
+  #   source = ./scripts;
+  #   recursive = true;   # rekursiv bogʻlash
+  #   executable = true;  # barcha fayllarni bajariladigan qilish
+  # };
+
+  # Fayl mazmunini toʻgʻridan-toʻgʻri nix konfiguratsiyasiga yozish
+  # home.file.".xxx".text = ''
+  #     xxx
+  # '';
+
+  # 4k monitor uchun kursor hajmi va dpi sozlamalari
+  xresources.properties = {
+    "Xcursor.size" = 16;
+    "Xft.dpi" = 172;
+  };
+
+  # Foydalanuvchi profiliga oʻrnatilishi kerak boʻlgan paketlar
+  home.packages = with pkgs; [
+    # ushbu keltirilganlar men kunlik davomida ishlatadiganlarim
+    # o'zingiznikini qo'shish yoki keltirilganlardan olib tashashdan tortinmang
+    
+    neofetch
+    nnn # terminal fayl menejer
+    
+    # arxivlar
+    zip
+    xz
+    unzip
+    p7zip
+    
+    # utilitalar
+    ripgrep # regex tuzilma yordamida kataloglar ichidan rekursiv qidiruv
+    jq # json ustida ishlovchi yengil va qulay instrument
+    yq-go # yaml ustida ishlovchi
+    eza # `ls` o'rniga zamonaviy o'rnini bosuvchi
+    fzf # buyruq satrli fuzzy qidiruv utilitasi
+    
+    # tarmoq utilitalari
+    mtr # tarmoq diagnostika utilitasi
+    iperf3
+    dnsutils # `dig` + `nslookup`
+    ldns # `dig` o'rnini bosuvchi, `drill` buyrug'ini taqdim etadi
+    aria2 # multi-protokol va multi-manba'lik buyruq satridagi yuklovchi utilita
+    socat # openbsd-netcat o'rnini bosuvchi
+    nmap # tarmoq qidiruvchi va xavfsizlik auditi uchun utilita
+    ipcalc # IPv4/v6 lar uchun kalkulyator
+    
+    # hokazo
+    cowsay
+    file
+    which
+    tree
+    gnused
+    gnutar
+    gawk
+    zstd
+    gnupg
+    
+    # nix ga tegishli
+    # 
+    # `nom` buyrug'ini beradi va `nix` day ishlaydi
+    # tafsilotli log chiqishini ta’minlaydi
+    nix-output-monitor
+    
+    # mahsuldorlik
+    hugo # statik sayt yaratish vositasi
+    glow # terminalda markdown ko‘ruvchisi
+    
+    btop # htop/nmon o'rnini bosuvchi
+    iotop # io (chiqim/kirim) ko'rsatib turuvchi
+    iftop # tarmoq ko'rsatib turuvchi
+    
+    # tizim chaqiruvchi monitoring
+    strace # tizimga bo'lgan chaqiruvlar monitoringi
+    ltrace # kutubxonalardan bo'lgan chaqiruvlar monitoringi
+    lsof # ochilgan fayllar ro'yxatlovchi
+    
+    # tizim utilitalari
+    sysstat
+    lm_sensors # `sensors` buyrug'i uchun
+    ethtool
+    pciutils # lspci
+    usbutils # lsusb
+  ];
+
+  # oddiy git sozlamari, o'zingizga moslang
+  programs.git = {
+    enable = true;
+    userName = "Ryan Yin";
+    userEmail = "xiaoyin_c@qq.com";
+  };
+
+  # starship - istalgan buyruq satri ko'rinishi o'zgartiruvchi
+  programs.starship = {
+    enable = true;
+    # moslangan sozlamalar
+    settings = {
+      add_newline = false;
+      aws.disabled = true;
+      gcloud.disabled = true;
+      line_break.disabled = true;
+    };
+  };
+
+  # alacritty - platformalarar-o, GPU orqali tezlatilgan buyruq satr emulyatori
+  programs.alacritty = {
+    enable = true;
+    # moslangan sozlamalar
+    settings = {
+      env.TERM = "xterm-256color";
+      font = {
+        size = 12;
+        draw_bold_text_with_bright_colors = true;
+      };
+      scrolling.multiplier = 5;
+      selection.save_to_clipboard = true;
+    };
+  };
+
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    # ESLATMA o'zingizni bashrc'ingizni qo'shib keting
+    bashrcExtra = ''
+      export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
+    '';
+    
+    # qiqartma nomlar qo'shing, xoh qo'shing, xoh olib tashlang
+    shellAliases = {
+      k = "kubectl";
+      urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
+      urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
+    };
+  };
+
+  # Bu qiymat qaysi versiyadagi home-manager sozlamari bilan
+  # to'g'ri kelishini belgilaydi. Bu ko'proq home manager ning
+  # eski versiya bilan chiqishmaydigan yangi versiyasi chiqganda
+  # buzilib qolishlar oldini oladi.
+  # 
+  # Shu qiymat o'zgartirmayam home manager yangilasa bo'ladi. Ba'tafsil
+  # har bir relizda bo'lgan o'zgarishlar home managerning relizlar 
+  # eslatmasida ko'zdan kechirib chiqing.
+  home.stateVersion = "24.11";
+
+  # Home Manager o'zini o'rnatishiga qo'yib beraylik
+  programs.home-manager.enable = true;
+}
+```
+
+Yaratilgan `/etc/nixos/home.nix` faylini tizim konfiguratsiyasiga qoʻshish uchun `/etc/nixos/flake.nix` faylini yangilaymiz. Shuning uchun, keltirilgan buyruqdan foydalaning:
+
+```shell
+nix flake new example -t github:nix-community/home-manager#nixos
+```
+
+Kerakli sozlashlardan soʻng, `/etc/nixos/flake.nix` quyidagi koʻrinishda boʻladi:
+
+```nix
+{
+  description = "NixOS configuration";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    # home manager, foydalanuvchi sozlamari boshqarish uchun ishlatiladi
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.11";
+      # inputsdagi `follows` kaliti moslab olish uchun ishlatiladi.
+      # home manager ning `inputs.nixpkgs` si ushbu fleykning `inputs.nixpkgs`
+      # si bilan bir xil tarzda olib boriladi har xil bo'lgandagi muammolarni
+      # bartaraf etish uchun.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = inputs@{ nixpkgs, home-manager, ... }: {
+    nixosConfigurations = {
+      # ESLATMA iltimos hostname `my-nixos` ni o'zingiznikiga moslang
+      my-nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./configuration.nix
+          
+          # home manager ni nixos moduli qilib yuklang
+          # shunda home manager sozlamalari avtomatik tarzda qo'shilib ketadi `nixos-rebuild` ishga tushurilganda
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            
+            # ESLATMA ryan ni o'zingizni foydalanuvchi otingizga almashtiring
+            home-manager.users.ryan = import ./home.nix;
+            
+            # Qo'shimchasiga home-manager.extraSpecialArgs ni home.nix ga argument oshirish uchun ishlatsangiz bo'ladi
+          }
+        ];
+      };
+    };
+  };
+}
+```
+
+Keyin `sudo nixos-rebuild switch` buyrug‘ini ishga tushiring, Home Manager avtomatik o‘rnatiladi.
+
+> Agar tizimingizning kompyuter nomi `my-nixos` bo‘lmasa, `flake.nix` faylidagi `nixosConfigurations` nomini moslashtiring yoki `--flake /etc/nixos#my-nixos` ni ishlating.
+
+O‘rnatilgandan so‘ng, barcha foydalanuvchi darajasidagi paketlar va konfiguratsiyalar `/etc/nixos/home.nix` orqali boshqariladi. `sudo nixos-rebuild switch` ishga tushirilganda, Home Manager konfiguratsiyasi avtomatik qo‘llaniladi. (Qo‘lda `home-manager switch` buyrug‘ini ishga tushirish shart emas!)
+
+home.nix faylida foydalanilishi mumkin bo‘lgan variantlarni aniqlash uchun quyidagi hujjatlarga murojaat qiling:
+
+- [Home Manager - A ilova. Konfiguratsiya variantlari](https://nix-community.github.io/home-manager/options.xhtml): Barcha mavjud variantlar ro‘yxati, kalit so‘zlar orqali izlash tavsiya etiladi.
+  - [Home Manager Option Search](https://mipmip.github.io/home-manager-option-search/): yaxshiroq interfeysga ega bo‘lgan izlash vositasi.
+- [home-manager](https://github.com/nix-community/home-manager): Ba’zi variantlar rasmiy hujjatda ko‘rsatilmagan yoki tushunarsiz bo‘lishi mumkin, to‘g‘ridan-to‘g‘ri kodni o‘qing.
+
+
+## Home Manager va NixOS farqlari
+
+Ko‘plab dasturiy paketlar yoki konfiguratsiyalarni NixOS modullari (`configuration.nix`) orqali ham, Home Manager (`home.nix`) orqali ham sozlash mumkin. Savol tug‘iladi: **ulardan qaysi birini tanlash kerak?**
+
+TODO (@orzklv): left a lot to translate 
+
+## Home Manager orqali o‘rnatilgan dasturlardan root sifatida foydalanish
+
+Agar siz home.nix orqali o‘rnatilgan kubectl kabi dasturdan root sifatida foydalanmoqchi bo‘lsangiz, quyidagi muammo yuzaga keladi:
+
+```sh
+# 1. kubtectl mavjud
+› kubectl | head
+kubectl Kubernetes klaster boshqaruvchi utilita.
+
+Batafsil: https://kubernetes.io/docs/reference/kubectl/
+......
+
+# 2. `root` foydalanuvchiga o‘tish
+› sudo su
+
+# `kubectl` buyrug‘ endi topilmaydi
+> kubectl
+Error: ... executable was not found
+
+  × External command failed
+   ╭─[entry #1:1:1]
+ 1 │ kubectl
+   · ───┬───
+   ·    ╰── executable was not found
+   ╰────
+  help: No such file or directory (os error 2)
+
+
+/home/ryan/nix-config> exit
+```
+
+Yechim: `sudo` orqali buyrug‘ni bevosita joriy foydalanuvchi nomidan `root` sifatida ishga tushiring:
+
+```sh
+› sudo kubectl
+kubectl controls the Kubernetes cluster manager.
+...
+```

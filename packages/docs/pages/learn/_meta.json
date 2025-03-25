@@ -1,3 +1,15 @@
 {
-  "index": "So'zboshi"
+  "index": "So'zboshi",
+  "-- Introduction": {
+    "type": "separator",
+    "title": "Boshlang'ich"
+  },
+  "introduction": "Tanishuv",
+  "advantages-and-disadvantages": "Afzalliklari va kamchiliklari",
+  "installation": "O'rnatish",
+  "-- Nix Language": {
+    "type": "separator",
+    "title": "Nix tili"
+  },
+  "the-nix-language": "Asoslar"
 }

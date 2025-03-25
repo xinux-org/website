@@ -11,20 +11,20 @@
     "test-docs": "alex pages/**/"
   },
   "dependencies": {
-    "@next/env": "^14.0.0",
-    "alex": "^11.0.0",
-    "next": "^13.5.6",
+    "@next/env": "^14.2.26",
+    "alex": "^11.0.1",
+    "next": "^13.5.10",
     "next-sitemap": "^3.1.55",
-    "nextra": "^2.13.2",
-    "nextra-theme-docs": "^2.13.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "nextra": "^2.13.4",
+    "nextra-theme-docs": "^2.13.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "remark-gemoji": "^8.0.0"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.3.5"
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17"
   },
   "prettier": {
     "embeddedLanguageFormatting": "off",

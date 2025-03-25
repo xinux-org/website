@@ -1,0 +1,46 @@
+---
+title: Nix va NixOS bilan tanishuv
+authors: ['Orzklv']
+description:
+  Nix va NixOS bilan boshlang'ich bilimlar.  
+---
+
+# Nix va NixOS bilan tanishuv
+
+Nix – deklarativ paket menejeri bo‘lib, foydalanuvchilarga kerakli tizim holatini konfiguratsiya fayllarida (deklarativ konfiguratsiya) tasvirlash imkonini beradi. Shu bilan birga, kerakli holatga erishish mas'uliyatini o‘z zimmasiga oladi.
+
+> Oddiy qilib aytganda, "deklarativ konfiguratsiya" deganda foydalanuvchi faqat kerakli natijani ko‘rsatishi nazarda tutiladi. Masalan, agar siz i3 oynalar menejerini sway bilan almashtirmoqchi ekaningizni aytsangiz, Nix sizga bu natijaga erishishga yordam beradi. Siz sway o‘rnatilishi uchun kerakli paketlarni, i3 bilan bog‘liq paketlarni olib tashlash yoki tizim konfiguratsiyasi va muhit o‘zgaruvchilarini sozlash kabi ichki tafsilotlar haqida tashvishlanishingiz shart emas. Bu tafsilotlarni Nix avtomatik ravishda bajaradi (agar sway va i3 bilan bog‘liq Nix paketlari to‘g‘ri yaratilgan bo‘lsa).
+
+NixOS, Nix paket menejeri asosida yaratilgan Linux distributsiyasi bo‘lib, uni "Kod shaklidagi OS" deb ta'riflash mumkin. U operatsion tizimning butun holatini deklarativ Nix konfiguratsiya fayllari orqali tasvirlaydi.
+
+Operatsion tizim turli dasturiy paketlar, konfiguratsiya fayllari va matn/bin ma’lumotlardan iborat bo‘lib, bularning barchasi tizimning hozirgi holatini ifodalaydi. Deklarativ konfiguratsiya faqat tizim holatining statik qismini boshqara oladi. PostgreSQL, MySQL yoki MongoDB kabi dinamik ma’lumotlar deklarativ konfiguratsiya orqali samarali boshqarilishi mumkin emas. Shu sababli, NixOS asosan tizim holatining statik qismini deklarativ tarzda boshqarishga yo‘naltirilgan. Dinamik ma’lumotlar va foydalanuvchi uy papkasi tarkiblari NixOS avvalgi avlodga qaytarilganda o‘zgarmaydi.
+
+Garchi to‘liq tizim qayta tiklanuvchanligiga erisha olmasak ham, foydalanuvchi uchun muhim bo‘lgan `/home` papkasi ko‘plab kerakli konfiguratsiya fayllarini – [Dotfiles](https://wiki.archlinux.org/title/Dotfiles) ni saqlaydi. [home-manager](https://github.com/nix-community/home-manager) nomli jamoaviy loyiha foydalanuvchi darajasidagi paketlar va konfiguratsiya fayllarini boshqarish uchun ishlab chiqilgan.
+
+Nix deklarativligi va qayta ishlab chiqarilishi tufayli nafaqat desktop muhitlarini, balki dastur ishlab chiqarish muhitlari, kompilyatsiya muhitlari, bulutli virtual mashinalar va konteyner tasvirlarini qurish uchun ham keng qo‘llaniladi. [NixOps](https://github.com/NixOS/nixops) (rasmiy Nix loyihasi) va [colmena](https://github.com/zhaofengli/colmena) (jamoaviy loyiha) Nix asosidagi operatsion vositalardir.
+
+## Nima uchun NixOS?
+
+Men Nix paket menejeri haqida bir necha yil oldin bilgan edim. U tizim konfiguratsiyasini tasvirlash uchun Nix tilidan foydalanadi. Uning asosida yaratilgan NixOS Linux distributsiyasi esa tizimni avvalgi holatlarga qaytarishga imkon beradi (faqat Nix konfiguratsiyasida e’lon qilingan holatlarni qaytarish mumkin). Dastlab juda jozibali tuyulgan bo‘lsa-da, yangi til o‘rganish va paketlarni o‘rnatish uchun kod yozish menga og‘ir ko‘ringanligi sababli bu bilan shug‘ullanmadim.
+
+Ammo yaqinda EndeavourOS ishlatish davomida juda ko‘p muhit bilan bog‘liq muammolarga duch keldim va ularni hal qilish juda ko‘p vaqtimni va kuchimni oldi. Oxiri versiyalarni nazorat qilish va tizimni qayta tiklash imkoniyatlarining yo‘qligi EndeavourOS bilan bog‘liq asosiy muammo ekanini anglab yetdim.
+
+Shu sababli NixOS’ga o‘tishga qaror qildim.
+
+NixOS mening kutganimdan ham ko‘ra yaxshi bo‘lib chiqdi. Eng ajoyib jihati – butun i3 muhitim va barcha odatda foydalanadigan paketlarni yangi NixOS hostiga atigi bitta buyruq bilan qayta tiklay olaman: `sudo nixos-rebuild switch --flake .`. Bu haqiqatan ham hayratlanarli!
+
+NixOS ning qayta tiklash va qayta ishlab chiqarish imkoniyatlari menda katta ishonch uyg‘otdi – endi tizimni buzib qo‘yishdan qo‘rqmayman. Hatto yangi narsalarni, masalan, hyprland kompozitorini sinab ko‘rishni boshladim. EndeavourOS da bu kabi tajribalarni qilishga jur'at qilolmasdim.
+
+NixOS va Nix bilan chuqur tanishib borgach, bir nechta host konfiguratsiyalarini sinxron boshqarish uchun ham juda qulay ekanligini ko‘rdim. Ayni paytda shaxsiy [nix-config](https://github.com/ryan4yin/nix-config) quyidagi hostlarni boshqarmoqda:
+
+* Desktop kompyuterlar
+  * 1 Macbook Pro 2020 (Intel amd64).
+  * 1 Macbook Pro 2022 (M2 aarch64).
+  * 1 NixOS desktop PC (amd64).
+* Serverlar
+  * 3 ta NixOS virtual mashinasi (amd64).
+  * Bir necha aarch64 va riscv64 ishlab chiqarish taxtasi.
+
+Uchta desktop kompyuterning ishlab chiqarish muhiti Home Manager orqali boshqariladi, asosiy konfiguratsiya to‘liq umumiy bo‘lib, har qanday hostda o‘zgartirilgan konfiguratsiyani Git orqali boshqa hostlarga bemalol sinxronlashtirish mumkin.
+
+Nix meni uchta mashinaning ostidagi OS va arxitektura farqlaridan to‘liq himoyalaydi, tajriba esa juda silliq!

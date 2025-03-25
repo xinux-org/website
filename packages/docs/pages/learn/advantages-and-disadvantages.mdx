@@ -1,0 +1,57 @@
+---
+title: NixOS ning afzallik va kamchiliklari
+authors: ['Orzklv']
+description:
+  Nix va NixOS ning ishlatishdagi afzalliklari va kamchiliklari orasida solishtiruv.  
+---
+
+# NixOS ning afzalliklari va kamchiliklari
+
+## NixOS ning afzalliklari
+
+- **Deklarativ konfiguratsiya, Kod shaklidagi OS**
+  - NixOS deklarativ konfiguratsiyadan foydalangan holda butun tizim muhitini boshqaradi. Ushbu konfiguratsiyalarni Git orqali to‘g‘ridan-to‘g‘ri boshqarish mumkin bo‘lib, konfiguratsiya fayllari saqlangan taqdirda tizimni istalgan tarixiy holatga tiklash mumkin (agar kerakli holatlar Nix konfiguratsiyasida e’lon qilingan bo‘lsa).
+  - Nix Flakes esa qayta takrorlanuvchanlikni yanada oshiradi va buning uchun barcha bog‘liqliklarning manba manzillari, hash qiymatlari kabi ma’lumotlarni saqlaydigan `flake.lock` versiya qulflash faylidan foydalanadi. Bu dizayn Nix ning qayta tiklanuvchanligini yaxshilaydi va izchil qurilish natijalarini ta'minlaydi. Dizayn Cargo va npm kabi dasturlash tillaridagi paket menejerlaridan ilhomlangan.
+- **Tizimni sozlashning yuqori qulayligi**
+  - Bir necha konfiguratsiya o‘zgarishlari bilan tizimning turli komponentlarini osongina almashtirish mumkin. Nix barcha murakkab ichki operatsiyalarni Nix paketlarida jamlaydi va foydalanuvchilarga qisqa va sodda deklarativ parametrlarni taqdim etadi.
+  - O‘zgartirishlar xavfsiz amalga oshiriladi va turli desktop muhitlari (GNOME, KDE, i3, sway va boshqalar) orasida osongina almashish mumkin.
+- **Tizimni avvalgi holatlarga qaytarish imkoniyati**
+  - NixOS orqali istalgan oldingi tizim holatiga qaytish mumkin va standart holatda barcha avvalgi versiyalar yuklash variantlarida mavjud bo‘ladi. Bu esa Nix ni eng barqaror paket boshqaruvchilardan biri sifatida tanilishiga olib keladi.
+- **Bog‘liqlik konfliktlari yo‘qligi**
+  - Nixdagi har bir dasturiy paket o‘ziga xos hash qiymatiga ega bo‘lib, o‘rnatish yo‘lida shu qiymat aks etadi va bir nechta versiyalar bir vaqtning o‘zida mavjud bo‘lishi mumkin.
+- **Faol va boy uchinchi tomon hamjamiyati**
+  - Rasmiy paket repozitoriyasi – nixpkgs ko‘plab hissa qo‘shuvchilarga ega bo‘lib, ko‘pchilik o‘z konfiguratsiyalarini omma bilan baham ko‘radi. NixOS ekotizimini o‘rganish yangi qit'ani kashf qilishga o‘xshab hayajonli jarayon hisoblanadi.
+
+<figure>
+  <img src="https://nixos-and-flakes.thiscute.world/nixos-bootloader.avif" />
+  <figcaption>
+    <h4 align="center">
+      NixOs ning hamma tarixiy yuklovchi turlari keltirilgan ro'yxat. <br/>
+      <a href="https://discourse.nixos.org/t/how-to-make-uefis-grub2-menu-the-same-as-bioss-one/10074" target="_blank" rel="noopener noreferrer">
+        NixOS Discourse - 10074
+      </a>
+    </h4>
+  </figcaption>
+</figure>
+
+## NixOS ning kamchiliklari
+
+- **O‘rganish egri chizig‘ining yuqoriligi**
+  - To‘liq qayta takrorlanuvchanlikka erishish va noto‘g‘ri ishlatish bilan bog‘liq muammolardan qochish uchun Nix dizaynini butunlay o‘rganish va tizimni deklarativ tarzda boshqarish talab qilinadi. `nix-env -i` kabi buyruqlarni ko‘r-ko‘rona ishlatish yetarli emas.
+- **Tartibsiz hujjatlar**
+  - Hozirda Nix Flakes eksperimental xususiyat sifatida qolmoqda va unga oid maxsus hujjatlar kam. Ko‘pchilik Nix hamjamiyati hujjatlari asosan klassik `/etc/nixos/configuration.nix` haqida ma'lumot beradi. Flakes(`flake.nix`) bilan boshlash uchun juda ko‘p eskirgan hujjatlarga murojaat qilish va kerakli ma'lumotlarni yig‘ish talab qilinadi.
+- **Disk hajmini ortiqcha sarflash**
+  - Tizimni har qanday vaqtda qayta tiklash imkoniyatini ta'minlash uchun Nix barcha tarixiy muhitlarni standart holatda saqlaydi. Bu esa disk hajmining ortishiga sabab bo‘ladi.
+  - Qo‘shimcha disk sarfi desktop kompyuterlar uchun katta muammo bo‘lmasligi mumkin, ammo resurslari cheklangan bulut serverlarida muammoga aylanishi mumkin.
+- **Tushunarsiz xato xabarlari**
+  - Nixpkgs modul tizimining [murakkab algoritmi](https://discourse.nixos.org/t/best-resources-for-learning-about-the-nixos-module-system/1177/4) sababli, NixOS xato xabarlari juda tushunarsiz. Ko‘p holatlarda, `--show-trace` qo‘shilgan bo‘lsa ham, xatolikning aynan qayerda ekanligini aytmaydi. Eng oddiy va samarali yechim kodni "binary search" usulida tiklashdir.
+- **Ichki amalga oshirish murakkabligi**
+  - Nix ning deklarativ abstraksiyasi, an'anaviy imperativ vositalarga qaraganda, kodni murakkablashtiradi. Bu esa past darajadagi o‘zgarishlarni amalga oshirishni qiyinlashtiradi. Biroq, bu yuk asosan Nix paketlarini ta'minlovchilarga tushadi.
+
+## Xulosa
+
+Umuman olganda, NixOS Linux va dasturlash bo‘yicha tajribaga ega bo‘lgan foydalanuvchilar uchun mos keladi.
+
+Linux bilan umuman tajribasi yo‘q yangi boshlovchilarga NixOS ni darhol o‘rganishni tavsiya qilmayman.
+
+> Agar NixOS haqida qo‘shimcha savollaringiz bo‘lsa, ushbu kitobning oxirgi bobidagi [FAQ](../faq/) bo‘limiga murojaat qilishingiz mumkin.

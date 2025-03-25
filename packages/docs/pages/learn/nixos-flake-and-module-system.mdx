@@ -1,0 +1,129 @@
+---
+title: Flakes va Nixpkgs modullar tizimining kombinatsiya imkoniyatlari
+authors: ['Orzklv']
+description:
+  Flakelar bilan birgalikda Nixpkgs ga modul tizimi tarafdan qaraymiz.
+---
+
+# Flakes va Nixpkgs modullar tizimining kombinatsiya imkoniyatlari
+
+## Nixpkgs modul tizimining tuzilishi haqida 
+
+> Modul tizimining batafsil ishlashi keyingi [NixOS konfiguratsiyasini modullashtirish](./modularize-the-configuration.md) boʻlimida batafsil tushuntiriladi. Bu yerda faqat baʼzi asosiy bilimlarni koʻrib chiqamiz.
+
+`/etc/nixos/configuration.nix` konfiguratsiya faylining Nixpkgs moduliga mos kelishi va uni `flake.nix` ichida bevosita murojaat qilish mumkinligiga hayron boʻlayotgan boʻlishingiz mumkin.
+
+Buni tushunish uchun avval Nixpkgs modul tizimining kelib chiqishi va uning maqsadini oʻrganishimiz kerak.
+
+NixOS ning barcha amalga oshirish kodlari [Nixpkgs/nixos](https://github.com/NixOS/nixpkgs/tree/master/nixos) katalogida saqlanadi va koʻpchiligi Nix tilida yozilgan. Bunday koʻp sonli kodlarni yozish va saqlash, shuningdek foydalanuvchilar uchun tizimni moslash imkonini berish uchun Nix uchun modulli tizim zarur.
+
+Bu modulli tizim Nixpkgs repozitoriyasida amalga oshirilgan va asosan NixOS tizim konfiguratsiyalarini modullashtirish uchun ishlatiladi. Lekin u boshqa kontekstlarda ham keng qoʻllaniladi (masalan, nix-darwin va home-manager).
+
+Nixpkgs modulining soddalashtirilgan tuzilishi quyidagicha:
+
+```nix
+{lib, config, options, pkgs, ...}:
+{
+  imports = [
+    ./xxx.nix
+  ];
+  foo.bar.enable = true;
+}
+```
+
+Bu taʼrif aslida Nix funksiyasi boʻlib, modul tizimi tomonidan avtomatik yaratilgan va quyidagi beshta parametrni qabul qiladi:
+
+1. `lib`: nixpkgs ichidagi foydali funksiyalar kutubxonasi.
+2. `config`: Joriy muhitdagi barcha parametrlar qiymatlari.
+3. `options`: Joriy muhitdagi barcha modullarda aniqlangan parametrlar.
+4. `pkgs`: nixpkgs paketlar toʻplami va yordamchi funksiyalar.
+5. `modulesPath`: NixOS da mavjud boʻlgan, qoʻshimcha modullarni import qilish uchun ishlatiladigan yoʻl.
+
+## Submodullarga nostandart parametrlarni uzatish 
+
+Submodullarga nostandart parametrlarni uzatish uchun ikkita maxsus usul mavjud:
+
+1. `nixpkgs.lib.nixosSystem` funksiyasining `specialArgs` parametri orqali.
+2. Modul ichida `_module.args` opsiyasidan foydalanish.
+
+Bu parametrlarning rasmiy hujjatlari murakkab boʻlishi mumkin. Qisqacha aytganda:
+
+- `specialArgs` aniqroq va sodda boʻlib, tavsiya qilinadi.
+- `_module.args` esa modullar oʻrtasida oʻzaro parametrlarni uzatish uchun ishlatiladi, lekin undan ehtiyot boʻlib foydalanish zarur.
+
+`specialArgs` orqali bogʻliqliklarni uzatish misoli:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    another-input.url = "github:username/repo-name/branch-name";
+  };
+
+  outputs = inputs@{ self, nixpkgs, another-input, ... }: {
+    nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
+      modules = [
+        ./configuration.nix
+      ];
+    };
+  };
+}
+```
+
+## Boshqa Flakeʼlardan tizim dasturlarini oʻrnatish
+
+Boshqa Flake manbalaridan dasturlarni oʻrnatishning asosiy usuli `inputs` dan foydalanishdir. Masalan, Helix muharririning master filialini oʻrnatish uchun:
+
+`flake.nix` fayliga helix ni qoʻshamiz:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    helix.url = "github:helix-editor/helix/master";
+  };
+
+  outputs = inputs@{ self, nixpkgs, ... }: {
+    nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
+      modules = [
+        ./configuration.nix
+      ];
+    };
+  };
+}
+```
+
+Soʻngra, `configuration.nix` faylida:
+
+```nix
+{ config, pkgs, inputs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+    wget
+    inputs.helix.packages."${pkgs.system}".helix
+  ];
+}
+```
+
+## Boshqa Flake paketlarining imkoniyatlaridan foydalanish
+
+Bu Flakesʼning asosiy vazifasi hisoblanadi — Flake boshqa Flakeʼlarga bogʻlanib, ular taqdim etgan imkoniyatlardan foydalanishi mumkin.
+
+Masalan:
+
+- [Home Manager bilan ishlashni boshlash](./start-using-home-manager.md)
+- [Paketlarni yangilash yoki eskirish](./downgrade-or-upgrade-packages.md)
+
+## Qoʻshimcha Flakes boʻyicha qoʻllanmalar
+
+Agar Flakes haqida qoʻshimcha savollaringiz boʻlsa, quyidagi manbalarga murojaat qiling:
+
+- [Nix flakes - Nix Manual](https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-flake)
+- [Flakes - nix.dev](https://nix.dev/concepts/flakes)
+- [Practical Nix Flakes](https://serokell.io/blog/practical-nix-flakes)

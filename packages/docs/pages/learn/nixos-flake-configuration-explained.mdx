@@ -1,0 +1,102 @@
+---
+title: flake.nix konfiguratsiyasining tushuntirilishi
+authors: ['Orzklv']
+description:
+  Ushbu maqolada flake.nix tuzilmalari haqida ko'proq yoritib beramiz.
+---
+
+# `flake.nix` konfiguratsiyasining tushuntirilishi
+
+Yuqorida tizim konfiguratsiyasini boshqarish uchun `flake.nix` faylini yaratdik, ammo uning tuzilishi sizga hali tushunarsiz boʻlishi mumkin. Keling, ushbu fayl mazmunini batafsil tushuntirib oʻtamiz.
+
+## 1. Flake Inputs
+
+Avval `inputs` atributiga qaraymiz. Bu flake uchun barcha bogʻliqliklarni belgilovchi atributlar toʻplamidir. Ushbu bogʻliqliklar yuklangandan soʻng `outputs` funksiyasiga argument sifatida beriladi:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+  };
+
+  outputs = { self, nixpkgs, ... }@inputs: {
+    # Oldingi konfiguratsiyalarni shu yerga oʻtkazib yuborish...
+  };
+}
+```
+
+`inputs`dagi bogʻliqliklar koʻp turli boʻlib, ular boshqa flake, oddiy Git repozitoriyasi yoki mahalliy yoʻl boʻlishi mumkin. Bu haqida [Flake Inputs](../other-usage-of-flakes/inputs.md) boʻlimida batafsil ma'lumot berilgan.
+
+Bu yerda biz faqat `nixpkgs` nomli bogʻliqlikni belgiladik. Bu flake ichida koʻp ishlatiladigan usuldir: `github:owner/name/reference`. Bu yerda `reference` filial nomi, commit-id yoki tag boʻlishi mumkin.
+
+## 2. Flake Outputs
+
+Endi `outputs` ga qaraymiz. Bu `inputs` dan olingan bogʻliqliklarni argument sifatida qabul qiluvchi funksiya boʻlib, natija sifatida flake qurilish natijalarini bildiruvchi atributlar toʻplamini qaytaradi:
+
+```nix
+{
+  description = "Oddiy NixOS flake";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+  };
+
+  outputs = { self, nixpkgs, ... }@inputs: {
+    nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./configuration.nix
+      ];
+    };
+  };
+}
+```
+
+Flakeʼlar turli xil maqsadlar uchun turli xil chiqish qiymatlariga ega boʻlishi mumkin. Bu haqida [Flake Outputs](../other-usage-of-flakes/outputs.md) boʻlimida batafsil tanishtirilgan. Bu yerda biz faqat NixOS tizimini sozlash uchun ishlatiladigan `nixosConfigurations` turini koʻrib chiqyapmiz.
+
+## 3. `outputs` funksiyasining maxsus `self` parametri 
+
+Oldingi misollarda koʻrsatmasak ham, `outputs` funksiyasi maxsus `self` parametriga ega. Bu parametr haqida [nix flake - Nix Manual] da shunday yozilgan:
+
+> Maxsus `self` inputi ushbu flakeʼning chiqish qiymatlari va manba daraxtiga murojaat qiladi.
+
+Bu degani, `self` – hozirgi flakeʼning `outputs` funksiyasi qaytargan qiymat va hozirgi flakeʼning manba kodlari joylashgan yoʻldir.
+
+Baʼzi murakkab misollarda yoki konfiguratsiyalarda siz `self`dan foydalanilganini koʻrishingiz mumkin.
+
+> Eslatma: Ayrim joylarda `self.outputs` ishlatiladi, ammo bu rasmiy hujjatda tushuntirilmagan va foydalanish tavsiya etilmaydi.
+
+## 4. `nixpkgs.lib.nixosSystem` funksiyasi haqida qisqacha tushuntirish 
+
+**Bir flake boshqa flakeʼlarga bogʻlanib, ular taqdim qilgan imkoniyatlardan foydalanishi mumkin.**
+
+Standart holatda, flake oʻzining har bir bogʻliqligining ildiz papkasida `flake.nix` faylini qidiradi va ularning `outputs` funksiyalarini baholaydi. Keyin ushbu baholash natijalarini oʻzining `outputs` funksiyasiga uzatib, boshqa flakeʼlarning imkoniyatlaridan foydalanishni taʼminlaydi.
+
+Misol sifatida yuqoridagi `flake.nix`da `inputs.nixpkgs` bogʻliqligi bor va [nixpkgs/flake.nix] bajarilganda, uning chiqish qiymatlaridagi `lib` atributining `nixosSystem` funksiyasidan foydalanamiz:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+  };
+
+  outputs = { self, nixpkgs, ... }@inputs: {
+    nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./configuration.nix
+      ];
+    };
+  };
+}
+```
+
+Bu yerda ikkita parametr belgiladik:
+
+1. `system`: Tizim arxitekturasini belgilaydi.
+2. `modules`: NixOS tizim konfiguratsiyasini belgilovchi modul roʻyxati. `/etc/nixos/configuration.nix` fayli ham Nixpkgs moduli hisoblanadi va uni toʻgʻridan-toʻgʻri ishlatish mumkin.
+
+Boshlovchilar uchun bu asoslarni tushunish yetarlidir. Keyingi boblarda modul tizimini batafsil oʻrganishingiz mumkin.
+
+[nix flake - Nix Manual]: https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-flake#flake-inputs
+[nixpkgs/flake.nix]: https://github.com/NixOS/nixpkgs/tree/nixos-24.11/flake.nix

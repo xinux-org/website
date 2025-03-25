@@ -18,5 +18,7 @@
   },
   "get-started-with-nixos": "NixOS bilan boshlash",
   "introduction-to-flakes": "Flakelar ga kirish",
-  "nixos-with-flakes-enabled": "NixOS tizimida Flakesʼni yoqish"
+  "nixos-with-flakes-enabled": "NixOS tizimida Flakesʼni yoqish",
+  "nixos-flake-configuration-explained": "flake.nix konfiguratsiya tushunchalari",
+  "nixos-flake-and-module-system": "Flakes va Nixpkgs modullar tizimining kombinatsiya imkoniyatlari"
 }

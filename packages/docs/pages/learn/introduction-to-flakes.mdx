@@ -1,0 +1,62 @@
+---
+title: Flakelar haqida boshlang'ich
+authors: ['Orzklv']
+description:
+  Maqola Flakelar (fleyklar) va ularning ahamiyatini yoritib berishga qaratilgan.
+---
+
+import { Callout } from 'nextra/components'
+
+# Flakes bilan tanishuv
+
+Flakes eksperimental funksiyasi Nix uchun katta rivojlanish bo‘lib, u Nix ifodalari o‘rtasidagi bog‘liqliklarni boshqarish siyosatini taqdim etadi hamda Nix ekotizimining qayta ishlab chiqariluvchanligi, kompozitsiyaligi va foydalanish qulayligini yaxshilaydi. Flakes hali eksperimental bo‘lsa ham, Nix hamjamiyatida keng qo‘llaniladi.[^1]
+
+Flakes, Nix loyihasi tarixidagi eng muhim o‘zgarishlardan biri hisoblanadi.[^2]
+
+Oddiy qilib aytganda, agar siz JavaScript/Go/Rust/Python kabi tillarda ishlagan bo‘lsangiz, `package.json`/`go.mod`/`Cargo.toml`/`pyproject.toml` kabi fayllar bilan tanish bo‘lishingiz kerak. Ushbu dasturlash tillarida bu fayllar dasturiy paketlar o‘rtasidagi bog‘liqliklarni va loyihalarni qanday qurishni tasvirlash uchun ishlatiladi.
+
+Xuddi shunday, ushbu dasturlash tillarining paket boshqaruvchilari `package-lock.json`/`go.sum`/`Cargo.lock`/`poetry.lock` kabi fayllardan foydalanib, bog‘liqlik versiyalarini qulflab, loyihalarning qayta ishlab chiqariluvchanligini ta'minlaydi.
+
+Flakes ushbu paket boshqaruvchilari g‘oyalaridan ilhomlanib, Nix ekotizimining qayta ishlab chiqariluvchanligi, kompozitsiyaligi va foydalanish qulayligini oshiradi.
+
+Flakes, Nix paketlari o‘rtasidagi bog‘liqliklarni va loyihalarni qurishni tasvirlash uchun `flake.nix` faylini, bog‘liqlik versiyalarini qulflash uchun esa `flake.lock` faylini taqdim etadi.
+
+Boshqa tomondan, Flakes eksperimental funksiyasi Nixning asl dizaynini foydalanuvchi darajasida buzmagan. Flakes tomonidan taqdim etilgan ikki yangi fayl `flake.nix` va `flake.lock` aslida boshqa Nix konfiguratsiyalarining ustida ishlaydigan qatlamdir. Keyingi boblarda ko‘rishimiz mumkinki, Flakes asl Nix dizayniga asoslangan holda, Nix ifodalari o‘rtasidagi bog‘liqliklarni boshqarishning yangi va qulayroq usulini taqdim etadi.
+
+## Flakes haqida ehtiyotkorlik bilan
+
+Flakesning foydalari aniq bo‘lib, butun NixOS hamjamiyati uni faol qo‘llab-quvvatlamoqda. Hozirda foydalanuvchilarning yarmidan ko‘pi Flakesdan foydalanadi[^3], bu esa uning eskirmasligini kafolatlaydi.
+
+<Callout emoji="⚠️">
+Ammo ta'kidlash kerakki, **Flakes hali ham eksperimental funksiyadir**. Ayrim muammolar mavjud va stabilizatsiya jarayonida buzuvchi o‘zgarishlar kiritilishi ehtimoli bor.
+</Callout>
+
+Umuman olganda, Flakesdan foydalanishni qat'iy tavsiya qilaman, ayniqsa ushbu kitob NixOS va Flakesga qaratilgan. Lekin kelajakdagi buzuvchi o‘zgarishlar tufayli yuzaga kelishi mumkin bo‘lgan muammolarga tayyor turish kerak.
+
+## Flakes qachon stabil bo‘ladi?
+
+Flakes haqida ba'zi tafsilotlarni ko‘rib chiqdim:
+
+- [[RFC 0136] Flakes va yangi CLI ni bosqichma-bosqich stabilizatsiya qilish rejasi](https://github.com/NixOS/rfcs/pull/136): bosqichma-bosqich stabilizatsiya rejasi qabul qilindi.
+- [CLI stabilizatsiya ishlari](https://github.com/NixOS/nix/issues/7701): yangi CLI stabilizatsiyasining borishini kuzatuvchi masala.
+- [Nega Flakes hali ham eksperimental? - NixOS Discourse](https://discourse.nixos.org/t/why-are-flakes-still-experimental/29317): Flakes nima uchun hali ham eksperimental ekanini muhokama qiluvchi post.
+
+Bu manbalarga asoslanib, Flakes taxminan ikki yil ichida stabil bo‘lishi mumkin yoki bo‘lmasligi mumkin, biroq ba'zi buzuvchi o‘zgarishlar bo‘lishi ehtimoli yuqori.
+
+## Yangi CLI va klassik CLI
+
+Nix 2020-yilda ikkita eksperimental funksiyani, ya'ni `nix-command` va `flakes`ni taqdim etdi. Ushbu funksiyalar yangi buyruq qatori interfeysi (New CLI), standart Nix paket strukturasini (Flakes funksiyasi), va `flake.lock` kabi versiya qulflash fayllarini o‘z ichiga oladi. Ushbu funksiyalar 2024-yil 1-fevral holatiga ko‘ra eksperimental bo‘lsa-da, ular juda keng qo‘llaniladi.
+
+Ushbu kitobda yangi CLI va eski CLI o‘rtasidagi farqlarni tanishtirish kerak bo‘ladi.
+
+Quyida yangi CLI va Flakes bilan ishlaganda endi kerak bo‘lmaydigan eski Nix CLI buyruqlari keltirilgan (faqat `nix-collect-garbage`dan tashqari, hozircha buyrug‘ning o‘rniga muqobil yo‘q):
+
+1. `nix-channel`: Flakesʼda uning vazifasi to‘liq `flake.nix`dagi `inputs` bilan almashtirilgan.
+2. `nix-env`: Yangi CLIʼda `nix profile` mavjud, lekin boshlovchilarga tavsiya etilmaydi.
+3. `nix-shell`: Yangi CLIʼda u `nix develop`, `nix shell`, va `nix run` bo‘lib bo‘lingan.
+4. `nix-build`: Yangi CLIʼda `nix build` bilan almashtirilgan.
+5. `nix-collect-garbage`: Yangi CLIʼda muqobili mavjud emas.
+
+[^1]: [Flakes - NixOS Wiki](https://wiki.nixos.org/wiki/Flakes)
+[^2]: [Flakes haqidagi blog](https://grahamc.com/blog/flakes-are-an-obviously-good-thing/)
+[^3]: [NixOS Foundation roadmap](https://nixos-foundation.notion.site/1-year-roadmap-0dc5c2ec265a477ea65c549cd5e568a9)

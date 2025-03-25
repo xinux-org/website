@@ -1,0 +1,84 @@
+---
+title: NixOS bilan ishlashni boshlash
+authors: ['Orzklv']
+description:
+  Ushbu maqolada NixOS bilan boshlang'ich bosqichlardan o'tib chiqamiz.
+---
+
+# NixOS bilan ishlashni boshlash
+
+Endi Nix tilining asoslarini oʻrganib chiqdik, NixOS tizimimizni sozlash uchun undan foydalanishni boshlashimiz mumkin. NixOSʼning standart konfiguratsiya fayli `/etc/nixos/configuration.nix` manzilida joylashgan. Ushbu fayl tizimning barcha deklarativ konfiguratsiyalarini oʻz ichiga oladi: vaqt mintaqasi, til, klaviatura tartibi, tarmoq sozlamalari, foydalanuvchilar, fayl tizimi va yuklash imkoniyatlari.
+
+Tizim holatini qayta ishlab chiqariladigan usulda oʻzgartirish uchun (bu tavsiya qilinadi), `/etc/nixos/configuration.nix` faylini qoʻlda tahrirlab, keyin oʻzgartirilgan konfiguratsiyani qoʻllash uchun `sudo nixos-rebuild switch` buyruğini bajarish kerak. Ushbu buyruq oʻzgartirilgan konfiguratsiya asosida yangi tizim muhitini yaratadi, yangi muhitni standart holat sifatida oʻrnatadi va eski muhitni grub/systemd-boot yuklash variantlarida saqlab qoladi. Bu orqali yangi muhit ishga tushmasa ham, avvalgi muhitga qaytish imkonini beradi.
+
+`/etc/nixos/configuration.nix` NixOS sozlashning klassik usuli boʻlib, u `nix-channel` orqali sozlangan ma'lumot manbalariga bogʻlanadi va versiyalarni qulflash mexanizmiga ega emas. Bu esa tizimning qayta ishlab chiqaruvchanligini ta'minlashni qiyinlashtiradi. Shuning uchun Flakes foydalanish yaxshiroq usul boʻlib, tizim qayta ishlab chiqaruvchanligini oshiradi va konfiguratsiyani boshqarishni osonlashtiradi.
+
+Ushbu boʻlimda, avval `/etc/nixos/configuration.nix` orqali NixOSʼni boshqarishni oʻrganamiz, keyin esa Flakes orqali rivojlangan usullarni koʻrib chiqamiz.
+
+## `/etc/nixos/configuration.nix` yordamida tizimni sozlash
+
+`/etc/nixos/configuration.nix` fayli NixOS tizimini sozlash uchun standart va klassik usuldir. U Flakesʼning rivojlangan xususiyatlariga ega boʻlmasa-da, hali ham keng foydalaniladi va tizim konfiguratsiyasida moslashuvchanlikni ta'minlaydi.
+
+Misol sifatida SSHʼni yoqish va tizimga `ryan` nomli foydalanuvchi qoʻshishni koʻrib chiqamiz. Buni `/etc/nixos/configuration.nix` fayliga quyidagi tarkibni qoʻshish orqali amalga oshirish mumkin:
+
+```nix
+# Ushbu konfiguratsiya faylini tizimingizga kerak boʻlgan narsalarni oʻrnatish uchun tahrirlang.
+# Yordam uchun configuration.nix(5) man sahifasi yoki ‘nixos-help’ orqali NixOS qoʻllanmasiga murojaat qiling.
+{ config, pkgs, ... }:
+
+{
+  imports =
+    [ # Qurilma skanlash natijalarini qoʻshing.
+      ./hardware-configuration.nix
+    ];
+
+  # Oldingi konfiguratsiya sozlamalarini oʻtkazib yuboramiz...
+
+  # 'ryan' foydalanuvchisini qoʻshish
+  users.users.ryan = {
+    isNormalUser = true;
+    description = "ryan";
+    extraGroups = [ "networkmanager" "wheel" ];
+    openssh.authorizedKeys.keys = [
+        # Oʻzingizning SSH ochiq kalitingizni qoʻying
+        "ssh-ed25519 <some-public-key> ryan@ryan-pc"
+    ];
+    packages = with pkgs; [
+      firefox
+    #  thunderbird
+    ];
+  };
+
+  # OpenSSH xizmatini yoqish
+  services.openssh = {
+    enable = true;
+    settings = {
+      X11Forwarding = true;
+      PermitRootLogin = "no"; # root login oʻchirilsin
+      PasswordAuthentication = false; # parol orqali login oʻchirilsin
+    };
+    openFirewall = true;
+  };
+
+  # Konfiguratsiyaning qolgan qismini oʻtkazib yuboramiz...
+}
+```
+
+Ushbu konfiguratsiyada openssh xizmatini yoqish, 'ryan' foydalanuvchisiga SSH ochiq kalitini qoʻshish va parol orqali kirishni oʻchirish niyatimizni eʼlon qilamiz.
+
+Oʻzgartirilgan konfiguratsiyani joylashtirish uchun `sudo nixos-rebuild switch` buyruğini bajaring. Ushbu buyruq oʻzgarishlarni qoʻllaydi, yangi tizim muhitini yaratadi va uni standart holat sifatida oʻrnatadi. Endi SSH orqali sozlangan kalitlar bilan tizimga kirishingiz mumkin.
+
+> Oʻrnatish paytida xatolar bilan duch kelsangiz, batafsil xato xabarini olish uchun `nixos-rebuild` buyruğıga `--show-trace --print-build-logs --verbose` parametrlarini qoʻshishingiz mumkin.
+
+Tizimda har qanday qayta takrorlanuvchi oʻzgarishlarni `/etc/nixos/configuration.nix` faylini tahrirlab, `sudo nixos-rebuild switch` orqali qoʻllash mumkin.
+
+Konfiguratsiya imkoniyatlari va hujjatlarni topish uchun:
+
+- Google kabi qidiruv tizimlaridan foydalaning, masalan `Chrome NixOS` kabi soʻrovlarni qidiring.
+- [NixOS Options Search](https://search.nixos.org/options) orqali kalit soʻzlarni qidiring.
+- [NixOS qoʻllanmasi konfiguratsiya boʻlimi](https://nixos.org/manual/nixos/unstable/index.html#ch-configuration) ga murojaat qiling.
+- GitHubʼdagi [nixpkgs](https://github.com/NixOS/nixpkgs) manba kodidan kalit soʻzlarni toʻgʻridan-toʻgʻri qidirib toping.
+
+## Manbalar
+
+- [NixOS Linux distributsiyasiga umumiy nuqtai nazar](https://wiki.nixos.org/wiki/Overview_of_the_NixOS_Linux_distribution)

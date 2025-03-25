@@ -1,0 +1,100 @@
+---
+title: NixOS tizimida Flakesʼni yoqish
+authors: ['Orzklv']
+description:
+  Ushbu sahifada NixOS ni Flake (fleyk) bilan birgalikda ishlatish yoritilgan.
+---
+
+# NixOS tizimida Flakesʼni yoqish
+
+NixOSʼning joriy standart konfiguratsiya usuli bilan taqqoslaganda, Flakes yaxshiroq qayta ishlab chiqaruvchanlikni taklif qiladi. Aniq paket strukturasining ta'rifi Git repozitoriyalariga bogʻlanishni qoʻllab-quvvatlaydi, bu esa kod almashinuvini osonlashtiradi. Shu sababli, ushbu kitob tizim konfiguratsiyalarini boshqarish uchun Flakesʼdan foydalanishni tavsiya qiladi.
+
+Ushbu boʻlimda Flakes yordamida NixOS tizim konfiguratsiyasini boshqarishni oʻrganamiz va **buning uchun Flakes haqida oldindan hech qanday bilim talab qilinmaydi**.
+
+## NixOSʼda Flakesʼni yoqish
+
+Flakes hozirda eksperimental boʻlib, uni standart holatda yoqilmagan. Flakes funksiyasi va yangi nix buyruq qatori vositasini yoqish uchun `/etc/nixos/configuration.nix` faylini qoʻlda tahrirlashimiz kerak:
+
+```nix
+{ config, pkgs, ... }:
+
+{
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
+  # Flakes va yangi nix buyruq qatori vositasini yoqish
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+    wget
+  ];
+  environment.variables.EDITOR = "vim";
+}
+```
+
+Oʻzgartirishlarni amalga oshirgach, `sudo nixos-rebuild switch` buyrugʻini bajarib, yangi konfiguratsiyani qoʻllang. Shundan soʻng, tizim konfiguratsiyasini Flakes yordamida boshqarishingiz mumkin.
+
+Yangi nix buyruq qatori vositasi qulay imkoniyatlarni taqdim etadi. Misol uchun, siz endi `nix repl` buyrugʻi bilan interaktiv nix muhitini ochishingiz mumkin. Ushbu muhit orqali oldin oʻrgangan Nix sintaksisini sinab koʻrishingiz mumkin.
+
+## Tizim konfiguratsiyasini `flake.nix`ga oʻtkazish 
+
+Flakes funksiyasini yoqgandan soʻng, `sudo nixos-rebuild switch` buyrugʻi `/etc/nixos/flake.nix` faylini oʻqishga urinadi, agar topa olmasa, `/etc/nixos/configuration.nix` dan foydalanadi.
+
+Avval rasmiy shablonlar yordamida flake yozishni oʻrganishingiz mumkin. Mavjud shablonlarni koʻrish uchun:
+
+```bash
+nix flake show templates
+```
+
+Masalan, `templates#full` shabloni barcha imkoniyatlarni koʻrsatadi:
+
+```bash
+nix flake init -t templates#full
+cat flake.nix
+```
+
+Ushbu shablondan foydalanib, `/etc/nixos/flake.nix` faylini yarating va konfiguratsiya mazmunini yozing. Quyidagi misolni koʻrib chiqing:
+
+```nix
+{
+  description = "Sodda NixOS flake";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+  };
+
+  outputs = { self, nixpkgs, ... }@inputs: {
+    nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./configuration.nix
+      ];
+    };
+  };
+}
+```
+
+Bu yerda biz `my-nixos` nomli tizimni belgiladik va konfiguratsiya fayli `/etc/nixos/configuration.nix`dan foydalanildi.
+
+Endi `sudo nixos-rebuild switch` buyruğini bajarsangiz, tizim avvalgidek qoladi, chunki biz faqat Flakesʼga oʻtdik, konfiguratsiya oʻzgarmadi.
+
+> Agar tizimingiz hostname `my-nixos` boʻlmasa, `flake.nix`dagi `nixosConfigurations` nomini oʻzgartirishingiz yoki buyruqqa `--flake /etc/nixos#my-nixos` qoʻshishingiz kerak.
+
+Endi Flakes funksiyasi orqali tizimni boshqarishingiz mumkin.
+
+Hozirgi flakemiz quyidagi fayllarni oʻz ichiga oladi:
+
+- `/etc/nixos/flake.nix`: Flake uchun asosiy kirish nuqtasi.
+- `/etc/nixos/flake.lock`: Versiya qulflash fayli, barcha bogʻliqliklar haqida maʼlumot saqlaydi.
+- `/etc/nixos/configuration.nix`: Eski konfiguratsiya fayli, modullar orqali qoʻshilgan.
+- `/etc/nixos/hardware-configuration.nix`: NixOS tomonidan yaratilgan apparat konfiguratsiya fayli.
+
+## Xulosa
+
+Hozirgacha biz oddiy `/etc/nixos/flake.nix` faylini qoʻshdik. Keyingi boblarda `flake.nix` ning tuzilishi va funksionalligini oʻrganib, uning afzalliklarini asta-sekin koʻramiz.
+
+> Izoh: Ushbu kitobdagi konfiguratsiya boshqaruvi bitta fayl emas, balki turli nix fayllariga ajratilib, Git orqali boshqarilishi tavsiya etiladi. Bu konfiguratsiyani yaxshiroq tashkil etishga yordam beradi.
+>
+> Konfiguratsiyani modullashtirish haqida [NixOS konfiguratsiyasini modullashtirish](./modularize-the-configuration.md) boʻlimida, Git orqali boshqarish haqida esa [Boshqa foydali maslahatlar](./other-useful-tips.md) boʻlimida batafsil aytiladi.

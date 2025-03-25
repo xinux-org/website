@@ -11,5 +11,12 @@
     "type": "separator",
     "title": "Nix tili"
   },
-  "the-nix-language": "Asoslar"
+  "the-nix-language": "Asoslar",
+  "-- NixOS with Flakes": {
+    "type": "separator",
+    "title": "Flakelar bilan NixOS"
+  },
+  "get-started-with-nixos": "NixOS bilan boshlash",
+  "introduction-to-flakes": "Flakelar ga kirish",
+  "nixos-with-flakes-enabled": "NixOS tizimida Flakesʼni yoqish"
 }

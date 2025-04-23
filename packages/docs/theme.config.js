@@ -14,7 +14,7 @@ export default {
 
   search: {
     loading: "Yuklanmoqda...",
-    error: "Qidiruvda xatolik yuz berdi. Iltimos, keyinroq urinib ko'ring.",
+    error: "Qidiruvda xatolik yuz berdi. Iltimos, keyinroq urinib ko‘ring.",
     emptyResult: () => <span className="nx-block nx-select-none nx-p-8 nx-text-center nx-text-sm nx-text-gray-400">Hech narsa topilmadi</span>,
     placeholder: () => "Qidiruv...",
   },
@@ -35,7 +35,7 @@ export default {
   },
 
   editLink: {
-    text: "Ushbu sahifani GitHub da to'g'irlash →",
+    text: "Ushbu sahifani GitHub da tahrirlash →",
     component: ({ children, className, filePath }) => (
       <a
         href={`https://github.com/xinux-org/website/blob/main/packages/docs/${filePath}`}
@@ -73,14 +73,14 @@ export default {
           name="description"
           content={
             frontMatter.description ||
-            "NixOS va Xinux haqida yozilgan yordamchi ma'lumot va qo'llanmalar."
+            "NixOS va Xinux haqida yozilgan yordamchi ma‘lumot va qo‘llanmalar."
           }
         />
         <meta
           name="og:description"
           content={
             frontMatter.description ||
-            "NixOS va Xinux haqida yozilgan yordamchi ma'lumot va qo'llanmalar."
+            "NixOS va Xinux haqida yozilgan yordamchi ma‘lumot va qo‘llanmalar."
           }
         />
         <meta name="twitter:card" content="summary_large_image" />

@@ -2,49 +2,49 @@
 title: So'zboshi
 authors: ['Orzklv']
 description:
-  Ushbu kitob haqida bir og'iz so'z.
+  Ushbu kitob haqida bir og‘iz so‘z.
 ---
 
-# So'zboshi
+# So‘zboshi
 
-## NixOS boshlang'ichlari uchun qiyinchiliklar - Dokumentatsiya va Fleyklar (Flakes)
+## NixOS bilan foydalanishni boshlaganlar uchun qiyinchiliklar - Dokumentatsiya va Fleyklar (Flakes)
 
-NixOS bu Nix paket menejeriga asoslangan juda o'ziga xos Linux distributivi bo'lib, u boshqa Ubuntu, CentOS, Arch Linux va an'anaviy distributivlaridan farqli o'zini dizayn falsafasiga ega.
+NixOS bu Nix paket menejeriga asoslangan juda o‘ziga xos Linux distributivi bo‘lib, u boshqa Ubuntu, CentOS, Arch Linux va an’anaviy distributivlaridan farqli o‘zini dizayn falsafasiga ega.
 
-NixOS ning boshqa distributivlardan asosiy afzalliklaridan biri bu uning qayta ishlab chiqarish va deklarativ konfiguratsiyasi bo'lib, bu foydalanuvchilarga bir nechta mashinalarda bir xil tizim muhitlarini takrorlash imkonini beradi.
+NixOS ning boshqa distributivlardan asosiy afzalliklaridan biri bu uning qayta ishlab chiqarish va deklarativ konfiguratsiyasi bo‘lib, bu foydalanuvchilarga bir nechta mashinalarda bir xil tizim muhitlarini takrorlash imkonini beradi.
 
-NixOS kuchli bo'lsada, uning kuchi tizim murakkabligini oshiradi. Bu yangi boshlovchilar uchun ko'proq qiyinchilik tug'diradi. Asosiy qiyinchiliklardan biri, boshqa Linux distributivlarida to'plangan tajriba-yu bilimlar NixOS da ko'pincha holatda foyda bermasligi yoki umuman ishlatilmasligi. Yana biri, rasmiy va hamjamiyat tomonidan yozilgan qo'llanmalar ko'pincha tarqoq va eskirgan bo'ladi. Bu masalalar ko'plab NixOS boshlang'ichlarni qiynab keladi.
+NixOS “kuchli” bo‘lsada, uning “kuchi” tizi murakkabligini oshiradi. Bu yangi boshlovchilar uchun ko‘proq qiyinchilik tug‘diradi. Asosiy qiyinchiliklardan biri, boshqa Linux distributivlarida to‘plangan tajriba-yu bilimlar NixOS da ko‘pincha holatda foyda bermasligi yoki umuman ishlatilmasligi. Yana biri, rasmiy va hamjamiyat tomonidan yozilgan qo‘llanmalar ko‘pincha tarqoq va eskirgan bo‘ladi. Bu masalalar ko‘plab NixOS boshlang‘ichlarni qiynab keladi.
 
-Fleyk (Flake) nomli Nix paket menejerining bir eksperimental qismida bu muammoni kuzatishimiz mumkin. Cargo va npm kabi paket menejerlaridan ilhomlanilgan Fleyklarda (Flakes) `flake.nix` ni barcha tashqi bog'liqliklarni yozish uchun va `flake.lock` ni ularning versiyalarini yozib, bloklash uchun ishlatiladi. Bu Nix paket menejeri va NixOS konfiguratsiyalarining qayta ishlab chiqarilishi va tarkibiy qismlarini sezilarli darajada oshiradi.
+Fleyk nomli Nix paket menejerining bir eksperimental qismida bu muammoni kuzatishimiz mumkin. Cargo va npm kabi paket menejerlaridan ilhomlanilgan Fleyklarda (Flakes) ’flake.nix’ ni barcha tashqi bog‘liqliklarni yozish uchun va ’flake.lock’ ni ularning versiyalarini yozib, bloklash uchun ishlatiladi. Bu Nix paket menejeri va NixOS konfiguratsiyalarining qayta ishlab chiqarilishi va tarkibiy qismlarini sezilarli darajada oshiradi.
 
-Fleyklarning (Flakes) afzalliklari uni jamoa ichida keng ommalashtiradi: rasmiy so'rovlarga ko'ra, GitHubda yaratilgan yangi Nix repozitoriyalarining yarmidan ko'pi hozirda Flakesdan foydalanmoqda.
+Fleyklarning afzalliklari uni jamoa ichida keng ommalashtiradi: rasmiy so‘rovlarga ko‘ra, GitHubda yaratilgan yangi Nix repozitoriyalarining yarmidan ko‘pi hozirda Flakesdan foydalanmoqda.
 
-Biroq, barqarorlik (stabillik) ni saqlash uchun rasmiy dokumentatsiyalarda deyarli hech qanday Fleyklar (Flakes) bilan bog'liq ma'lumotlar to'liq yoritilmagan. Bu ko'plab Nix/NixOS foydalanuvchilarini adashtirib qo'ydi. Ular boshqalar Fleyklardan (Flakes) foydalanishayotganini ko'rib, o'zlari ham o'rganishmoqchi bo'lishgan, lekin qayerdan boshlashni bilishmaydi, ko'pincha holatda tarqoq norasmiy ma'lumotlarni yig'ib, Nixpkgs manba kodlaridan izlanib yoki tajribaliroq foydalanuvchilardan yordam so'rab o'rganishga majbur bo'lishadi.
+Biroq, barqarorlik (stability) ni saqlash uchun rasmiy dokumentatsiyalarda deyarli hech qanday Fleyklar bilan bog‘liq ma’lumotlar to‘liq yoritilmagan. Bu ko‘plab Nix/NixOS foydalanuvchilarini adashtirib qo‘ydi. Ular boshqalar Fleyklardan foydalanishayotganini ko‘rib, o‘zlari ham o‘rganishmoqchi bo‘lishgan, lekin qayerdan boshlashni bilishmaydi, ko‘pincha bu holatda tarqoq norasmiy ma’lumotlarni yig‘ib, Nixpkgs manba kodlaridan izlanib yoki tajribaliroq foydalanuvchilardan yordam so‘rab o‘rganishga majbur bo‘lishadi.
 
 ## Ushbu kitob kelib chiqishi
 
 Ushbu kitob mening NixOS bilan ilk boshlagan paytlarimdan beri yozib kelayotgan esdalik va yozuvlarimdan kelib chiqib yozilgan.
 
-Joriy yilning Avgust oyida (2023) men NixOS bilan tanishganimda uning dizayn va falsafasiga oshiq bo'ldim. Internetda tinimsiz qilgan izlanishlarim yordamida Nix ning Fleyklar (Flakes) qismi bilan tanishib, o'rganib chiqdim. Fleyklarni an'anaviy NixOS konfiguratsiya usuli bilan solishtirgach, faqat Fleyklar bilan ishlaydigan NixOS menga mos kelishini tushunib yetdim. Natijada, an'anaviy Nix konfiguratsiya usulini butunlay e'tiborsiz qoldirib, boshlang'ich qadamlarimdanoq NixOS tizimini Fleyklar yordamida sozlashni o'rgandim.
+Joriy yilning Avgust oyida (2023) men NixOS bilan tanishganimda uning dizayn va falsafasiga oshiq bo‘ldim. Internetda tinimsiz qilgan izlanishlarim yordamida Nix’ning Fleyklar qismi bilan tanishib, o‘rganib chiqdim. Fleyklarni an’anaviy NixOS konfiguratsiya usuli bilan solishtirgach, faqat Fleyklar bilan ishlaydigan NixOS menga mos kelishini tushunib yetdim. Natijada, an’anaviy Nix konfiguratsiya usulini butunlay e’tiborsiz qoldirib, boshlang‘ich qadamlarimdanoq NixOS tizimini Fleyklar yordamida sozlashni o‘rgandim.
 
-O'rganish jarayonida Fleyklar uchun boshlovchilar uchun mo'ljallangan manbalar juda kam ekanligini tushunib yetdim. Dokumentatsiyalarning katta qismi an'anaviy Nix konfiguratsiya usuliga qaratilgan bo'lib, meni NixOS wiki, Zero to Nix, Nixpkgs qo'llanmasi va Nixpkgs repozitoriya kodlari kerakli ma'lumotlarni Fleyklar bilan bog'liq bo'lmagan mazmunni e'tiborsiz qoldirib o'rganishga majbur qildi. Bu o'rganish jarayoni ancha murakkab va qiyin bo'ldi. Kelajakda bu qiyinchiliklarga yana duch kelmaslik uchun, o'z yo'lim davomida ko'plab norasmiy ma'lumotlarni yig'ib, o'zim uchun yozib ketaverdim.
+O‘rganish jarayonida Fleyklar uchun boshlovchilar uchun mo‘ljallangan manbalar juda kam ekanligini tushunib yetdim. Dokumentatsiyalarning katta qismi an’anaviy Nix konfiguratsiya usuliga qaratilgan bo‘lib, meni NixOS wiki, Zero to Nix, Nixpkgs qo‘llanmasi va Nixpkgs repozitoriya kodlari kerakli ma’lumotlarni Fleyklar bilan bog‘liq bo‘lmagan mazmunni e’tiborsiz qoldirib o‘rganishga majbur qildi. Bu o‘rganish jarayoni ancha murakkab va qiyin bo‘ldi. Kelajakda bu qiyinchiliklarga yana duch kelmaslik uchun, o‘z yo‘lim davomida ko‘plab norasmiy ma’lumotlarni yig‘ib, o‘zim uchun yozib ketaverdim.
 
-Biroz tajriba orttirgandan so'ng, joriy yilning may oyida asosiy kompyuterimni NixOS ga o'zgartirdim. NixOS yangi boshlovchilar uchun yozuvlarimni tartibga solib, o'z blogimda chop etdim va Xinux yo'nalishini Arch Linux dan NixOS ga burib yubordim. Boshida NixOS noan'anaviy fikrlashga majburlagani sababli ko'plab auditoriyalardan salbiy fikrlar oldim, ammo keyinchalik bu yaxshi tarafga o'zgarishni boshladi.
+Biroz tajriba orttirgandan so‘ng, joriy yilning may oyida asosiy kompyuterimni NixOS ga o‘zgartirdim. NixOS yangi boshlovchilar uchun yozuvlarimni tartibga solib, o‘z blogimda chop etdim va Xinux yo‘nalishini Arch Linux dan NixOS ga burib yubordim. Boshida NixOS noan’anaviy fikrlashga majburlagani sababli ko‘plab auditoriyalardan salbiy fikrlar oldim, ammo keyinchalik bu yaxshi tarafga o‘zgarishni boshladi.
 
-Bilamizki, shundog'am o'zbek tilida ma'lumotlar tanqis va tilimiz borgan sari o'lib bormoqda. Boshqa tarafda esa, Toshkent shahridan tashqarida yashovchi aholining aksar qismida esa til to'siqlari mavjud. Shu narsalardan ilhomlangan holda, ushbu norasmiy bo'lsada, o'zbek tilida NixOS bilan tanishishga yordam beruvchi vosita yaratishga kirishdim.
+Bilamizki, shundog‘am o‘zbek tilida ma’lumotlar tanqis va tilimiz borgan sari o‘lib bormoqda. Boshqa tarafda esa, Toshkent shahridan tashqarida yashovchi aholining aksar qismida esa til to‘siqlari mavjud. Shu narsalardan ilhomlangan holda, ushbu norasmiy bo‘lsada, o‘zbek tilida NixOS bilan tanishishga yordam beruvchi vosita yaratishga kirishdim.
 
 ## Kitobning xususiyatlari
 
-1. NixOS va Flakes'ga qaratilgan bo'lib, an'anaviy Nix konfiguratsiyasini e'tiborsiz qoldiradi.
-2. Linux va dasturlashda biroz tajribaga ega yangi boshlovchilar nuqtai nazaridan yozilgan.
-3. Qadam-ba-qadam, bosqichma-bosqich o'rganishni ta'minlaydi.
-4. Ko'pgina boblarda qo'shimcha ma'lumot uchun foydali havolalar keltirilgan bo'lib, o'quvchilarga mavzuni yanada chuqurroq o'rganish imkoniyatini beradi.
-5. Tarkibi aniq va yaxshi tashkil etilgan. O'quvchilar kitobni bosqichma-bosqich o'qishi yoki kerakli ma'lumotni tez topishlari mumkin.
+1. NixOS va Flakes’ga qaratilgan bo‘lib, an’anaviy Nix konfiguratsiyasini e’tiborsiz qoldiradi.
+2. Linux va dasturlashda biroz tajribaga ega yangi boshlovchilar nuqtayi nazaridan yozilgan.
+3. Qadam-ba-qadam, bosqichma-bosqich o‘rganishni ta’minlaydi.
+4. Ko‘pgina boblarda qo‘shimcha ma’lumot uchun foydali havolalar keltirilgan bo‘lib, o‘quvchilarga mavzuni yanada chuqurroq o‘rganish imkoniyatini beradi.
+5. Tarkibi aniq va yaxshi tashkil etilgan. O‘quvchilar kitobni bosqichma-bosqich o‘qishi, keraklik ma’lumotni tez topishlari mumkin.
 
 ## Fikr-mulohaza va muhokama
 
-Men NixOS bo'yicha mutaxassis emasman va uni faqat 9 oydan kam vaqt davomida (2024-02) ishlatyapman, shuning uchun kitobda ba'zi noto'g'ri yoki murakkab holatlar mavjud bo'lishi mumkin. Agar xatolik yoki savol/taklifingiz bo'lsa, GitHub Discussions'da (https://github.com/ryan4yin/nixos-and-flakes-book/discussions) muhokamaga qo'shilib, uni yaxshilashga yordam berishingiz mumkin.
+Men NixOS bo‘yicha mutaxassis emasman va uni faqat 9 oydan kam vaqt davomida (2024-02) ishlatyapman, shuning uchun kitobda ba’zi noto‘g‘ri yoki murakkab holatlar mavjud bo‘lishi mumkin. Agar xatolik yoki savol/taklifingiz bo‘lsa, GitHub Discussions’da (https://github.com/ryan4yin/nixos-and-flakes-book/discussions) muhokamaga qo‘shilib, uni yaxshilashga yordam berishingiz mumkin.
 
-Ushbu kichik kitobni yozishdan maqsadim – men kabi boshlovchilar uchun hech kim qilmagan ishni qilish edi. Xatolik qilishim mumkinligini bilsam ham, hech nima qilmaslikdan ko'ra yaxshiroqdir deb o'ylayman.
+Ushbu kichik kitobni yozishdan maqsadim – men kabi boshlovchilar uchun hech kim qilmagan ishni qilish edi. Xatolik qilishim mumkinligini bilsam ham, hech nima qilmaslikdan ko‘ra yaxshiroqdir deb o‘ylayman.
 
-Umid qilamanki, ushbu kitob ko'plab odamlarga yordam beradi va ular ham NixOS'dan foydalanish zavqini his etadilar. Sizga yoqadi deb umid qilaman!
+Umid qilamanki, ushbu kitob ko‘plab odamlarga yordam beradi va ular ham NixOS’dan foydalanish zavqini his etadilar. Sizga yoqadi deb umid qilaman!

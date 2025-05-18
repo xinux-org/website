@@ -14,5 +14,9 @@
   "l10n": {
     "title": "Mahalliylashtirish",
     "type": "page"
+  },
+  "download": {
+    "title": "Yuklash",
+    "type": "page"
   }
 }

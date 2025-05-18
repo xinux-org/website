@@ -10,3 +10,4 @@ public/*.toml
 public/.nextra
 .vercel
 dist
+.direnv

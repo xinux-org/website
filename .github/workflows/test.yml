@@ -1,0 +1,24 @@
+name: Test CI
+
+on: [push, pull_request]
+
+jobs:
+  test-flake:
+    runs-on: self-hosted
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Check up flake configuration
+        run: nix flake check --all-systems --show-trace
+
+  test-project:
+    runs-on: self-hosted
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Build project with Nix
+        run: nix build

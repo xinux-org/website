@@ -1,5 +1,5 @@
 {
-  "name": "website",
+  "name": "xinux-website",
   "private": true,
   "version": "1.1.0",
   "description": "Monorepo with documentation websites",
@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@radix-ui/react-tabs": "^1.0.4",
-    "react-intersection-observer": "^9.5.2"
+    "docs": "link:packages/docs",
+    "react-intersection-observer": "^9.5.2",
+    "sharp": "^0.34.1"
   }
 }

@@ -2,7 +2,9 @@ name: Deploy CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -18,27 +20,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: Clone the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
 
-      - name: Use Node.js 22.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 22.x
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: |
-          pnpm install
-          pnpm build
+      - name: Build website
+        run: nix build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -46,7 +35,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./packages/docs/out"
+          path: "./result"
 
       - name: Deploy to GitHub Pages
         id: deployment

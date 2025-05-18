@@ -1,9 +1,14 @@
 {
-  description = "Xinux Website";
+  description = "Official website of Xinux website";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    # nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    # Too old to work with most libraries
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+
+    # Perfect!
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+
+    # The flake-utils library
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -12,33 +17,28 @@
     nixpkgs,
     flake-utils,
     ...
-  } @ inputs: let
-    lib = nixpkgs.lib;
-    systems = [
-      "aarch64-linux"
-      "x86_64-linux"
-      "aarch64-darwin"
-      "x86_64-darwin"
-    ];
+  }:
+    flake-utils.lib.eachDefaultSystem
+    (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in {
+        # Nix script formatter
+        formatter = pkgs.alejandra;
 
-    forAllSystems = nixpkgs.lib.genAttrs systems;
-    forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-    pkgsFor = lib.genAttrs systems (system:
-      import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      });
-    devShellFor = system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-      script = import ./shell.nix {inherit pkgs;};
-    in
-      script;
-  in {
-    formatter =
-      forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
-    devShell = lib.mapAttrs (system: _: devShellFor system) (lib.genAttrs systems {});
-  };
+        # Development environment
+        devShells.default = import ./shell.nix {inherit pkgs;};
+
+        # Release package
+        packages = rec {
+          default = ssg;
+          ssr = pkgs.callPackage ./default-ssr.nix {inherit pkgs;};
+          ssg = pkgs.callPackage ./default-ssg.nix {inherit pkgs;};
+        };
+      }
+    )
+    // {
+      # Deployment module
+      nixosModules.server = import ./module.nix self;
+    };
 }

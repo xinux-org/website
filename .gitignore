@@ -11,3 +11,4 @@ public/.nextra
 .vercel
 dist
 .direnv
+result

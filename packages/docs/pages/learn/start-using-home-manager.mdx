@@ -243,7 +243,22 @@ home.nix faylida foydalanilishi mumkin bo‘lgan variantlarni aniqlash uchun quy
 
 Ko‘plab dasturiy paketlar yoki konfiguratsiyalarni NixOS modullari (`configuration.nix`) orqali ham, Home Manager (`home.nix`) orqali ham sozlash mumkin. Savol tug‘iladi: **ulardan qaysi birini tanlash kerak?**
 
-TODO (@orzklv): left a lot to translate 
+Keling, oldin farq qiladigan joylariga nazar tashlaymiz: NixOS Modullari bilan o'rnatilgan paketlar va konfiguratsiya fayllar operatsion tizim uchun global hisoblanadi. Global konfiguratsiya fayllar `/etc` da saqlanadi, va tizim-aro o'rnatilgan dastur har qanday muhitda ishlayveradi.
+
+Home Manager bilan o'rnatilgan konfiguratsiya va dastur esa ma'lum bir foydalanuvchiga tegishli bo'ladi. O'sha dastur ma'lum bir foydalanuvchi muhitidagina ishlaydi xolos, foydalanuchi akkauntini o'zgartirganingizdan keyin esa u dasturdan foydalana olmaysiz.
+
+Ushbu xususiyatlarga asoslangan holda, umumiy xulosa shuki:
+- NixOS modullari: barcha foydalanuvchilar tomonidan talab qilinadigan va tizimning asosi bo'lgan dastur va konfiguratsiyalarnigina o'rnating.
+  - Masalan, ma'lum bir dasturni root foydalanuvchiga aylanganingizda ham ishlayverishini istasangiz, yoki bitta konfiguratsiyani tizim-aro qo'llashni xohlasangiz, uni siz NixOS Modullari bilan o'rnatishingiz kerak.
+- Home Manager: buni esa boshqa har qanday konfiguratsiya va dasturlar uchun ishlating.
+
+Bu usulni afzalliklari shuki:
+
+1. Tizim darajasida o'rnatilgan dastur va orqa-fon servislari ko'pincha root huquqlari bilan ishlaydi. Keraksiz dasturlarning tizim darajasida o'rnatilishini cheklash esa, tizim xavfsizligini mustahkamlaydi.
+
+2. Home Managerda yozilgan ko'plab konfiguratsiyalar NixOS, macOS va boshqa Linux distributivlari uchun umimiy hisoblanadi. Dasturlarni o'rnatish va tizimni sozlash uchun Home Managerni tanlash, konfiguratsiyaning moslashuvchan bo'lishini ta'minlaydi.
+
+3. Ko'p-foydanaluvchili konfiguratsiya: Home Manager bilan o'rnatilgan dastur va konfiguratsiyalar turli foydalanuvchi muhitlarini izolyatsiya qila oladi. Bu esa foydalanuvchilar orasidagi konfiguratsiya vs dastur versiyalaridagi buzilishlarning oldini oladi.
 
 ## Home Manager orqali o‘rnatilgan dasturlardan root sifatida foydalanish
 

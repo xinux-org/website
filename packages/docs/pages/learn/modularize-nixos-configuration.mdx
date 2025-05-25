@@ -1,0 +1,45 @@
+---
+title: Home Manager bilan ishlashni boshlash
+authors: ['Zawkin']
+description:
+  NixOS Konfiguratsiyasini Modullashtirish
+---
+
+# NixOS Konfiguratsiyasini Modullashtirish
+
+Ayni damda butun tizim skeleti to'liq konfiguratsiyalangan. `/etc/nixos` ichidagi konfiguratsiya strukturasi quyidagidek ko'rinishi kerak:
+```
+$ tree
+.
+├── flake.lock
+├── flake.nix
+├── home.nix
+└── configuration.nix
+```
+
+Bu 4ta faylning vazifasi shuki:
+
+- `flake.lock`: o'zi avtomatik yaratiladi. Hamma input manbalari, hash qiymatlar va butun boshli fleykning versiya raqamlarini o'zida yozib qo'yish orqali tizim qayta tiklanuvchanligini ta'minlaydigan version-lock fayl.
+- `flake.nix`: `sudo nixos-rebuild switch` kommandasi kiritilganda ishga tushuvchi fayl. Batafsil, [Flakes - NixOS Wiki](https://wiki.nixos.org/wiki/Flakes).
+- `configuration.nix`: flake.nix ichida Nix moduli sifatida import qilinadi va hamma tizim darajasidagi konfiguratsiya o'shanga yoziladi. Batafsil, [Configuration - NixOS Manual](https://nixos.org/manual/nixos/unstable/index.html#ch-configuration)
+- `home.nix`: Home Manager tomonidan flake.nix da `ryan` foydalanuvchisining konfiguratsiyasi sifatida import qilingan, uning konfiguratsiyasi yozilgan va `ryan`ning home papkasini boshqaradigan fayl. Batafsil, [Appendix A. Configuration Options - Home-Manager](https://nix-community.github.io/home-manager/options.xhtml)
+
+Ushbu fayllarni o'zgartirish orqali, siz, tizim va home papkasini qay holatda bo'lishini deklarativ ravishda belgilaysiz. 
+
+Ammo konfiguratsiya kattalashgani sayin, faqatgina `configuration.nix` va `home.nix` ga tayanib qolish, tushunish qiyin bo'lgan fayllarga sabab bo'ladi. Bunga to'g'ri yechim esa, Nix Modul tizimini konfiguratsiyamizni bir nechta Nix modullariga ajratib chiqishdir.
+
+Nix tilidagi `import` funksiyasi bitta qoida bilan ishlaydi:
+
+> Agar import funksiyasi parametrida papka manzili kelgan bo'lsa, o'sha papkadagi `default.nix` fayli ishga tushirilgandagi natija, qiymat sifatida qaytariladi.
+
+Shunga o'xshash yana bir parametrni Nixpkgs modul tizimi ham ta'minlaydi. `imports`, bir qancha `.nix` fayllarni qabul qilib, ularda joylashgan hamma konfiguratsiyalarni birlashtirib, joriy Nix moduliga qo'shib qo'yadi.
+
+Shuni esda tutish kerakki, `imports` funksiyasi ikkita bo'lib ketgan konfiguratsiyalarni shunchaki qayta yozib qo'ymaydi, balki yanada yaxshiroq yechim beradi. Masalan, agar `program.packages = [...]` bir nechta modullarda yozilgan bo'lsa, `imports` barcha Nix modullarda joylashgan, hamma `program.packages`ni bitta to'plamga birlashtiradi. Hatto attributlar ham bundan mustasno emas.
+
+> `imports` ning ta'rifini faqat [Nixpkgs-Unstable Official Manual - evalModules Parameters](https://nixos.org/manual/nixpkgs/unstable/#module-system-lib-evalModules-parameters) da topdim: `Modullar to'plami. Ular bitta umumiy konfiguratsiyani hosil qilish uchun birlashtiriladi.`
+
+
+
+
+
+

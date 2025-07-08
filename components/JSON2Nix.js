@@ -4,7 +4,12 @@ import { vscodeDark } from "@uiw/codemirror-theme-vscode"
 import { linter } from '@codemirror/lint';
 import { json5, json5ParseLinter } from 'codemirror-json5';
 import { nix } from "@replit/codemirror-lang-nix";
+import { StreamLanguage } from "@codemirror/language"
+import { toml } from "@codemirror/legacy-modes/mode/toml"
+import { yaml } from "@codemirror/lang-yaml";
 import JSON5 from "json5"
+import YAML from "yaml"
+import TOML from "smol-toml"
 
 function json2nix(json, d = 0) {
   const lines = [];
@@ -47,24 +52,64 @@ const initialContent = {
   shaxzod: ["qudratov", { telegram: "@shakhzodme" }],
 }
 
-export default function JSON2Nix() {
+export default function JSON2Nix({ type = "json" }) {
   const [jsonValue, setJsonValue] = React.useState(JSON.stringify(initialContent, null, 2))
+  const [tomlValue, setTomlValue] = React.useState(TOML.stringify(initialContent))
+  const [yamlValue, setYamlValue] = React.useState(YAML.stringify(initialContent))
   const [nixValue, setNixValue] = React.useState(json2nix(initialContent))
 
-  const onJsonChange = React.useCallback((value) => {
-    setJsonValue(value)
+  const onChange = React.useCallback((type) => (value) => {
+    switch (type) {
+      case "json":
+        setJsonValue(value)
+        break
+      case "toml":
+        setTomlValue(value)
+        break
+      case "yaml":
+        setYamlValue(value)
+        break
+    }
+
     try {
-      setNixValue(json2nix(JSON5.parse(value)))
+      switch (type) {
+        case "json":
+          setNixValue(json2nix(JSON5.parse(value)))
+          break
+        case "toml":
+          setNixValue(json2nix(TOML.parse(value)))
+          break
+        case "yaml":
+          setNixValue(json2nix(YAML.parse(value)))
+          break
+      }
     } catch (e) {
       console.error("failed to parse", e)
     }
+
   }, [setJsonValue, setNixValue])
 
   return <div>
-    <div>
-      <h2>JSON:</h2>
-      <CodeMirror theme={vscodeDark} value={jsonValue} onChange={onJsonChange} extensions={[json5(), linter(json5ParseLinter())]} />
-    </div>
+    {type == "json" && (
+      <div>
+        <h2>JSON:</h2>
+        <CodeMirror theme={vscodeDark} value={jsonValue} onChange={onChange("json")} extensions={[json5(), linter(json5ParseLinter())]} />
+      </div>
+    )}
+
+    {type == "toml" && (
+      <div>
+        <h2>TOML:</h2>
+        <CodeMirror theme={vscodeDark} value={tomlValue} onChange={onChange("toml")} extensions={[StreamLanguage.define(toml)]} />
+      </div>
+    )}
+
+    {type == "yaml" && (
+      <div>
+        <h2>YAML:</h2>
+        <CodeMirror theme={vscodeDark} value={yamlValue} onChange={onChange("yaml")} extensions={[yaml()]} />
+      </div>
+    )}
 
     <div>
       <h2>Nix:</h2>

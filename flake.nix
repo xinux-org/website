@@ -12,28 +12,28 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    flake-utils,
-    ...
-  }:
-    flake-utils.lib.eachDefaultSystem
-    (
-      system: let
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
         pkgs = nixpkgs.legacyPackages.${system};
-      in {
+      in
+      {
         # Nix script formatter
         formatter = pkgs.alejandra;
 
         # Development environment
-        devShells.default = import ./shell.nix {inherit pkgs;};
+        devShells.default = import ./shell.nix { inherit pkgs; };
 
         # Release package
         packages = rec {
-          default = ssg;
-          ssr = pkgs.callPackage ./default-ssr.nix {inherit pkgs;};
-          ssg = pkgs.callPackage ./default-ssg.nix {inherit pkgs;};
+          default = pkgs.callPackage ./default.nix { inherit pkgs; };
         };
       }
     )

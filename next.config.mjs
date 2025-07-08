@@ -18,5 +18,4 @@ export default withNextra({
     unoptimized: true,
   },
   basePath: BASE_PATH || "",
-  transpilePackages: ["../../shared-components"],
 });

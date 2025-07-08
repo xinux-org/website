@@ -12,3 +12,9 @@ public/.nextra
 dist
 .direnv
 result
+
+.vercel
+out
+public/robots.txt
+public/sitemap.xml
+public/sitemap-0.xml

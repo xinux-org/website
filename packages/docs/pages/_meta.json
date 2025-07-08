@@ -11,6 +11,10 @@
     "title": "Foydali havolalar",
     "type": "page"
   },
+  "utils": {
+    "title": "Foydali dasturlar",
+    "type": "page"
+  },
   "l10n": {
     "title": "Mahalliylashtirish",
     "type": "page"

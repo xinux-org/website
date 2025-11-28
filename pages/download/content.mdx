@@ -3,6 +3,7 @@ title: Operatsion Tizimni Yuklash
 description: Ushbu sahifada siz Xinux tomonidan yaratilgan operatsion tizimni yuklab olsangiz bo'ladi
 ---
 
+export const meta = {}
 import { Cards, Card } from 'nextra/components'
 
 # Xinux Operatsion Tizimi
@@ -15,6 +16,8 @@ Operatsion tizim ikki turda taqdim etiladi, stabil va nostabil. Nostabil shakl s
 ## Yuklash
 
 <Cards>
-  <Card title="Nostabil (25.05)" href="https://cdn.xinux.uz/latest/nixos-25.05.20251026.78e34d1-x86_64-linux.iso" />
+  <Card title="Nostabil (25.11)" href={props.latestUrl}>
+    {props.latestName}
+  </Card>
   <Card title="Stabil (25.11) [Tez kunda]" href="https://cdn.xinux.uz/releases/" />
 </Cards>

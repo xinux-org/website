@@ -11,35 +11,35 @@ import JSON5 from "json5"
 import YAML from "yaml"
 import TOML from "smol-toml"
 
-function json2nix(json, d = 0) {
+function x2nix(data, d = 0) {
   const lines = [];
   const indent = (n) => "  ".repeat(n);
 
-  if (json === null) return "null";
+  if (data === null) return "null";
 
-  if (Array.isArray(json)) {
+  if (Array.isArray(data)) {
     lines.push("[");
-    for (const item of json)
-      lines.push(`${indent(d + 1)}${json2nix(item, d + 1)}`);
+    for (const item of data)
+      lines.push(`${indent(d + 1)}${x2nix(item, d + 1)}`);
     lines.push(`${indent(d)}]`);
     return lines.join("\n");
   }
 
-  if (typeof json === "object") {
+  if (typeof data === "object") {
     lines.push("{");
-    for (const [k, v] of Object.entries(json)) {
+    for (const [k, v] of Object.entries(data)) {
       const key = /^[a-zA-Z_][a-zA-Z0-9_'-]*$/.test(k) ? k : `"${k}"`;
-      lines.push(`${indent(d + 1)}${key} = ${json2nix(v, d + 1)};`);
+      lines.push(`${indent(d + 1)}${key} = ${x2nix(v, d + 1)};`);
     }
     lines.push(`${indent(d)}}`);
     return lines.join("\n");
   }
 
-  if (typeof json === "string")
-    return `"${json.replaceAll('"', '\\"').replaceAll('${', '$\\{')}"`;
+  if (typeof data === "string")
+    return `"${data.replaceAll('"', '\\"').replaceAll('${', '$\\{')}"`;
 
-  if (typeof json === "number" || typeof json === "boolean")
-    return String(json);
+  if (typeof data === "number" || typeof data === "boolean")
+    return String(data);
 
   return `"UNSUPPORTED"`;
 }
@@ -52,11 +52,11 @@ const initialContent = {
   shaxzod: ["qudratov", { telegram: "@shakhzodme" }],
 }
 
-export default function JSON2Nix({ type = "json" }) {
+export default function X2Nix({ type = "json" }) {
   const [jsonValue, setJsonValue] = React.useState(JSON.stringify(initialContent, null, 2))
   const [tomlValue, setTomlValue] = React.useState(TOML.stringify(initialContent))
   const [yamlValue, setYamlValue] = React.useState(YAML.stringify(initialContent))
-  const [nixValue, setNixValue] = React.useState(json2nix(initialContent))
+  const [nixValue, setNixValue] = React.useState(x2nix(initialContent))
 
   const onChange = React.useCallback((type) => (value) => {
     switch (type) {
@@ -74,13 +74,13 @@ export default function JSON2Nix({ type = "json" }) {
     try {
       switch (type) {
         case "json":
-          setNixValue(json2nix(JSON5.parse(value)))
+          setNixValue(x2nix(JSON5.parse(value)))
           break
         case "toml":
-          setNixValue(json2nix(TOML.parse(value)))
+          setNixValue(x2nix(TOML.parse(value)))
           break
         case "yaml":
-          setNixValue(json2nix(YAML.parse(value)))
+          setNixValue(x2nix(YAML.parse(value)))
           break
       }
     } catch (e) {

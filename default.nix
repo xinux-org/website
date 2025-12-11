@@ -46,7 +46,7 @@ pkgs.stdenv.mkDerivation {
     pname = manifest.name;
     version = manifest.version;
     src = source;
-    hash = "sha256-SoeQYzDBfOQsmGVVfBxhksL07rcklK5wNe+oMXQAZFo=";
+    hash = "sha256-HIHVleWA/EFrfNIR2w/HTJnNZTa7xKhWRjEZKKqYLMY=";
   };
 
   meta = with pkgs.lib; {

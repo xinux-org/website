@@ -16,7 +16,7 @@ function Download({
   error = "Xatolik yuz berdi!",
   loading = "Yuklanmoqda...",
   empty = "Hali %t chiqarilmaganga o'xshaydi",
-  type = "reliz",
+  type = "stabil",
 }) {
   const [card, setCard] = useState(<Card title={loading} href="#" />);
 
@@ -44,7 +44,7 @@ export default function Downloads({ title, link }) {
   return (
     <Cards>
       <Download link="https://cdn.xinux.uz/release" />
-      <Download link="https://cdn.xinux.uz/latest" type="test" />
+      <Download link="https://cdn.xinux.uz/latest" type="nostabil" />
     </Cards>
   );
 }

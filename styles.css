@@ -15,6 +15,8 @@
   --neutral-light-medium: #c2c2c2;
   --neutral-light-high: #f5f5f5;
   --neutral-light-opacity: #00000016;
+
+  --nextra-navbar-height: 123px;
 }
 
 html[class~="dark"] {
@@ -22,6 +24,7 @@ html[class~="dark"] {
   --color-accent-opacity: var(--brand-primary-opacity);
   --color-highlight: var(--brand-secondary-base);
   --nextra-primary-hue: 72;
+  --nextra-bg: 21, 21, 21;
 }
 
 html[class~="light"] {
@@ -29,6 +32,7 @@ html[class~="light"] {
   --color-accent-opacity: var(--brand-secondary-opacity);
   --color-highlight: var(--brand-secondary-low);
   --nextra-primary-hue: 250;
+  --nextra-bg: 245, 245, 245;
 }
 
 /* General
@@ -52,16 +56,8 @@ button:focus-visible {
   outline-offset: -2px;
 }
 
-.nextra-nav-container nav {
+header nav {
   height: 7rem;
-}
-
-aside {
-  height: calc(100vh - 7rem);
-  top: calc(7rem + 4px) !important;
-}
-
-.nextra-nav-container nav {
   box-sizing: border-box;
   padding: 0 2.5rem;
 }
@@ -76,17 +72,12 @@ aside {
 }
 
 @media (max-width: 640px) {
-  .nextra-nav-container {
+  header {
     padding: 0;
   }
 
-  .nextra-nav-container nav {
+  header nav {
     padding: 0 2rem;
-  }
-
-  aside {
-    top: 0;
-    height: 100%;
   }
 
   .nextra-sidebar-container {
@@ -121,16 +112,20 @@ html[class~="light"] .nextra-content p a:hover {
   text-decoration-color: var(--color-accent);
 }
 
-/* Nav
+/* Header Navbar
   ------------------------ */
-
-.nextra-nav-container {
+header {
   border-top: 4px solid var(--color-highlight);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
 }
 
-.nextra-nav-container .nextra-nav-container-blur {
-  border: none;
-  box-shadow: none !important;
+html[class~="light"] header {
+  background-color: rgba(245, 245, 245, 0.6) !important;
+}
+
+html[class~="dark"] header {
+  background-color: rgba(21, 21, 21, 0.6) !important;
 }
 
 .nx-max-w-\[90rem\] {
@@ -435,6 +430,18 @@ html[class~="dark"] .nextra-callout {
 
 .cbs article .subheading-anchor {
   margin-top: -110px;
+}
+
+/* Theme Switch
+  ------------------------ */
+/* ThemeSwitch moved to navbar: hide it from left sidebar */
+.nextra-sidebar-footer button[title="Change theme"] {
+  display: none;
+}
+
+/* Hide the mobile nav footer entirely */
+.nextra-mobile-nav .nextra-sidebar-footer {
+  display: none;
 }
 
 /* Code Snippet

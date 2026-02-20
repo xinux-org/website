@@ -1,5 +1,6 @@
+"use client"
 import { useState, useEffect } from "react";
-import { Cards, Card } from "nextra/components";
+import { Cards } from "nextra/components";
 
 const normalize = (name, type) => {
   // 1 - name
@@ -18,23 +19,23 @@ function Download({
   empty = "Hali %t chiqarilmaganga o'xshaydi",
   type = "stabil",
 }) {
-  const [card, setCard] = useState(<Card title={loading} href="#" />);
+  const [card, setCard] = useState(<Cards.Card title={loading} href="#" />);
 
   useEffect(() => {
     fetch(link)
       .then((res) => res.json())
       .then((json) => {
         if (json.length == 0) {
-          setCard(<Card title={empty.replace("%t", type)} href="#" />);
+          setCard(<Cards.Card title={empty.replace("%t", type)} href="#" />);
         }
 
         const pick = json[0].name;
 
         setCard(
-          <Card title={normalize(pick, type)} href={`${link}/${pick}`} />,
+          <Cards.Card title={normalize(pick, type)} href={`${link}/${pick}`} />,
         );
       })
-      .catch((_) => setCard(<Card title={error} href="#" />));
+      .catch((_) => setCard(<Cards.Card title={error} href="#" />));
   }, []);
 
   return card;

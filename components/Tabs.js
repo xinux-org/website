@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+"use client"
+import React, { useEffect, useState, Suspense } from "react";
 import * as ReactDOMServer from "react-dom/server";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import styles from "./Tabs.module.css";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 // Exports
 export const TabsContainer = TabsPrimitive.Root;
@@ -14,13 +15,15 @@ export function WrapContent({ children }) {
   return <>{children}</>;
 }
 
-export function Tabs({ children, tabs }) {
+function TabsInner({ children, tabs }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const [tab, setTab] = useState(undefined);
 
   useEffect(() => {
-    setTab(router.query.tab);
-  }, [router.query]);
+    setTab(searchParams.get("tab") ?? undefined);
+  }, [searchParams]);
 
   // Check the content inside tabs with the url and activate the right tab
   useEffect(() => {
@@ -38,13 +41,11 @@ export function Tabs({ children, tabs }) {
 
       if (checkMatch !== false) {
         if (pushURL) {
-          let newurl = url.replace(
-            /tab=(.*?)(\#|\s)/,
-            `tab=${slugify(tabs[checkMatch])}#`
-          );
-
-          router.push(newurl, undefined, {
-            shallow: true,
+          const params = new URLSearchParams(searchParams.toString());
+          params.set("tab", slugify(tabs[checkMatch]));
+          const hash = url.split("#")[1];
+          router.push(`${pathname}?${params.toString()}#${hash}`, {
+            scroll: false,
           });
         }
         setTab(slugify(tabs[checkMatch]));
@@ -57,14 +58,14 @@ export function Tabs({ children, tabs }) {
 
     window.addEventListener("hashchange", onHashChanged);
 
-    if (router.asPath.includes("#")) {
-      checkContentMatch(router.asPath, false);
+    if (window.location.hash) {
+      checkContentMatch(window.location.href, false);
     }
 
     return () => {
       window.removeEventListener("hashchange", onHashChanged);
     };
-  }, [router]);
+  }, [router, searchParams, pathname, children, tabs]);
 
   return (
     <TabsContainer
@@ -72,43 +73,40 @@ export function Tabs({ children, tabs }) {
       defaultValue={slugify(tabs[0])}
       className={styles.container}
       onValueChange={(value) => {
-        router.push(
-          {
-            query: { tab: value },
-          },
-          undefined,
-          {
-            scroll: false,
-            shallow: true,
-          }
-        );
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("tab", value);
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
       }}
     >
       <TabsList className={styles.tabList}>
-        {tabs.map((title, index) => {
-          return (
-            <TabsTrigger
-              value={slugify(title)}
-              className={styles.tabTrigger}
-              key={`tab-${slugify(title)}-${index}`}
-            >
-              {title}
-            </TabsTrigger>
-          );
-        })}
-      </TabsList>
-      {children.map((child, index) => {
-        return (
-          <TabsContent
-            value={slugify(tabs[index])}
-            className={styles.tabContent}
-            key={`content-${slugify(tabs[index])}-${index}`}
+        {tabs.map((title, index) => (
+          <TabsTrigger
+            value={slugify(title)}
+            className={styles.tabTrigger}
+            key={`tab-${slugify(title)}-${index}`}
           >
-            {child}
-          </TabsContent>
-        );
-      })}
+            {title}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+      {children.map((child, index) => (
+        <TabsContent
+          value={slugify(tabs[index])}
+          className={styles.tabContent}
+          key={`content-${slugify(tabs[index])}-${index}`}
+        >
+          {child}
+        </TabsContent>
+      ))}
     </TabsContainer>
+  );
+}
+
+export function Tabs({ children, tabs }) {
+  return (
+    <Suspense>
+      <TabsInner children={children} tabs={tabs} />
+    </Suspense>
   );
 }
 

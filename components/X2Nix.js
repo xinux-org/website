@@ -1,3 +1,4 @@
+"use client"
 import React from "react"
 import CodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode"

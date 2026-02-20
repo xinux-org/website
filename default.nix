@@ -48,13 +48,13 @@ in
       pname = manifest.name;
       version = manifest.version;
       src = source;
-      hash = "sha256-qfeRcQcpS02+bTlSoj2IBj2YD06y7L8P1M6l+QMj8OQ=";
+      hash = "sha256-6I+2RguG9ZV2J1ISJWEINaU1eaOwRdOypgNT6iD4OpU=";
     };
 
     meta = with pkgs.lib; {
       homepage = "https://xinux.uz";
       mainProgram = "${manifest.name}-start";
-      description = "Website of Xinux";
+      description = "The official website of Xinux";
       license = with licenses; [cc-by-40];
       platforms = with platforms; linux ++ darwin;
       maintainers = with maintainers; [orzklv];

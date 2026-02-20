@@ -1,5 +1,5 @@
 {
-  description = "Official website of Xinux website";
+  description = "The official website of Xinux";
 
   inputs = {
     # Too old to work with most libraries

@@ -50,7 +50,7 @@ flake: {
     users.groups.${cfg.group} = {};
 
     systemd.services.xinux-www = {
-      description = "Official website of Xinux";
+      description = "The official website of Xinux";
       documentation = ["https://github.com/xinux-org"];
 
       environment = {

@@ -1,16 +1,8 @@
 import nextra from 'nextra'
-import remarkGemoji from 'remark-gemoji';
 
 const BASE_PATH = process.env.BASE_PATH;
-const PREFIX_PATH = "";
 
-const withNextra = nextra({
-  theme: "nextra-theme-docs",
-  themeConfig: "./theme.config.js",
-  mdxOptions: {
-    remarkPlugins: [remarkGemoji],
-  },
-});
+const withNextra = nextra({});
 
 export default withNextra({
   output: "export",
@@ -18,4 +10,10 @@ export default withNextra({
     unoptimized: true,
   },
   basePath: BASE_PATH || "",
+  turbopack: {
+    resolveAlias: {
+      // https://nextra.site/docs/file-conventions/mdx-components-file
+      'next-mdx-import-source-file': './mdx-components.jsx',
+    },
+  },
 });

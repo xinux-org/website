@@ -11,7 +11,7 @@ export const metadata = {
   metadataBase: new URL('https://xinux.uz'),
   title: {
     template: '%s – Xinux',
-    default: 'Xinux Documentation Website',
+    default: 'Xinux',
   },
   description: "NixOS va Xinux haqida yozilgan yordamchi ma'lumot va qo'llanmalar.",
   openGraph: {

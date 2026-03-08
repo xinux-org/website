@@ -17,11 +17,11 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: testing
 
     steps:
       - name: Clone the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build website
         run: nix build

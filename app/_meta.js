@@ -15,6 +15,10 @@ export default {
     title: "Foydali dasturlar",
     type: "page",
   },
+  apps: {
+    title: "Ilovalar",
+    type: "page",
+  },
   releases: {
     title: "Relizlar",
     type: "page",

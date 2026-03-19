@@ -89,6 +89,16 @@ html[class~="light"] .table tbody tr:hover {
   color: #8250df;
 }
 
+.assignee {
+  color: var(--color-highlight) !important;
+  text-decoration: none !important;
+  font-weight: 500;
+}
+
+.assignee:hover {
+  text-decoration: underline !important;
+}
+
 /* Freeze section */
 .freezeGrid {
   display: grid;

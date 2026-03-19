@@ -4,27 +4,12 @@ description: Xinux operatsion tizimining barcha relizlari va o'zgarishlar jurnal
 ---
 
 import { ReleaseCard, ReleaseGrid } from '../../components/ReleaseCard'
+import { releases } from '../../data/releases'
 
 # Reliz eslatmalari
 
 <ReleaseGrid>
-  <ReleaseCard
-    featured
-    version="25.05"
-    codename="Sharaf"
-    date="Aprel/May 2025"
-    href="/releases/25.05"
-  />
-  <ReleaseCard
-    version="25.11"
-    codename="Jadid"
-    date="Noyabr 2025"
-    href="/releases/25.11"
-  />
-  <ReleaseCard
-    version="26.05"
-    codename="Mahalla"
-    date="May 2026"
-    href="/releases/26.05"
-  />
+  {releases.map((r) => (
+    <ReleaseCard key={r.version} {...r} />
+  ))}
 </ReleaseGrid>

@@ -36,7 +36,11 @@ export function ReleaseTable({ releases }) {
                 </span>
               </td>
               <td>{r.date}</td>
-              <td style={{ opacity: 0.7 }}>{r.notes || "—"}</td>
+              <td>
+                {r.notes ? (
+                  <a href={`https://github.com/${r.notes}`} target="_blank" rel="noreferrer" className={styles.assignee}>@{r.notes}</a>
+                ) : "—"}
+              </td>
             </tr>
           ))}
         </tbody>

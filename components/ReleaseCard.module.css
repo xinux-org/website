@@ -1,0 +1,205 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  border-radius: 24px;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  cursor: pointer;
+  text-decoration: none !important;
+  display: block;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+html[class~="dark"] .card {
+  background: var(--neutral-dark-medium);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+html[class~="dark"] .card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+html[class~="light"] .card {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+html[class~="light"] .card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.cardImageWrapper {
+  padding: 0.85rem 0.85rem 0;
+}
+
+.cardImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  border-radius: 18px !important;
+}
+
+.cardBody {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.cardVersion {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+  letter-spacing: -0.02em;
+}
+
+html[class~="dark"] .cardVersion {
+  color: var(--neutral-light-high);
+}
+
+html[class~="light"] .cardVersion {
+  color: var(--neutral-dark-base);
+}
+
+.cardCodename {
+  font-weight: 500;
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+.cardDate {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  opacity: 0.5;
+}
+
+/* Latest / Featured card */
+.featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 24px;
+}
+
+@media (max-width: 640px) {
+  .featured {
+    grid-template-columns: 1fr;
+  }
+}
+
+.featured .cardImageWrapper {
+  padding: 0.75rem;
+}
+
+.featured .cardImage {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 280px;
+  border-radius: 16px !important;
+}
+
+.featured .cardBody {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.featured .cardVersion {
+  font-size: 2rem;
+}
+
+.featuredLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-highlight);
+  margin-bottom: 0.5rem;
+}
+
+.featuredDescription {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  opacity: 0.7;
+}
+
+/* Default banner (no image) */
+.cardBanner {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  gap: 0.25rem;
+  background: linear-gradient(135deg, var(--brand-primary-base), var(--brand-secondary-base));
+}
+
+.cardBannerVersion {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.cardBannerCodename {
+  font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+  font-weight: 500;
+  color: #ffffffcc;
+}
+
+.cardBannerSub {
+  font-size: clamp(0.55rem, 1vw, 0.65rem);
+  color: #ffffff80;
+  margin-top: 0.15rem;
+}
+
+.featured .cardBanner {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 280px;
+  border-radius: 16px !important;
+}
+
+.featured .cardBannerVersion {
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+}
+
+.featured .cardBannerCodename {
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
+}
+
+.featured .cardBannerSub {
+  font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+}
+
+/* Section headers */
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 0;
+  letter-spacing: -0.02em;
+}

@@ -1,4 +1,5 @@
 :root {
+  --nextra-content-width: 84rem;
   --brand-primary-base: #415e9a;
   --brand-primary-opacity: #415e9a80;
 
@@ -126,8 +127,15 @@ html[class~="dark"] header {
   background-color: rgba(21, 21, 21, 0.6) !important;
 }
 
+.nextra-navbar-blur {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+}
+
 .nx-max-w-\[90rem\] {
-  max-width: 164rem !important;
+  max-width: 90rem !important;
 }
 
 /* Search Input
@@ -161,6 +169,10 @@ html[class~="dark"] .nextra-search input::placeholder {
 .nextra-sidebar-container .nextra-scrollbar+div {
   border-width: 0;
   height: 4rem;
+}
+
+.nextra-sidebar-footer {
+  background: transparent !important;
 }
 
 .nextra-toc ul li a {
@@ -378,6 +390,10 @@ html[class~="dark"] .nextra-callout {
 /* Headings
   ------------------------ */
 
+.cbs article {
+  padding-top: 4rem !important;
+}
+
 .cbs article h1 {
   font-size: 3.5rem;
   margin-top: 0;
@@ -419,7 +435,7 @@ html[class~="dark"] .nextra-callout {
 }
 
 .cbs article h3 {
-  margin-top: 1.5em;
+  /*margin-top: 1.5em;*/
 }
 
 .cbs article img {
@@ -428,6 +444,14 @@ html[class~="dark"] .nextra-callout {
 
 .cbs article .subheading-anchor {
   margin-top: -110px;
+}
+
+/* Edit Link
+  ------------------------ */
+a[href*="github.com"][target="_blank"] {
+  display: inline-flex !important;
+  align-items: start;
+  gap: 0.25rem;
 }
 
 /* Theme Switch

@@ -33,8 +33,7 @@ function Download({
           return json.evals[0].builds[0];
         }
         return null;
-      })
-      .catch((_) => null);
+      });
   };
   /**
    * Fetch build details and return downloadable URL

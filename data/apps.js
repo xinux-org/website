@@ -14,7 +14,7 @@ export const apps = [
   {
     name: "Module Manager",
     description: "NixOS modullarini boshqarish vositasi",
-    href: "https://github.com/xinux-org/settings",
+    href: "https://github.com/xinux-org/module-manager",
     verified: true,
   },
   {

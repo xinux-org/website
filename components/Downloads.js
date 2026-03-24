@@ -49,10 +49,7 @@ function Download({
     })
       .then((res) => res.json())
       .then((json) => {
-        if (!json || !json?.nixname)
-          return setCard(
-            <Cards.Card title={empty.replace("%t", type)} href="#" />
-          );
+        if (!json || !json?.nixname) return null;
 
         const version = json?.nixname?.match(/([\d]+\.[\d]+)/)?.[0];
 
@@ -71,27 +68,22 @@ function Download({
   };
 
   useEffect(() => {
-    fetchEvals(link)
-      .catch((_) => {
-        console.log("Error fetching evals for the given link.");
-        return setCard(<Cards.Card title={error} href="#" />);
-      })
-      .then(async (buildId) => {
-        if (!buildId)
+    fetchEvals(link).then(async (buildId) => {
+      if (!buildId)
+        return setCard(
+          <Cards.Card title={empty.replace("%t", type)} href="#" />
+        );
+
+      return await fetchBuild(buildId)
+        .then((res) => {
+          if (!res) return setCard(<Cards.Card title={error} href="#" />);
+
           return setCard(
-            <Cards.Card title={empty.replace("%t", type)} href="#" />
+            <Cards.Card title={res?.name} href={`${res?.link}`} />
           );
-
-        return await fetchBuild(buildId)
-          .then((res) => {
-            if (!res) return setCard(<Cards.Card title={error} href="#" />);
-
-            return setCard(
-              <Cards.Card title={res?.name} href={`${res?.link}`} />
-            );
-          })
-          .catch((_) => setCard(<Cards.Card title={error} href="#" />));
-      });
+        })
+        .catch((_) => setCard(<Cards.Card title={error} href="#" />));
+    });
   }, []);
 
   return card;

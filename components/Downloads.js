@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import { Cards } from "nextra/components";
+import { releases } from "../data/releases";
 
 function DownloadIcon() {
   return (
@@ -18,8 +19,11 @@ const normalize = (name, type) => {
   // 3 - date
   // 4 - arch
   const elements = name.split("-");
+  const version = elements[1];
+  const release = releases.find((r) => r.version === version);
+  const codename = release ? ` (${release.codename})` : "";
 
-  return `Xinux ${elements[1]} ${elements[3]} ${type} (${elements[2]})`;
+  return `Xinux ${version}${codename} ${elements[3]} ${type} (${elements[2]})`;
 };
 
 function Download({

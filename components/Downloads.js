@@ -1,16 +1,7 @@
-"use client"
+"use client";
+
 import { useState, useEffect } from "react";
 import { Cards } from "nextra/components";
-
-const normalize = (name, type) => {
-  // 1 - name
-  // 2 - version
-  // 3 - date
-  // 4 - arch
-  const elements = name.split("-");
-
-  return `Xinux ${elements[1]} ${elements[3]} ${type} (${elements[2]})`;
-};
 
 function Download({
   link,
@@ -21,31 +12,90 @@ function Download({
 }) {
   const [card, setCard] = useState(<Cards.Card title={loading} href="#" />);
 
-  useEffect(() => {
-    fetch(link)
+  /** Fetch `evals` and return the first `build` id if available
+   * @param {string} link - the API endpoint to fetch evals
+   * @return null if no build is found, otherwise the first build id
+   */
+  const fetchEvals = async (link) => {
+    return await fetch(link, {
+      headers: {
+        Accept: "application/json",
+      },
+    })
       .then((res) => res.json())
       .then((json) => {
-        if (json.length == 0) {
-          setCard(<Cards.Card title={empty.replace("%t", type)} href="#" />);
+        if (
+          "evals" in json &&
+          json.evals.length > 0 &&
+          "builds" in json.evals[0] &&
+          json.evals[0].builds.length > 0
+        ) {
+          return json.evals[0].builds[0];
         }
+        return null;
+      });
+  };
+  /**
+   * Fetch build details and return downloadable URL
+   * @param {string} buildId - Build ID to fetch the build details
+   */
+  const fetchBuild = async (buildId) => {
+    const buildURL = `https://hydra.xinux.uz/build/${buildId}`;
+    return await fetch(buildURL, {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        if (!json || !json?.nixname) return null;
 
-        const pick = json[0].name;
+        const version = json?.nixname?.match(/([\d]+\.[\d]+)/)?.[0];
 
-        setCard(
-          <Cards.Card title={normalize(pick, type)} href={`${link}/${pick}`} />,
+        const date = json?.nixname
+          ?.match(/(\d{8})/)?.[0]
+          ?.replace(/(\d{4})(\d{2})(\d{2})/, "$3.$2.$1");
+
+        const system = json?.nixname?.match(/-([a-z\d_]+)-/)?.[1];
+
+        const name = `Xinux ${version} ${system} ${type} (${date})`;
+
+        const link = `https://hydra.xinux.uz/build/${buildId}/download/1/${json?.nixname}`;
+
+        return { name, link };
+      });
+  };
+
+  useEffect(() => {
+    fetchEvals(link).then(async (buildId) => {
+      if (!buildId)
+        return setCard(
+          <Cards.Card title={empty.replace("%t", type)} href="#" />
         );
-      })
-      .catch((_) => setCard(<Cards.Card title={error} href="#" />));
+
+      return await fetchBuild(buildId)
+        .then((res) => {
+          if (!res) return setCard(<Cards.Card title={error} href="#" />);
+
+          return setCard(
+            <Cards.Card title={res?.name} href={`${res?.link}`} />
+          );
+        })
+        .catch((_) => setCard(<Cards.Card title={error} href="#" />));
+    });
   }, []);
 
   return card;
 }
 
-export default function Downloads({ title, link }) {
+export default function Downloads() {
   return (
     <Cards>
-      <Download link="https://cdn.xinux.uz/release" />
-      <Download link="https://cdn.xinux.uz/latest" type="nostabil" />
+      <Download link="https://hydra.xinux.uz/jobset/installer/stable/evals" />
+      <Download
+        link="https://hydra.xinux.uz/jobset/installer/unstable/evals"
+        type="nostabil"
+      />
     </Cards>
   );
 }

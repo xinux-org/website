@@ -15,6 +15,10 @@ export default {
     title: "Foydali dasturlar",
     type: "page",
   },
+  releases: {
+    title: "Relizlar",
+    type: "page",
+  },
   l10n: {
     title: "Mahalliylashtirish",
     type: "page",

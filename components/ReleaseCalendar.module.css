@@ -1,0 +1,142 @@
+.tableWrapper {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+  border-radius: 12px;
+}
+
+html[class~="dark"] .tableWrapper {
+  background: var(--neutral-dark-medium);
+}
+
+html[class~="light"] .tableWrapper {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th {
+  text-align: left;
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+html[class~="dark"] .table th {
+  color: var(--neutral-light-base);
+  border-bottom: 1px solid var(--neutral-dark-high);
+}
+
+html[class~="light"] .table th {
+  color: var(--neutral-dark-high);
+  border-bottom: 1px solid var(--neutral-light-high);
+}
+
+.table td {
+  padding: 0.85rem 1.25rem;
+  white-space: nowrap;
+}
+
+html[class~="dark"] .table tbody tr {
+  border-bottom: 1px solid var(--neutral-dark-high);
+}
+
+html[class~="light"] .table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+html[class~="dark"] .table tbody tr:hover {
+  background: var(--neutral-dark-opacity);
+}
+
+html[class~="light"] .table tbody tr:hover {
+  background: var(--neutral-light-opacity);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.badgeStable {
+  background: #2da44e22;
+  color: #2da44e;
+}
+
+.badgeUnstable {
+  background: #d4880e22;
+  color: #d4880e;
+}
+
+.badgeEol {
+  background: #cf222e22;
+  color: #cf222e;
+}
+
+.badgeDev {
+  background: #8250df22;
+  color: #8250df;
+}
+
+.assignee {
+  color: var(--color-highlight) !important;
+  text-decoration: none !important;
+  font-weight: 500;
+}
+
+.assignee:hover {
+  text-decoration: underline !important;
+}
+
+/* Freeze section */
+.freezeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.freezeCard {
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+html[class~="dark"] .freezeCard {
+  background: var(--neutral-dark-medium);
+}
+
+html[class~="light"] .freezeCard {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.freezeLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.6;
+  margin-bottom: 0.35rem;
+}
+
+.freezeDate {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+html[class~="dark"] .freezeDate {
+  color: var(--neutral-light-high);
+}
+
+html[class~="light"] .freezeDate {
+  color: var(--neutral-dark-base);
+}

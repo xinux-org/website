@@ -1,0 +1,212 @@
+.hero {
+  text-align: center;
+  padding: 3rem 0 2rem;
+}
+
+.heroVersion {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+html[class~="dark"] .heroVersion {
+  color: var(--neutral-light-high);
+}
+
+html[class~="light"] .heroVersion {
+  color: var(--neutral-dark-base);
+}
+
+.heroCodename {
+  color: var(--color-highlight);
+}
+
+.heroDate {
+  font-size: 1rem;
+  opacity: 0.5;
+  margin-top: 0.75rem;
+}
+
+.heroDescription {
+  max-width: 40rem;
+  margin: 1.25rem auto 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  opacity: 0.75;
+}
+
+/* Feature sections */
+.feature {
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+}
+
+html[class~="dark"] .feature {
+  border-top: 1px solid var(--neutral-dark-high);
+}
+
+html[class~="light"] .feature {
+  border-top: 1px solid #eee;
+}
+
+.featureTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+
+html[class~="dark"] .featureTitle {
+  color: var(--neutral-light-high);
+}
+
+html[class~="light"] .featureTitle {
+  color: var(--neutral-dark-base);
+}
+
+.featureContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.featureContent.reverse {
+  direction: rtl;
+}
+
+.featureContent.reverse > * {
+  direction: ltr;
+}
+
+@media (max-width: 768px) {
+  .featureContent {
+    grid-template-columns: 1fr;
+  }
+
+  .featureContent.reverse {
+    direction: ltr;
+  }
+}
+
+.featureText {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  opacity: 0.8;
+}
+
+.featureText ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-top: 0.75rem;
+}
+
+.featureText ul li {
+  margin-bottom: 0.4rem;
+}
+
+.featureImage {
+  width: 100%;
+  border-radius: 10px;
+}
+
+html[class~="dark"] .featureImage {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+html[class~="light"] .featureImage {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Changelog list */
+.changelog {
+  margin-top: 3rem;
+  padding-top: 2rem;
+}
+
+html[class~="dark"] .changelog {
+  border-top: 1px solid var(--neutral-dark-high);
+}
+
+html[class~="light"] .changelog {
+  border-top: 1px solid #eee;
+}
+
+.changelogTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+}
+
+.changelogList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.changelogItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.7rem 0;
+}
+
+html[class~="dark"] .changelogItem {
+  border-bottom: 1px solid var(--neutral-dark-high);
+}
+
+html[class~="light"] .changelogItem {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.changelogDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-highlight);
+  flex-shrink: 0;
+  margin-top: 0.45rem;
+}
+
+.changelogText {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+/* App cards (GNOME Circle style) */
+.appGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.appCard {
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+html[class~="dark"] .appCard {
+  background: var(--neutral-dark-medium);
+}
+
+html[class~="light"] .appCard {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.appName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.appDescription {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  opacity: 0.7;
+}

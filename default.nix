@@ -37,18 +37,33 @@ in
     '';
 
     installPhase = ''
-      # Create output directory
-      # mkdir -p $out
+      # Copy standalone server output
+      mkdir -p $out/share/xinux-website
+      # Copy standalone server
+      cp -r .next/standalone/* $out/share/xinux-website/
+      # Copy full .next over standalone's partial .next
+      rm -rf $out/share/xinux-website/.next
+      mkdir -p $out/share/xinux-website/.next
+      cp -r .next/* $out/share/xinux-website/.next/
+      cp -r public $out/share/xinux-website/public
 
-      # Move all contents
-      cp -r ./out $out
+      # Create start script
+      mkdir -p $out/bin
+      cat > $out/bin/xinux-website-start <<SCRIPT
+      #!${pkgs.bash}/bin/bash
+      export PORT="\''${1:-3000}"
+      export HOSTNAME="0.0.0.0"
+      cd $out/share/xinux-website
+      exec ${pkgs.nodejs_22}/bin/node $out/share/xinux-website/server.js
+      SCRIPT
+      chmod +x $out/bin/xinux-website-start
     '';
 
     pnpmDeps = pkgs.pnpm.fetchDeps {
       pname = manifest.name;
       version = manifest.version;
       src = source;
-      hash = "sha256-xKWfyWob2KC/B98gwqVVvbvDvhO6ro7g8qHRlmCSDI8=";
+      hash = "sha256-figV9UFI9nfagLbVJhY3k+Wi9v8K7zhmDkWD76EmCak=";
     };
 
     meta = with pkgs.lib; {

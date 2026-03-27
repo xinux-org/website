@@ -45,6 +45,7 @@ in
       cp -r .next/standalone/* $out/share/${manifest.name}/
 
       # Copy static assets
+      mkdir -p $out/share/${manifest.name}/.next
       cp -r .next/static $out/share/${manifest.name}/.next/static
 
       # Copy public assets

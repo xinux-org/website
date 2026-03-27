@@ -79,7 +79,7 @@ async function Download({
     const result = await fetchBuild(buildId, type);
 
     if (!result) {
-      return <Cards.Card icon={<DownloadIcon />} title={error} href="#" />;
+      return <Cards.Card icon={<DownloadIcon />} title={error} href="https://github.com/xinux-org/website/issues" />;
     }
 
     return (
@@ -90,7 +90,7 @@ async function Download({
       />
     );
   } catch {
-    return <Cards.Card icon={<DownloadIcon />} title={error} href="#" />;
+    return <Cards.Card icon={<DownloadIcon />} title={error} href="https://github.com/xinux-org/website/issues" />;
   }
 }
 

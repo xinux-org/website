@@ -77,7 +77,7 @@ flake: {
         ];
         DeviceAllow = ["/dev/stdin r"];
         DevicePolicy = "strict";
-        IPAddressAllow = "localhost";
+        # Removed IPAddressAllow=localhost — API proxy needs outbound access to hydra.xinux.uz
         LockPersonality = true;
         NoNewPrivileges = true;
         PrivateDevices = true;

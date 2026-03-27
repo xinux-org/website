@@ -1,4 +1,7 @@
+"use client";
+
 import { Cards } from "nextra/components";
+import { useEffect, useState } from "react";
 
 function DownloadIcon() {
   return (
@@ -19,8 +22,8 @@ function DownloadIcon() {
   );
 }
 
-async function fetchEvals(link) {
-  const res = await fetch(link, {
+async function fetchEvals(path) {
+  const res = await fetch(`/api/hydra/${path}`, {
     headers: { Accept: "application/json" },
   });
   const json = await res.json();
@@ -37,8 +40,7 @@ async function fetchEvals(link) {
 }
 
 async function fetchBuild(buildId, type) {
-  const buildURL = `https://hydra.xinux.uz/build/${buildId}`;
-  const res = await fetch(buildURL, {
+  const res = await fetch(`/api/hydra/build/${buildId}`, {
     headers: { Accept: "application/json" },
   });
   const json = await res.json();
@@ -57,51 +59,86 @@ async function fetchBuild(buildId, type) {
   return { name, link };
 }
 
-async function Download({
-  link,
+function Download({
+  path,
   error = "Xatolik yuz berdi!",
   empty = "Hali %t chiqarilmaganga o'xshaydi",
   type = "stabil",
 }) {
-  try {
-    const buildId = await fetchEvals(link);
+  const [state, setState] = useState({ status: "loading" });
 
-    if (!buildId) {
-      return (
-        <Cards.Card
-          icon={<DownloadIcon />}
-          title={empty.replace("%t", type)}
-          href="#"
-        />
-      );
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const buildId = await fetchEvals(path);
+
+        if (!buildId) {
+          if (!cancelled) setState({ status: "empty" });
+          return;
+        }
+
+        const result = await fetchBuild(buildId, type);
+
+        if (!cancelled) {
+          setState(
+            result
+              ? { status: "success", data: result }
+              : { status: "error" },
+          );
+        }
+      } catch {
+        if (!cancelled) setState({ status: "error" });
+      }
     }
 
-    const result = await fetchBuild(buildId, type);
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [path, type]);
 
-    if (!result) {
-      return <Cards.Card icon={<DownloadIcon />} title={error} href="https://github.com/xinux-org/website/issues" />;
-    }
+  if (state.status === "loading") {
+    return (
+      <Cards.Card icon={<DownloadIcon />} title="Yuklanmoqda..." href="#" />
+    );
+  }
 
+  if (state.status === "empty") {
     return (
       <Cards.Card
         icon={<DownloadIcon />}
-        title={result.name}
-        href={result.link}
+        title={empty.replace("%t", type)}
+        href="#"
       />
     );
-  } catch {
-    return <Cards.Card icon={<DownloadIcon />} title={error} href="https://github.com/xinux-org/website/issues" />;
   }
+
+  if (state.status === "error") {
+    return (
+      <Cards.Card
+        icon={<DownloadIcon />}
+        title={error}
+        href="https://github.com/xinux-org/website/issues"
+      />
+    );
+  }
+
+  return (
+    <Cards.Card
+      icon={<DownloadIcon />}
+      title={state.data.name}
+      href={state.data.link}
+    />
+  );
 }
 
-export default async function Downloads() {
+export default function Downloads() {
   return (
     <Cards>
-      <Download link="https://hydra.xinux.uz/jobset/installer/stable/evals" />
-      <Download
-        link="https://hydra.xinux.uz/jobset/installer/unstable/evals"
-        type="nostabil"
-      />
+      <Download path="jobset/installer/stable/evals" />
+      <Download path="jobset/installer/unstable/evals" type="nostabil" />
     </Cards>
   );
 }

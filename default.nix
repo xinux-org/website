@@ -25,6 +25,7 @@ in
       nodejs_22
       pnpm.configHook
       typescript
+      makeWrapper
     ];
 
     buildInputs = with pkgs; [
@@ -38,10 +39,23 @@ in
 
     installPhase = ''
       # Create output directory
-      # mkdir -p $out
+      mkdir -p $out/share/${manifest.name}
 
-      # Move all contents
-      cp -r ./out $out
+      # Copy standalone server
+      cp -r .next/standalone/* $out/share/${manifest.name}/
+
+      # Copy static assets
+      cp -r .next/static $out/share/${manifest.name}/.next/static
+
+      # Copy public assets
+      if [ -d public ]; then
+        cp -r public $out/share/${manifest.name}/public
+      fi
+
+      # Create start script
+      mkdir -p $out/bin
+      makeWrapper ${pkgs.nodejs_22}/bin/node $out/bin/${manifest.name}-start \
+        --add-flags "$out/share/${manifest.name}/server.js"
     '';
 
     pnpmDeps = pkgs.pnpm.fetchDeps {

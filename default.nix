@@ -25,6 +25,7 @@ in
       nodejs_22
       pnpm.configHook
       typescript
+      makeWrapper
     ];
 
     buildInputs = with pkgs; [

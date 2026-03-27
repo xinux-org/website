@@ -116,10 +116,7 @@ export default function Downloads() {
   return (
     <Cards>
       <Download link="https://hydra.xinux.uz/jobset/installer/stable/evals" />
-      <Download
-        link="https://hydra.xinux.uz/jobset/installer/unstable/evals"
-        type="nostabil"
-      />
+      <Download link="https://hydra.xinux.uz/jobset/installer/unstable/evals" type="nostabil" />
     </Cards>
   );
 }

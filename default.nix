@@ -36,7 +36,12 @@ in
       pnpm build
     '';
 
-    installPhase = ''
+    installPhase = let
+      bin = pkgs.writeShellScript "xinux-website-start" ''
+        cd "$(dirname "$0")/../share/xinux-website"
+        exec ${pkgs.nodejs_22}/bin/node ./server.js
+      '';
+    in ''
       # Copy standalone server output
       mkdir -p $out/share/xinux-website
       cp -r .next/standalone/* $out/share/xinux-website/
@@ -47,12 +52,7 @@ in
 
       # Create start script
       mkdir -p $out/bin
-      cat > $out/bin/xinux-website-start <<SCRIPT
-      #!${pkgs.lib.getExe pkgs.bash}
-      cd $out/share/xinux-website
-      exec ${pkgs.lib.getExe pkgs.nodejs_22} $out/share/xinux-website/server.js
-      SCRIPT
-      chmod +x $out/bin/xinux-website-start
+      cp ${bin} $out/bin/xinux-website-start
     '';
 
     pnpmDeps = pkgs.pnpm.fetchDeps {
@@ -60,7 +60,7 @@ in
       version = manifest.version;
       src = source;
       fetcherVersion = 3;
-      hash = "sha256-xKWfyWob2KC/B98gwqVVvbvDvhO6ro7g8qHRlmCSDI8=";
+      hash = "sha256-figV9UFI9nfagLbVJhY3k+Wi9v8K7zhmDkWD76EmCak=";
     };
 
     meta = with pkgs.lib; {

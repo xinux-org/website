@@ -63,6 +63,7 @@ in
       pname = manifest.name;
       version = manifest.version;
       src = source;
+      fetcherVersion = 10;
       hash = "sha256-xKWfyWob2KC/B98gwqVVvbvDvhO6ro7g8qHRlmCSDI8=";
     };
 

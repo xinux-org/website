@@ -37,7 +37,6 @@
 
         # Output package
         packages.default = pkgs.callPackage ./. {inherit pkgs;};
-        packages.ssr = pkgs.callPackage ./. {inherit pkgs;};
       };
     });
 }

@@ -3,6 +3,8 @@
 import { Cards } from "nextra/components";
 import { useState, useEffect } from "react";
 
+const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+
 function DownloadIcon() {
   return (
     <svg
@@ -22,13 +24,11 @@ function DownloadIcon() {
   );
 }
 
-async function hydraFetch(url) {
-  const res = await fetch(`/api/hydra?url=${encodeURIComponent(url)}`);
-  return res.json();
-}
-
 async function fetchEvals(link) {
-  const json = await hydraFetch(link);
+  const res = await fetch(CORS_PROXY + link, {
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
 
   if (
     "evals" in json &&
@@ -43,7 +43,10 @@ async function fetchEvals(link) {
 
 async function fetchBuild(buildId, type) {
   const buildURL = `https://hydra.xinux.uz/build/${buildId}`;
-  const json = await hydraFetch(buildURL);
+  const res = await fetch(CORS_PROXY + buildURL, {
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
 
   if (!json || !json?.nixname) return null;
 
@@ -116,7 +119,10 @@ export default function Downloads() {
   return (
     <Cards>
       <Download link="https://hydra.xinux.uz/jobset/installer/stable/evals" />
-      <Download link="https://hydra.xinux.uz/jobset/installer/unstable/evals" type="nostabil" />
+      <Download
+        link="https://hydra.xinux.uz/jobset/installer/unstable/evals"
+        type="nostabil"
+      />
     </Cards>
   );
 }

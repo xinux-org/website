@@ -1,7 +1,4 @@
-"use client";
-
 import { Cards } from "nextra/components";
-import { useState, useEffect } from "react";
 
 function DownloadIcon() {
   return (
@@ -22,13 +19,11 @@ function DownloadIcon() {
   );
 }
 
-async function hydraFetch(url) {
-  const res = await fetch(`/api/hydra?url=${encodeURIComponent(url)}`);
-  return res.json();
-}
-
 async function fetchEvals(link) {
-  const json = await hydraFetch(link);
+  const res = await fetch(link, {
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
 
   if (
     "evals" in json &&
@@ -43,7 +38,10 @@ async function fetchEvals(link) {
 
 async function fetchBuild(buildId, type) {
   const buildURL = `https://hydra.xinux.uz/build/${buildId}`;
-  const json = await hydraFetch(buildURL);
+  const res = await fetch(buildURL, {
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
 
   if (!json || !json?.nixname) return null;
 
@@ -59,64 +57,51 @@ async function fetchBuild(buildId, type) {
   return { name, link };
 }
 
-function Download({
+async function Download({
   link,
   error = "Xatolik yuz berdi!",
   empty = "Hali %t chiqarilmaganga o'xshaydi",
   type = "stabil",
 }) {
-  const [state, setState] = useState({ loading: true, result: null, error: false });
+  try {
+    const buildId = await fetchEvals(link);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const buildId = await fetchEvals(link);
+    if (!buildId) {
+      return (
+        <Cards.Card
+          icon={<DownloadIcon />}
+          title={empty.replace("%t", type)}
+          href="#"
+        />
+      );
+    }
 
-        if (!buildId) {
-          setState({ loading: false, result: null, error: false });
-          return;
-        }
+    const result = await fetchBuild(buildId, type);
 
-        const result = await fetchBuild(buildId, type);
+    if (!result) {
+      return <Cards.Card icon={<DownloadIcon />} title={error} href="https://github.com/xinux-org/website/issues" />;
+    }
 
-        if (!result) {
-          setState({ loading: false, result: null, error: true });
-          return;
-        }
-
-        setState({ loading: false, result, error: false });
-      } catch {
-        setState({ loading: false, result: null, error: true });
-      }
-    })();
-  }, [link, type]);
-
-  if (state.loading) {
-    return <Cards.Card icon={<DownloadIcon />} title="Yuklanmoqda..." href="#" />;
-  }
-
-  if (state.error) {
+    return (
+      <Cards.Card
+        icon={<DownloadIcon />}
+        title={result.name}
+        href={result.link}
+      />
+    );
+  } catch {
     return <Cards.Card icon={<DownloadIcon />} title={error} href="https://github.com/xinux-org/website/issues" />;
   }
-
-  if (!state.result) {
-    return <Cards.Card icon={<DownloadIcon />} title={empty.replace("%t", type)} href="#" />;
-  }
-
-  return (
-    <Cards.Card
-      icon={<DownloadIcon />}
-      title={state.result.name}
-      href={state.result.link}
-    />
-  );
 }
 
-export default function Downloads() {
+export default async function Downloads() {
   return (
     <Cards>
       <Download link="https://hydra.xinux.uz/jobset/installer/stable/evals" />
-      <Download link="https://hydra.xinux.uz/jobset/installer/unstable/evals" type="nostabil" />
+      <Download
+        link="https://hydra.xinux.uz/jobset/installer/unstable/evals"
+        type="nostabil"
+      />
     </Cards>
   );
 }

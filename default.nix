@@ -39,7 +39,7 @@ in
     installPhase = let
       bin = pkgs.writeShellScript "xinux-website-start" ''
         cd "$(dirname "$0")/../share/xinux-website"
-        exec ${pkgs.nodejs_22}/bin/node ./server.js
+        exec ${pkgs.lib.getExe pkgs.nodejs_22} ./server.js
       '';
     in ''
       # Copy standalone server output

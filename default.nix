@@ -36,18 +36,30 @@ in
       pnpm build
     '';
 
-    installPhase = ''
-      # Create output directory
-      # mkdir -p $out
+    installPhase = let
+      bin = pkgs.writeShellScript "xinux-website-start" ''
+        cd "$(dirname "$0")/../share/xinux-website"
+        exec ${pkgs.lib.getExe pkgs.nodejs_22} ./server.js
+      '';
+    in ''
+      # Copy standalone server output
+      mkdir -p $out/share/xinux-website
+      cp -r .next/standalone/* $out/share/xinux-website/
+      rm -rf $out/share/xinux-website/.next
+      mkdir -p $out/share/xinux-website/.next
+      cp -r .next/* $out/share/xinux-website/.next/
+      cp -r public $out/share/xinux-website/public
 
-      # Move all contents
-      cp -r ./out $out
+      # Create start script
+      mkdir -p $out/bin
+      cp ${bin} $out/bin/xinux-website-start
     '';
 
     pnpmDeps = pkgs.pnpm.fetchDeps {
       pname = manifest.name;
       version = manifest.version;
       src = source;
+      fetcherVersion = 3;
       hash = "sha256-xKWfyWob2KC/B98gwqVVvbvDvhO6ro7g8qHRlmCSDI8=";
     };
 

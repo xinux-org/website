@@ -5,7 +5,7 @@ const BASE_PATH = process.env.BASE_PATH;
 const withNextra = nextra({});
 
 export default withNextra({
-  output: "export",
+  output: "standalone",
   images: {
     unoptimized: true,
   },

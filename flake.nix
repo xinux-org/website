@@ -27,6 +27,9 @@
       flake = {
         # Deployment module
         nixosModules.server = import ./module.nix self;
+
+        # Hydrajobs
+        hydraJobs = self.packages.x86_64-linux;
       };
       perSystem = {pkgs, ...}: {
         # Nix script formatter
@@ -37,6 +40,7 @@
 
         # Output package
         packages.default = pkgs.callPackage ./. {inherit pkgs;};
+        packages.ssr = pkgs.callPackage ./. {inherit pkgs;};
       };
     });
 }

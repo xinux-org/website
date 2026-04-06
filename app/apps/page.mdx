@@ -1,0 +1,15 @@
+---
+title: Ilovalar
+description: Xinux operatsion tizimida o'rnatilgan ilovalar
+---
+
+import { AppCard, AppGrid } from '../../components/AppShowcase'
+import { apps } from '../../data/apps'
+
+# Ilovalar
+
+<AppGrid>
+  {apps.map((app) => (
+    <AppCard key={app.name} {...app} />
+  ))}
+</AppGrid>

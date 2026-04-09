@@ -451,6 +451,7 @@ html[class~="dark"] .nextra-callout {
 a[href*="github.com"][target="_blank"] {
   display: inline-flex !important;
   align-items: start;
+  gap: 0.5rem;
 }
 
 /* Theme Switch

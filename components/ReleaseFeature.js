@@ -5,7 +5,7 @@ export function ReleaseHero({ version, codename, date, description }) {
     <div className={styles.hero}>
       <h1 className={styles.heroVersion}>
         Xinux {version}
-        {codename && <span className={styles.heroCodename}> "{codename}"</span>}
+        {codename && <span className={styles.heroCodename}> ({codename})</span>}
       </h1>
       <p className={styles.heroDate}>{date}</p>
       {description && <p className={styles.heroDescription}>{description}</p>}

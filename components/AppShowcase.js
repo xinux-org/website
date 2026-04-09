@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import styles from "./AppShowcase.module.css";
 
 function VerifiedBadge() {
@@ -9,13 +12,15 @@ function VerifiedBadge() {
 }
 
 export function AppCard({ name, description, icon, href, verified }) {
+  const [iconError, setIconError] = useState(false);
   const Wrapper = href ? "a" : "div";
   const props = href ? { href, target: "_blank", rel: "noreferrer" } : {};
+  const iconSrc = icon ? `/api/icon?url=${encodeURIComponent(icon)}` : null;
 
   return (
     <Wrapper className={styles.card} {...props}>
-      {icon ? (
-        <img src={icon} alt={name} className={styles.icon} />
+      {iconSrc && !iconError ? (
+        <img src={iconSrc} alt={name} className={styles.icon} onError={() => setIconError(true)} />
       ) : (
         <div className={styles.iconPlaceholder}>
           <svg viewBox="0 0 1003 613" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.iconLogo}>

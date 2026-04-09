@@ -4,7 +4,6 @@ export const releases = [
     codename: "Sharaf",
     date: "Aprel/May 2025",
     href: "/releases/25.05",
-    featured: true,
   },
   {
     version: "25.11",
@@ -17,6 +16,7 @@ export const releases = [
     codename: "Mahalla",
     date: "May 2026",
     href: "/releases/26.05",
+    featured: true,
   },
 ];
 

@@ -7,8 +7,8 @@
     "dev": "next dev --turbopack",
     "debug": "NODE_OPTIONS='--inspect' next dev --turbopack",
     "start": "next start",
-    "build": "next build && next-sitemap",
-    "postbuild": "pagefind --site .next/server/app --output-path .next/static/_pagefind"
+    "build": "next build && next-sitemap && pnpm postbuild",
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind"
   },
   "dependencies": {
     "@codemirror/lang-yaml": "^6.1.2",

@@ -44,10 +44,10 @@ export default async function RootLayout({ children }) {
         <Layout
           navbar={<Navbar logo={<Logo />}><ThemeSwitch /></Navbar>}
           pageMap={pageMap}
-          docsRepositoryBase="https://github.com/xinux-org/website/blob/main"
+          docsRepositoryBase="https://git.oss.uzinfocom.uz/xinux/website/src/branch/main"
           sidebar={{ defaultMenuCollapseLevel: 1, toggleButton: true }}
           toc={{ title: 'Ushbu sahifada', backToTop: "Yuqoriga qaytish" }}
-          editLink="Ushbu sahifani GitHubʼda tahrirlash"
+          editLink="Ushbu sahifani Forgejoʼda tahrirlash"
           search={<Search placeholder="Qidiruv..." />}
           feedback={{ content: null }}
           copyPageButton={false}

@@ -30,13 +30,8 @@ async function hydraFetch(url) {
 async function fetchEvals(link) {
   const json = await hydraFetch(link);
 
-  if (
-    "evals" in json &&
-    json.evals.length > 0 &&
-    "builds" in json.evals[0] &&
-    json.evals[0].builds.length > 0
-  ) {
-    return json.evals[0].builds[0];
+  if ("builds" in json && json.builds.length > 0) {
+    return json.builds[0];
   }
   return null;
 }
@@ -113,8 +108,11 @@ function Download({
 export default function Downloads() {
   return (
     <Cards>
-      <Download link="https://hydra.xinux.uz/jobset/installer/stable/evals" />
-      <Download link="https://hydra.xinux.uz/jobset/installer/unstable/evals" type="nostabil" />
+      <Download link="https://hydra.xinux.uz/jobset/installer/stable/latest-eval" />
+      <Download
+        link="https://hydra.xinux.uz/jobset/installer/unstable/latest-eval"
+        type="nostabil"
+      />
     </Cards>
   );
 }

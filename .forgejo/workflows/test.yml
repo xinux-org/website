@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test-flake:
-    runs-on: testing
+    runs-on: native
 
     steps:
       - name: Check out the repository
@@ -14,7 +14,7 @@ jobs:
         run: nix flake check --all-systems --show-trace
 
   test-project:
-    runs-on: testing
+    runs-on: native
 
     steps:
       - name: Check out the repository

@@ -51,7 +51,7 @@ flake: {
 
     systemd.services.xinux-www = {
       description = "The official website of Xinux";
-      documentation = ["https://github.com/xinux-org"];
+      documentation = ["https://git.oss.uzinfocom.uz/xinux"];
 
       environment = {
         PORT = "${toString cfg.port}";

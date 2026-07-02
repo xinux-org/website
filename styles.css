@@ -119,13 +119,13 @@ header {
   -webkit-backdrop-filter: saturate(180%) blur(20px);
 }
 
-html[class~="light"] header {
+/*html[class~="light"] header {
   background-color: rgba(245, 245, 245, 0.6) !important;
 }
 
 html[class~="dark"] header {
   background-color: rgba(21, 21, 21, 0.6) !important;
-}
+}*/
 
 .nextra-navbar-blur {
   background: transparent !important;
@@ -156,7 +156,7 @@ html[class~="dark"] .nextra-search input::placeholder {
   border: none;
 }
 
-.nextra-sidebar-container>div {
+.nextra-sidebar-container > div {
   margin-top: 10px;
   padding-top: 0;
 }
@@ -166,7 +166,7 @@ html[class~="dark"] .nextra-search input::placeholder {
   box-shadow: none !important;
 }
 
-.nextra-sidebar-container .nextra-scrollbar+div {
+.nextra-sidebar-container .nextra-scrollbar + div {
   border-width: 0;
   height: 4rem;
 }
@@ -221,12 +221,12 @@ html[class~="light"] .nextra-sidebar-container ul li a {
 }
 
 html[class~="light"] .nextra-sidebar-container ul li a:hover,
-html[class~="light"] .nextra-sidebar-container ul li.active>a:hover {
+html[class~="light"] .nextra-sidebar-container ul li.active > a:hover {
   color: var(--neutral-dark-base);
   background-color: var(--neutral-light-opacity);
 }
 
-html[class~="light"] .folderAsHeader .nextra-sidebar-container ul li.active>a,
+html[class~="light"] .folderAsHeader .nextra-sidebar-container ul li.active > a,
 html[class~="light"] .nextra-toc ul li a[aria-selected="true"] {
   color: var(--neutral-dark-high);
   background: var(--neutral-light-opacity);
@@ -239,17 +239,17 @@ html[class~="dark"] .nextra-sidebar-container ul li a {
 }
 
 html[class~="dark"] .nextra-sidebar-container ul li a:hover,
-html[class~="dark"] .nextra-sidebar-container ul li.active>a:hover {
+html[class~="dark"] .nextra-sidebar-container ul li.active > a:hover {
   background-color: var(--neutral-dark-opacity);
 }
 
-html[class~="dark"] .folderAsHeader .nextra-sidebar-container ul li.active>a,
+html[class~="dark"] .folderAsHeader .nextra-sidebar-container ul li.active > a,
 html[class~="dark"] .nextra-toc ul li a[aria-selected="true"] {
   color: var(--neutral-light-high);
   background: transparent;
 }
 
-html[class~="dark"] .nextra-sidebar-container ul li.active>a:hover,
+html[class~="dark"] .nextra-sidebar-container ul li.active > a:hover,
 html[class~="dark"] .nextra-toc ul li a[aria-selected="true"]:hover {
   color: var(--neutral-light-high);
   background: var(--neutral-dark-opacity);
@@ -264,7 +264,7 @@ html[class~="light"] .nx-text-primary-600 {
 }
 
 @media (max-width: 640px) {
-  html[class~="dark"] .folderAsHeader .nextra-sidebar-container ul li.active>a {
+  html[class~="dark"] .folderAsHeader .nextra-sidebar-container ul li.active > a {
     color: currentColor;
     text-align: left;
   }
@@ -287,8 +287,8 @@ svg:hover {
   background: transparent !important;
 }
 
-.folderAsHeader .nextra-sidebar-container ul>li li a,
-.folderAsHeader .nextra-sidebar-container ul>li li a:hover {
+.folderAsHeader .nextra-sidebar-container ul > li li a,
+.folderAsHeader .nextra-sidebar-container ul > li li a:hover {
   line-height: 1.3;
   font-size: 14px;
 }
@@ -429,8 +429,8 @@ html[class~="dark"] .nextra-callout {
   margin-top: 2em;
 }
 
-.cbs article h2+p:not(:first-child),
-.cbs article h3+p:not(:first-child) {
+.cbs article h2 + p:not(:first-child),
+.cbs article h3 + p:not(:first-child) {
   margin-top: 0.6rem;
 }
 

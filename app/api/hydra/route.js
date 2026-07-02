@@ -8,6 +8,8 @@ export async function GET(request) {
 
   const res = await fetch(url, {
     headers: { Accept: "application/json" },
+    redirect: "follow",
+    follow: 10,
   });
 
   const data = await res.json();

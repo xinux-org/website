@@ -1,6 +1,6 @@
 flake: {pkgs ? import <nixpkgs> {}}: let
   # Hostplatform system
-  system = pkgs.hostPlatform.system;
+  system = pkgs.stdenv.hostPlatform.system;
 
   # Production package
   base = flake.packages.${system}.default;

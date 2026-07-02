@@ -22,8 +22,9 @@ in
     src = source;
 
     nativeBuildInputs = with pkgs; [
+      pnpm
       nodejs_22
-      pnpm.configHook
+      pnpmConfigHook
       typescript
     ];
 
@@ -55,12 +56,12 @@ in
       cp ${bin} $out/bin/xinux-website-start
     '';
 
-    pnpmDeps = pkgs.pnpm.fetchDeps {
+    pnpmDeps = pkgs.fetchPnpmDeps {
       pname = manifest.name;
       version = manifest.version;
       src = source;
       fetcherVersion = 3;
-      hash = "sha256-xKWfyWob2KC/B98gwqVVvbvDvhO6ro7g8qHRlmCSDI8=";
+      hash = "sha256-FLWD9rjLf9nALOQWylsESGvixUIwAH9phpxKOF3Bf54=";
     };
 
     meta = with pkgs.lib; {

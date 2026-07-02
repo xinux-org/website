@@ -1,30 +1,30 @@
-import { Layout, Navbar, ThemeSwitch } from 'nextra-theme-docs'
-import { Search } from 'nextra/components'
-import { getPageMap } from 'nextra/page-map'
-import 'nextra-theme-docs/style.css'
-import '../styles.css'
-import Logo from '../components/Logo'
+import { Layout, Navbar, ThemeSwitch } from "nextra-theme-docs";
+import { Search } from "nextra/components";
+import { getPageMap } from "nextra/page-map";
+import "nextra-theme-docs/style.css";
+import "../styles.css";
+import Logo from "../components/Logo";
 
-const OG_IMAGE_URL = 'https://xinux.uz/og-image.jpg'
+const OG_IMAGE_URL = "https://xinux.uz/og-image.jpg";
 
 export const metadata = {
-  metadataBase: new URL('https://xinux.uz'),
+  metadataBase: new URL("https://xinux.uz"),
   title: {
-    template: '%s – Xinux',
-    default: 'Xinux',
+    template: "%s – Xinux",
+    default: "Xinux",
   },
   description: "NixOS va Xinux haqida yozilgan yordamchi ma'lumot va qo'llanmalar.",
   openGraph: {
     images: [OG_IMAGE_URL],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     images: [OG_IMAGE_URL],
   },
-}
+};
 
 export default async function RootLayout({ children }) {
-  const pageMap = await getPageMap()
+  const pageMap = await getPageMap();
 
   return (
     <html lang="uz" suppressHydrationWarning>
@@ -42,12 +42,16 @@ export default async function RootLayout({ children }) {
       </head>
       <body className="folderAsHeader cbs">
         <Layout
-          navbar={<Navbar logo={<Logo />}><ThemeSwitch /></Navbar>}
+          navbar={
+            <Navbar logo={<Logo />}>
+              <ThemeSwitch />
+            </Navbar>
+          }
           pageMap={pageMap}
-          docsRepositoryBase="https://github.com/xinux-org/website/blob/main"
+          docsRepositoryBase="https://git.oss.uzinfocom.uz/xinux/website/src/branch/main/"
           sidebar={{ defaultMenuCollapseLevel: 1, toggleButton: true }}
-          toc={{ title: 'Ushbu sahifada', backToTop: "Yuqoriga qaytish" }}
-          editLink="Ushbu sahifani GitHubʼda tahrirlash"
+          toc={{ title: "Ushbu sahifada", backToTop: "Yuqoriga qaytish" }}
+          editLink="Ushbu sahifani Fogejoda tahrirlash"
           search={<Search placeholder="Qidiruv..." />}
           feedback={{ content: null }}
           copyPageButton={false}
@@ -57,5 +61,5 @@ export default async function RootLayout({ children }) {
         </Layout>
       </body>
     </html>
-  )
+  );
 }

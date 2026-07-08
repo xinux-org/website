@@ -51,7 +51,7 @@ export default async function RootLayout({ children }) {
           docsRepositoryBase="https://git.oss.uzinfocom.uz/xinux/website/src/branch/main/"
           sidebar={{ defaultMenuCollapseLevel: 1, toggleButton: true }}
           toc={{ title: "Ushbu sahifada", backToTop: "Yuqoriga qaytish" }}
-          editLink="Ushbu sahifani Fogejoda tahrirlash"
+          editLink="Ushbu sahifani Forgejoda tahrirlash"
           search={<Search placeholder="Qidiruv..." />}
           feedback={{ content: null }}
           copyPageButton={false}

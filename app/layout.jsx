@@ -52,10 +52,15 @@ export default async function RootLayout({ children }) {
           sidebar={{ defaultMenuCollapseLevel: 1, toggleButton: true }}
           toc={{ title: "Ushbu sahifada", backToTop: "Yuqoriga qaytish" }}
           editLink="Ushbu sahifani Forgejoda tahrirlash"
-          search={<Search placeholder="Qidiruv..." />}
+          search={<Search placeholder="Qidiruv..." loading='Yuklanmoqda...' emptyResult='Qidiruv natijalari topilmadi.' />}
           feedback={{ content: null }}
           copyPageButton={false}
           footer={null}
+          themeSwitch={{
+            dark: 'Qora',
+            light: 'Oq',
+            system: 'Tizim'
+          }}
         >
           {children}
         </Layout>

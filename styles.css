@@ -478,3 +478,23 @@ html[class~="dark"] article pre {
   background-color: var(--neutral-dark-medium) !important;
   border: none;
 }
+
+/* Search results
+  ------------------------ */
+
+html[class~="light"] .nextra-search-results {
+  color: var(--neutral-dark-high);
+}
+
+html[class~="light"] .nextra-search-results a,
+html[class~="light"] .nextra-search-results li,
+html[class~="light"] .nextra-search-results p,
+html[class~="light"] .nextra-search-results span,
+html[class~="light"] .nextra-search-results mark {
+  color: var(--neutral-dark-high) !important;
+}
+
+html[class~="light"] .nextra-search-results a:hover,
+html[class~="light"] .nextra-search-results a[aria-selected="true"] {
+  color: var(--neutral-dark-base) !important;
+}
